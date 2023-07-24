@@ -1,0 +1,1427 @@
+{
+	"info": {
+		"_postman_id": "3aade49e-404e-4283-85bf-a22afc986a9b",
+		"name": "pb_contact_system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7649235"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login with password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "identity",
+									"value": "admin@teltonika.lt",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "adminadmin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/users/auth-with-password",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"users",
+								"auth-with-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth refresh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTAwNTcsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.k83zGrIYoSwOeGhInFGyHIOPYjiTm6gQy5zCJpZnT8Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/users/auth-refresh",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"users",
+								"auth-refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxMTIyNzAsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.kklqpirWGIx5_7bGZi_xf6zBkrdoRHxfn3G2ZwD9yaI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/users/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"users",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxMTE5OTMsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.DKNAuaKrgFUbtn1B2TxAoI5fyAvFFwbmeblO59698uk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testing\",\n    \"email\": \"test@teltonika.lt\",\n    \"password\": \"testtest\",\n    \"passwordConfirm\": \"testtest\",\n    \"permissions_id\": \"m9c8ugehhuxrft6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/users/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"users",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"item": [
+				{
+					"name": "Get companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/companies/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get companies relationship with offices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/companies/records/5ask1scw3rf23yq?expand=companies_offices(company_id).office_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records",
+								"5ask1scw3rf23yq"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "companies_offices(company_id).office_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxMDg1NTgsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.ReX-kV2lDhMDlTmK6fOxSsWCZU6wQnxtVJUqusJaNHg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"TELTONIKA TELEMEDICS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/companies/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxMDg1NTgsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.ReX-kV2lDhMDlTmK6fOxSsWCZU6wQnxtVJUqusJaNHg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/companies/records/c9w5eb64tbwvy3f",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records",
+								"c9w5eb64tbwvy3f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTAxMTIsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.rctA2wwGNjEnJpnWgP0xOCU3y8Aa5wwR0ZJxg2p5Uzg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "TELTONIKA ENERGY",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/companies/records/gud0wunpwb8g08e",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records",
+								"gud0wunpwb8g08e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific company",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/companies/records/5ask1scw3rf23yq",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"companies",
+								"records",
+								"5ask1scw3rf23yq"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Offices",
+			"item": [
+				{
+					"name": "Relationships",
+					"item": [
+						{
+							"name": "Add relationship",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "company_id",
+											"value": "gud0wunpwb8g08e",
+											"type": "text"
+										},
+										{
+											"key": "office_id",
+											"value": "0x1lb38vvho36ng",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_api}}/companies_offices/records",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"companies_offices",
+										"records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get relationship by filters",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTk0NjEsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.6v1gZqAWvZKS_u8xWg4C6UBZkeILPEsVLIWGNlWo6n4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_api}}/companies_offices/records?filter=(company_id='5ask1scw3rf23yq'%26%26office_id='0x1lb38vvho36ng')",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"companies_offices",
+										"records"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "(company_id='5ask1scw3rf23yq'%26%26office_id='0x1lb38vvho36ng')"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete relationship",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/companies_offices/records/pjfxh8aixolccj1",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"companies_offices",
+										"records",
+										"pjfxh8aixolccj1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get offices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/offices/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get offices relationship with companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/offices/records/vm438vfq27bg17e?expand=companies_offices(office_id)",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records",
+								"vm438vfq27bg17e"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "companies_offices(office_id)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get offices relationship with divisions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/offices/records/vm438vfq27bg17e?expand=offices_divisions(office_id).division_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records",
+								"vm438vfq27bg17e"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "offices_divisions(office_id).division_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create office",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTA5NjksImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.oAcOmkWEu7CHwFtRP8qrd4lej0VgNXiiii_qs2PBRjM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test office\",\n    \"street\": \"Test st.\",\n    \"street_number\": \"9999\",\n    \"city\": \"Test\",\n    \"country\": \"Test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/offices/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete office",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTA5NjksImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.oAcOmkWEu7CHwFtRP8qrd4lej0VgNXiiii_qs2PBRjM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/offices/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update office",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgxOTE0NDQsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.gVi0Y7Wdgvow0EelLxwIyIsSaSkaZhQndun35yvupvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Jonavos st.\",\n    \"street_number\": \"150\",\n    \"city\": \"Kaunas\",\n    \"country\": \"Lithuania\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_api}}/offices/records/vcu1j5pg3hxjonj",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records",
+								"vcu1j5pg3hxjonj"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific office",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/offices/records/vm438vfq27bg17e",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"offices",
+								"records",
+								"vm438vfq27bg17e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Divisions",
+			"item": [
+				{
+					"name": "Relationships",
+					"item": [
+						{
+							"name": "Add relationship",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "office_id",
+											"value": "0x1lb38vvho36ng",
+											"type": "text"
+										},
+										{
+											"key": "division_id",
+											"value": "qtiw47i68264r9v",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_api}}/offices_divisions/records",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"offices_divisions",
+										"records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete relationship",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/offices_divisions/records/mixr7vriore2evq",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"offices_divisions",
+										"records",
+										"mixr7vriore2evq"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get relationship by filter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/offices_divisions/records?filter=(office_id='0x1lb38vvho36ng'%26%26division_id='qtiw47i68264r9v')",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"offices_divisions",
+										"records"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "(office_id='0x1lb38vvho36ng'%26%26division_id='qtiw47i68264r9v')"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get divisions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get divisions relationship with offices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records/dmgqn0scy1z4qym?expand=offices_divisions(division_id).office_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records",
+								"dmgqn0scy1z4qym"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "offices_divisions(division_id).office_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get divisions relationship with departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records/dmgqn0scy1z4qym?expand=divisions_departments(division_id).department_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records",
+								"dmgqn0scy1z4qym"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "divisions_departments(division_id).department_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add division",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Not existing",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update division",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Updated division name",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records/47jglga6i5plx9x",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records",
+								"47jglga6i5plx9x"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete division",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records/qtiw47i68264r9v",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records",
+								"qtiw47i68264r9v"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specifig division",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/divisions/records/1uio162voxfj2ot",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"divisions",
+								"records",
+								"1uio162voxfj2ot"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Departments",
+			"item": [
+				{
+					"name": "Relationships",
+					"item": [
+						{
+							"name": "Add relationship",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "division_id",
+											"value": "1uio162voxfj2ot",
+											"type": "text"
+										},
+										{
+											"key": "department_id",
+											"value": "9y1n8rkzaojgqzz",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_api}}/divisions_departments/records",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"divisions_departments",
+										"records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete relationship",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/divisions_departments/records/cfj49ufivczjw87",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"divisions_departments",
+										"records",
+										"cfj49ufivczjw87"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get relationship by filter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/divisions_departments/records?filter=(division_id='1uio162voxfj2ot'%26%26department_id='9y1n8rkzaojgqzz')",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"divisions_departments",
+										"records"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "(division_id='1uio162voxfj2ot'%26%26department_id='9y1n8rkzaojgqzz')"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/departments/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get relationship with divisions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/departments/records?expand=divisions_departments(department_id).division_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "divisions_departments(department_id).division_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get relationship with groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/departments/records?expand=departments_groups(department_id).group_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "departments_groups(department_id).group_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create department",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Not existing",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/departments/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update department",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Updated department name",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/departments/records/gx43la66spqz2rr",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records",
+								"gx43la66spqz2rr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete department",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/departments/records/9y1n8rkzaojgqzz",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records",
+								"9y1n8rkzaojgqzz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific department",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/departments/records/h3cchigia2xtmzk",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"departments",
+								"records",
+								"h3cchigia2xtmzk"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "Relationships",
+					"item": [
+						{
+							"name": "Add relationship",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "department_id",
+											"value": "9y1n8rkzaojgqzz",
+											"type": "text"
+										},
+										{
+											"key": "group_id",
+											"value": "k3i6r4mskhxlwjy",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url_api}}/departments_groups/records",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"departments_groups",
+										"records"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Destroy relationship",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/departments_groups/records/i3mnffrsedo6edg",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"departments_groups",
+										"records",
+										"i3mnffrsedo6edg"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get relationship by filter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url_api}}/departments_groups/records?filter=(department_id='yyn7p8ka5stjvr6'%26%26group_id='tbw7dgokb1rf999')",
+									"host": [
+										"{{base_url_api}}"
+									],
+									"path": [
+										"departments_groups",
+										"records"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "(department_id='yyn7p8ka5stjvr6'%26%26group_id='tbw7dgokb1rf999')"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/groups/records?sort=-created",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "-created"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get groups relationship with departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/groups/records?expand=departments_groups(group_id).department_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "departments_groups(group_id).department_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific group relationship with departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/groups/records/oambg9goguergbw?expand=departments_groups(group_id).department_id",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records",
+								"oambg9goguergbw"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "departments_groups(group_id).department_id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Not existing group",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/groups/records",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Destroy group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/groups/records/ardjrpj7r4p4hm1",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records",
+								"ardjrpj7r4p4hm1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update group",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Updated group name",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url_api}}/groups/records/k3i6r4mskhxlwjy",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records",
+								"k3i6r4mskhxlwjy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get specific group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_api}}/groups/records/oambg9goguergbw",
+							"host": [
+								"{{base_url_api}}"
+							],
+							"path": [
+								"groups",
+								"records",
+								"oambg9goguergbw"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2NzgzNjY5ODgsImlkIjoidWx6YWlxa2U4eDB4ZGkxIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.MKBVAmqknF24vtzgNihpC57Ny1qWEFoCqeSEM4GWUtI",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8090"
+		},
+		{
+			"key": "base_url_api",
+			"value": "{{base_url}}/api/collections"
+		}
+	]
+}
