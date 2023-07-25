@@ -6,7 +6,7 @@
     <input
       type="search"
       placeholder="Ieškoti kontakto..."
-      class="bg-inherit focus:outline-none"
+      class="w-96 bg-inherit focus:outline-none"
     />
   </div>
 </template>
