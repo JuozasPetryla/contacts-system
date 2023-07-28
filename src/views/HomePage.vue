@@ -6,8 +6,9 @@
       <BaseIconButton class="h-12 w-16">
         <img src="../assets/FilterIcon.svg" />
       </BaseIconButton>
-      <BaseIconButton class="h-12 w-16">
-        <img src="../assets/BulletList.svg" />
+      <BaseIconButton class="h-12 w-16" @click="toggleMode">
+        <img src="../assets/BulletList.svg" v-if="mode === 'grid'" />
+        <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
       </BaseIconButton>
     </div>
     <p class="mb-4 px-2">Iš viso rasta: <strong>10 kontaktų</strong></p>
@@ -33,8 +34,7 @@
         <template #filter>Filtruoti adresus...</template>
       </BaseFilter>
     </div>
-    <ContactsGrid v-if="mode === 'grid'"></ContactsGrid>
-    <ContactsTable v-if="mode === 'table'"></ContactsTable>
+    <component :is="currentContacts"></component>
     <ThePagination></ThePagination>
   </div>
 </template>
@@ -45,6 +45,11 @@ import ThePagination from "../components/layout/ThePagination.vue";
 import ContactsGrid from "../components/contacts/ContactsGrid.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
 export default {
+  data() {
+    return {
+      mode: "grid",
+    };
+  },
   components: {
     TheSearchBar,
     ThePagination,
@@ -52,8 +57,18 @@ export default {
     ContactsTable,
   },
   computed: {
-    mode() {
-      return "table";
+    currentContacts() {
+      if (this.mode === "table") {
+        return ContactsTable;
+      }
+      if (this.mode === "grid") {
+        return ContactsGrid;
+      }
+    },
+  },
+  methods: {
+    toggleMode() {
+      this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
   },
 };

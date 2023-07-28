@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import './input.css'
-import { MdCard, MdDialog, MdButton, MdTable } from 'vue-material/dist/components'
+import { MdCard, MdDialog, MdButton, MdTable, MdContent } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
@@ -17,6 +17,7 @@ Vue.use(MdCard)
 Vue.use(MdDialog)
 Vue.use(MdButton)
 Vue.use(MdTable)
+Vue.use(MdContent)
 
 Vue.component('BaseIconButton', BaseIconButton)
 Vue.component('BaseInputField', BaseInputField)

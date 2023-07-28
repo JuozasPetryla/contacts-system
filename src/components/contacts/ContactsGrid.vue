@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-4 grid-rows-2 gap-y-4 gap-x-4">
+  <div class="grid grid-cols-4 grid-rows-2 gap-y-4 gap-x-4 h-full">
     <ContactContainer v-for="contact in 8" :key="contact">
       <template #name></template>
       <template #position></template>

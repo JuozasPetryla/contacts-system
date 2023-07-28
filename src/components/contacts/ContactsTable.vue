@@ -1,5 +1,5 @@
 <template>
-  <md-table md-card>
+  <md-table md-card class="h-full">
     <md-table-row>
       <md-table-head>Vardas Pavarde</md-table-head>
       <md-table-head>Pozicijos Pavadinimas</md-table-head>
