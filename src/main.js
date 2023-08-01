@@ -9,6 +9,7 @@ import router from './router/router';
 import store from './store/store';
 
 import BaseIconButton from './components/UI/BaseIconButton.vue'
+import BaseButton from './components/UI/BaseButton.vue'
 import BaseInputField from './components/UI/BaseInputField.vue'
 import BaseFilter from './components/UI/BaseFilter.vue'
 import BaseInfoDialog from './components/UI/BaseInfoDialog.vue'
@@ -20,6 +21,7 @@ Vue.use(MdTable)
 Vue.use(MdContent)
 
 Vue.component('BaseIconButton', BaseIconButton)
+Vue.component('BaseButton', BaseButton)
 Vue.component('BaseInputField', BaseInputField)
 Vue.component('BaseFilter', BaseFilter)
 Vue.component('BaseInfoDialog', BaseInfoDialog)

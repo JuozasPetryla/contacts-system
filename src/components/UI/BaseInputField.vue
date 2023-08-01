@@ -4,14 +4,18 @@
       <slot name="label"></slot>
     </label>
     <div class="bg-light-gray flex w-fit space-x-4 p-3 rounded-sm">
-      <img src="../../assets/Mail.svg" class="Mail icon" />
+      <slot name="image-left">
+        <img src="../../assets/Mail.svg" alt="Mail icon" />
+      </slot>
       <input
         :type="inputType"
         :id="inputId"
         :placeholder="inputPlaceHolder"
         class="bg-inherit focus:outline-none w-72"
       />
-      <img src="../../assets/Trailing Icon.svg" class="Mail icon" />
+      <div class="w-6">
+        <slot name="image-right"> </slot>
+      </div>
     </div>
   </div>
 </template>

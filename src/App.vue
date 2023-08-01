@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheHeader></TheHeader>
+    <TheHeader v-if="!login"></TheHeader>
     <router-view></router-view>
   </div>
 </template>
@@ -9,6 +9,11 @@
 import TheHeader from "./components/layout/TheHeader.vue";
 
 export default {
+  data() {
+    return {
+      login: true,
+    };
+  },
   components: {
     TheHeader,
   },
