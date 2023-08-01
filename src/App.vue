@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <TheHeader v-if="!login"></TheHeader>
+    <!-- <TheHeader></TheHeader> -->
+    <TheHeaderNavigation></TheHeaderNavigation>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import TheHeader from "./components/layout/TheHeader.vue";
+import TheHeaderNavigation from "./components/layout/TheHeaderNavigation.vue";
 
 export default {
-  data() {
-    return {
-      login: true,
-    };
-  },
   components: {
     TheHeader,
+    TheHeaderNavigation,
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <md-card class="w-72">
+  <md-card class="w-11/12">
     <div class="flex space-x-4 items-center px-2 py-8">
       <img src="../../assets/Test Account.svg" alt="Blank account icon" />
       <div>
