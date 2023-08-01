@@ -17,7 +17,7 @@
     <md-menu md-direction="bottom-start" md-size="medium">
       <BaseIconButton
         md-menu-trigger
-        class="bg-dark-blue hover:bg-dark-blue shadow-none"
+        class="bg-[#1F3F77] hover:bg-[#1F3F77] shadow-none"
       >
         <img src="../../assets/Male User.svg" />
       </BaseIconButton>

@@ -4,9 +4,8 @@
       <slot name="label"></slot>
     </label>
     <div class="bg-light-gray flex w-fit space-x-4 p-3 rounded-sm">
-      <slot name="image-left">
-        <img src="../../assets/Mail.svg" alt="Mail icon" />
-      </slot>
+      <slot name="image-left"> </slot>
+
       <input
         :type="inputType"
         :id="inputId"

@@ -8,6 +8,9 @@
       :inputId="'email'"
       :inputType="'email'"
     >
+      <template #image-left>
+        <img src="../../assets/Mail.svg" alt="Mail icon" />
+      </template>
       <template #label> Elektroninis paštas: </template>
     </BaseInputField>
     <BaseInputField

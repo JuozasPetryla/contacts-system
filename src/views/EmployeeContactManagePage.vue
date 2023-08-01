@@ -39,6 +39,7 @@
     </div>
     <component :is="currentContacts"></component>
     <ThePagination class="mb-6"></ThePagination>
+    <BaseModal></BaseModal>
   </div>
 </template>
   
