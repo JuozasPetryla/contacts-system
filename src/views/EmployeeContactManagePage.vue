@@ -15,37 +15,27 @@
       </BaseIconButton>
     </div>
     <p class="mb-4 px-2">Iš viso rasta: <strong>10 kontaktų</strong></p>
-    <div class="flex mb-4 px-2 space-x-12">
-      <BaseFilter :selectId="'imone'">
-        <template #filter-name>Įmonė</template>
-        <template #filter>Filtruoti įmones...</template>
-      </BaseFilter>
-      <BaseFilter :selectId="'padalinys'">
-        <template #filter-name>Padalinys</template>
-        <template #filter>Filtruoti divizijas...</template>
-      </BaseFilter>
-      <BaseFilter :selectId="'skyrius'">
-        <template #filter-name>Skyrius</template>
-        <template #filter>Filtruoti skyrius...</template>
-      </BaseFilter>
-      <BaseFilter :selectId="'grupe'">
-        <template #filter-name>Grupė</template>
-        <template #filter>Filtruoti grupes...</template>
-      </BaseFilter>
-      <BaseFilter :selectId="'ofisas'">
-        <template #filter-name>Ofisas</template>
-        <template #filter>Filtruoti adresus...</template>
-      </BaseFilter>
-    </div>
+    <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
     <ThePagination class="mb-6"></ThePagination>
     <BaseModal></BaseModal>
+    <BaseInfoDialog>
+      <template #header> Ar tikrai norite ištrinti kontaktą? </template>
+      <template #content>
+        Vardas ir pavardė: varda_pavardė Pozicija: pozicijos_pavyzdys
+      </template>
+      <template #actions>
+        <md-button class="md-primary">NE</md-button>
+        <md-button class="md-primary">TAIP</md-button>
+      </template>
+    </BaseInfoDialog>
   </div>
 </template>
   
   <script>
 import TheSearchBar from "../components/layout/TheSearchBar.vue";
 import ThePagination from "../components/layout/ThePagination.vue";
+import TheFilters from "../components/layout/ThePagination.vue";
 import ContactsGridExpanded from "../components/contacts/ContactsGridExpanded.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
 export default {
@@ -59,6 +49,7 @@ export default {
     ThePagination,
     ContactsGridExpanded,
     ContactsTable,
+    TheFilters,
   },
   computed: {
     currentContacts() {
