@@ -7,17 +7,22 @@
       <md-table-head>Elektroninis pastas</md-table-head>
       <md-table-head>Darbovietes adresas</md-table-head>
     </md-table-row>
-    <md-table-row v-for="c in 8" :key="c">
-      <md-table-cell>Vardas Pavarde</md-table-cell>
-      <md-table-cell>Pozicijos Pavadinimas</md-table-cell>
-      <md-table-cell>Telefono numeris</md-table-cell>
-      <md-table-cell>Elektroninis pastas</md-table-cell>
-      <md-table-cell>Darbovietes adresas</md-table-cell>
+    <md-table-row v-for="contact in contacts" :key="contact.id">
+      <md-table-cell>{{ `${contact.name} ${contact.surname}` }}</md-table-cell>
+      <md-table-cell>{{ contact.position }}</md-table-cell>
+      <md-table-cell>{{ contact.phone_number }}</md-table-cell>
+      <md-table-cell>{{ contact.email }}</md-table-cell>
+      <md-table-cell>{{ contact.office_id }}</md-table-cell>
     </md-table-row>
   </md-table>
 </template>
   
   <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters(["contacts"]),
+  },
+};
 </script>
   

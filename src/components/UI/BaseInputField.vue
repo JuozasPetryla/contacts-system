@@ -12,9 +12,7 @@
         :placeholder="inputPlaceHolder"
         class="bg-inherit focus:outline-none w-72"
       />
-      <div class="w-6">
-        <slot name="image-right"> </slot>
-      </div>
+      <slot name="image-right"> </slot>
     </div>
   </div>
 </template>

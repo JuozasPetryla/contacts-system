@@ -18,7 +18,11 @@
     <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
     <ThePagination class="mb-6"></ThePagination>
-    <BaseModal></BaseModal>
+    <BaseContactModal>
+      <template #header>
+        <h2 class="text-4xl font-normal text-center">Redaguoti kontaktą:</h2>
+      </template>
+    </BaseContactModal>
     <BaseInfoDialog>
       <template #header> Ar tikrai norite ištrinti kontaktą? </template>
       <template #content>
@@ -35,7 +39,7 @@
   <script>
 import TheSearchBar from "../components/layout/TheSearchBar.vue";
 import ThePagination from "../components/layout/ThePagination.vue";
-import TheFilters from "../components/layout/ThePagination.vue";
+import TheFilters from "../components/layout/TheFilters.vue";
 import ContactsGridExpanded from "../components/contacts/ContactsGridExpanded.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
 export default {

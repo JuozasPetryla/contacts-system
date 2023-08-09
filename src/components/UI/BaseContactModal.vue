@@ -3,33 +3,38 @@
     <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
       <div class="flex flex-col space-y-6">
         <header class="font-medium text-lg">
-          <slot name="header">
-            <h2 class="text-4xl font-normal text-center">
-              Redaguoti kontaktą:
-            </h2>
-          </slot>
+          <slot name="header"> </slot>
         </header>
         <BaseInputField
-          :inputPlaceHolde="'Įvekite vardą...'"
+          :inputPlaceHolder="'Įvekite vardą...'"
           :inputId="'name'"
           :inputType="'text'"
           ><template #label>Vardas:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
         </BaseInputField>
         <BaseInputField
-          :inputPlaceHolde="'Įveskite pavardę...'"
+          :inputPlaceHolder="'Įveskite pavardę...'"
           :inputId="'surname'"
           :inputType="'text'"
           ><template #label>Pavardė:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
         </BaseInputField>
         <BaseInputField
-          :inputPlaceHolde="'Įveskite poziciją...'"
+          :inputPlaceHolder="'Įveskite poziciją...'"
           :inputId="'position'"
           :inputType="'text'"
           ><template #label>Pozicija:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
         </BaseInputField>
         <h2 class="text-3xl">Kontaktinė informacija:</h2>
         <BaseInputField
-          :inputPlaceHolde="'Įveskite el.paštą...'"
+          :inputPlaceHolder="'Įveskite el.paštą...'"
           :inputId="'email'"
           :inputType="'email'"
           ><template #label>Elektroninis paštas:</template>
@@ -38,7 +43,7 @@
           </template>
         </BaseInputField>
         <BaseInputField
-          :inputPlaceHolde="'Įveskite telefono numerį...'"
+          :inputPlaceHolder="'Įveskite telefono numerį...'"
           :inputId="'phone'"
           :inputType="'tel'"
           ><template #label>Telefono numeris</template>

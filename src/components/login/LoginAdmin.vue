@@ -11,6 +11,9 @@
       <template #image-left>
         <img src="../../assets/Mail.svg" alt="Mail icon" />
       </template>
+      <template #image-right>
+        <div class="w-6 bg-light-gray"></div>
+      </template>
       <template #label> Elektroninis paštas: </template>
     </BaseInputField>
     <BaseInputField

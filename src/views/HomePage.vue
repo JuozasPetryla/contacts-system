@@ -11,10 +11,12 @@
         <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
       </BaseIconButton>
     </div>
-    <p class="mb-4 px-2">Iš viso rasta: <strong>10 kontaktų</strong></p>
+    <p class="mb-4 px-2">
+      Iš viso rasta: <strong>{{ totalContactsText }}</strong>
+    </p>
     <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
-    <ThePagination></ThePagination>
+    <ThePagination class="absolute bottom-10 left-1/3"></ThePagination>
   </div>
 </template>
 
@@ -24,6 +26,7 @@ import ThePagination from "../components/layout/ThePagination.vue";
 import TheFilters from "../components/layout/TheFilters.vue";
 import ContactsGrid from "../components/contacts/ContactsGrid.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -46,11 +49,27 @@ export default {
         return ContactsGrid;
       }
     },
+    totalContactsText() {
+      if (this.totalContacts === 1) {
+        return this.totalContacts + " kontaktas";
+      }
+      if (this.totalContacts < 10 && this.totalContacts > 1) {
+        return this.totalContacts + " kontaktai";
+      }
+      if (this.totalContacts > 1) {
+        return this.totalContacts + " kontaktų";
+      }
+    },
+    ...mapGetters(["totalContacts"]),
   },
   methods: {
     toggleMode() {
       this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
+    ...mapActions(["getContacts"]),
+  },
+  created() {
+    this.getContacts();
   },
 };
 </script>

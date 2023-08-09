@@ -1,24 +1,147 @@
 <template>
   <div class="flex mb-4 px-2 space-x-12">
-    <BaseFilter :selectId="'imone'">
+    <BaseFilter :selectId="'company'">
       <template #filter-name>Įmonė</template>
-      <template #filter>Filtruoti įmones...</template>
+      <template #filter>
+        <select
+          id="company"
+          name="company"
+          v-model="selectedCompany"
+          @change="getCompanyFilterId(selectedCompany)"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+        >
+          <option value="">Filtruoti įmones...</option>
+          <option
+            v-for="company in companies"
+            :key="company.id"
+            :value="company.id"
+          >
+            {{ company.name }}
+          </option>
+        </select>
+      </template>
     </BaseFilter>
-    <BaseFilter :selectId="'padalinys'">
+    <BaseFilter :selectId="'division'">
       <template #filter-name>Padalinys</template>
-      <template #filter>Filtruoti divizijas...</template>
+      <template #filter
+        ><select
+          id="division"
+          name="division"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          v-model="selectedDivision"
+          @change="getDivisionFilterId(selectedDivision)"
+        >
+          <option value="">Filtruoti divizijas...</option>
+          <option
+            v-for="division in divisions"
+            :key="division.id"
+            :value="division.id"
+          >
+            {{ division.name }}
+          </option>
+        </select>
+      </template>
     </BaseFilter>
     <BaseFilter :selectId="'skyrius'">
       <template #filter-name>Skyrius</template>
-      <template #filter>Filtruoti skyrius...</template>
+      <template #filter
+        ><select
+          id="departament"
+          name="departament"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          v-model="selectedDepartament"
+          @change="getDepartamentFilterId(selectedDepartament)"
+        >
+          <option value="">Filtruoti skyrius...</option>
+          <option
+            v-for="departament in departaments"
+            :key="departament.id"
+            :value="departament.id"
+          >
+            {{ departament.name }}
+          </option>
+        </select>
+      </template>
     </BaseFilter>
     <BaseFilter :selectId="'grupe'">
       <template #filter-name>Grupė</template>
-      <template #filter>Filtruoti grupes...</template>
+      <template #filter
+        ><select
+          id="group"
+          name="group"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          v-model="selectedGroup"
+          @change="getGroupFilterId(selectedGroup)"
+        >
+          <option value="">Filtruoti grupes...</option>
+          <option v-for="group in groups" :key="group.id" :value="group.id">
+            {{ group.name }}
+          </option>
+        </select>
+      </template>
     </BaseFilter>
     <BaseFilter :selectId="'ofisas'">
       <template #filter-name>Ofisas</template>
-      <template #filter>Filtruoti adresus...</template>
+      <template #filter
+        ><select
+          id="office"
+          name="office"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          v-model="selectedOffice"
+          @change="getOfficeFilterId(selectedOffice)"
+        >
+          <option value="">Filtruoti adresus...</option>
+          <option v-for="office in offices" :key="office.id" :value="office.id">
+            {{ office.name }}
+          </option>
+        </select>
+      </template>
     </BaseFilter>
   </div>
 </template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      selectedCompany: "",
+      selectedDepartament: "",
+      selectedDivision: "",
+      selectedGroup: "",
+      selectedOffice: "",
+    };
+  },
+  computed: {
+    ...mapGetters([
+      "companies",
+      "divisions",
+      "departaments",
+      "groups",
+      "offices",
+    ]),
+  },
+  methods: {
+    ...mapActions([
+      "getCompanies",
+      "getDivisions",
+      "getDepartaments",
+      "getGroups",
+      "getOffices",
+      "getCompanyFilterId",
+      "getDivisionFilterId",
+      "getDepartamentFilterId",
+      "getGroupFilterId",
+      "getOfficeFilterId",
+      "getContacts",
+    ]),
+  },
+  created() {
+    this.getCompanies();
+    this.getDivisions();
+    this.getDepartaments();
+    this.getGroups();
+    this.getOffices();
+  },
+};
+</script>
