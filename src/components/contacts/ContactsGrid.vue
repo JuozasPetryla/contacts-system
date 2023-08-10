@@ -1,6 +1,10 @@
 <template>
   <div class="grid grid-cols-4 grid-rows-2 gap-y-4 gap-x-4 h-full">
-    <ContactContainer v-for="contact in contacts" :key="contact.id">
+    <ContactContainer
+      v-for="contact in contacts"
+      :key="contact.id"
+      @click="getPostDetailId(contact.id)"
+    >
       <template #name>{{ `${contact.name} ${contact.surname}` }}</template>
       <template #position>{{ contact.position }}</template>
       <template #contact-info>
@@ -13,11 +17,18 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import ContactContainer from "./ContactContainer.vue";
 export default {
   components: {
     ContactContainer,
+  },
+  methods: {
+    ...mapActions(["getContact"]),
+    getPostDetailId(id) {
+      this.getContact(id);
+      this.$router.push(`/contact-detail/${id}`);
+    },
   },
   computed: {
     ...mapGetters(["contacts"]),

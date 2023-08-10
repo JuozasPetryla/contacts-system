@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 
 const routes = [
     { path: '/', component: HomePage },
-    { path: '/contact-detail', component: DetailedContactPage },
+    { path: '/contact-detail/:id', component: DetailedContactPage },
     { path: '/login', component: AdminLoginPage },
     { path: '/employee-manage', component: EmployeeContactManagePage },
     { path: '/company-manage', component: CompaniesManagePage },

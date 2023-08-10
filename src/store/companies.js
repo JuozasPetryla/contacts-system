@@ -19,14 +19,34 @@ const actions = {
             console.log(err)
         }
     },
-    getCompanyFilterId({ commit, dispatch, rootState }, companyFilterId) {
+    getCompanyFilterId({ commit, dispatch }, companyFilterId) {
         if (companyFilterId === '') {
             commit('setFilter', {}, { root: true })
             dispatch('getContacts', { root: true })
+            dispatch('getCompanies', null)
+            dispatch('getRelations',
+                {
+                    filterId: null,
+                    filterMutation: 'setOffices',
+                    relationReq: 'companies_offices',
+                    expandProp: 'office_id',
+                    filterProp: null
+                },
+                { root: true })
         }
         else {
             commit('setFilter', { filter: `company_id="${companyFilterId}"` }, { root: true })
             dispatch('getContacts', { root: true })
+            dispatch('getCompanies', companyFilterId)
+            dispatch('getRelations',
+                {
+                    filterId: companyFilterId,
+                    filterMutation: 'setOffices',
+                    relationReq: 'companies_offices',
+                    expandProp: 'office_id',
+                    filterProp: 'company_id'
+                },
+                { root: true })
         }
     }
 }

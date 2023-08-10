@@ -46,19 +46,19 @@
       <template #filter-name>Skyrius</template>
       <template #filter
         ><select
-          id="departament"
-          name="departament"
+          id="department"
+          name="department"
           class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
-          v-model="selectedDepartament"
-          @change="getDepartamentFilterId(selectedDepartament)"
+          v-model="selectedDepartment"
+          @change="getDepartmentFilterId(selectedDepartment)"
         >
           <option value="">Filtruoti skyrius...</option>
           <option
-            v-for="departament in departaments"
-            :key="departament.id"
-            :value="departament.id"
+            v-for="department in departments"
+            :key="department.id"
+            :value="department.id"
           >
-            {{ departament.name }}
+            {{ department.name }}
           </option>
         </select>
       </template>
@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       selectedCompany: "",
-      selectedDepartament: "",
+      selectedDepartment: "",
       selectedDivision: "",
       selectedGroup: "",
       selectedOffice: "",
@@ -116,7 +116,7 @@ export default {
     ...mapGetters([
       "companies",
       "divisions",
-      "departaments",
+      "departments",
       "groups",
       "offices",
     ]),
@@ -125,12 +125,12 @@ export default {
     ...mapActions([
       "getCompanies",
       "getDivisions",
-      "getDepartaments",
+      "getDepartments",
       "getGroups",
       "getOffices",
       "getCompanyFilterId",
       "getDivisionFilterId",
-      "getDepartamentFilterId",
+      "getDepartmentFilterId",
       "getGroupFilterId",
       "getOfficeFilterId",
       "getContacts",
@@ -139,7 +139,7 @@ export default {
   created() {
     this.getCompanies();
     this.getDivisions();
-    this.getDepartaments();
+    this.getDepartments();
     this.getGroups();
     this.getOffices();
   },

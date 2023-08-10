@@ -1,10 +1,12 @@
 import pb from '../plugins/pocketBaseAPI'
 
 const state = {
-    groups: []
+    groups: [],
+
 }
 const mutations = {
-    setGroups: (state, groups) => state.groups = groups
+    setGroups: (state, groups) => state.groups = groups,
+
 }
 const getters = {
     groups: state => state.groups
@@ -24,7 +26,8 @@ const actions = {
         if (groupFilterId === '') {
             commit('setFilter', {}, { root: true })
             dispatch('getContacts', { root: true })
-        } else {
+        }
+        else {
             commit('setFilter', { filter: `group_id="${groupFilterId}"` }, { root: true })
             dispatch('getContacts', { root: true })
         }

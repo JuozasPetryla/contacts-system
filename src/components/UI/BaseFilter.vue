@@ -8,10 +8,6 @@
   <script>
 export default {
   props: ["selectId"],
-  data() {
-    return {
-      selected: "",
-    };
-  },
+
 };
 </script>
