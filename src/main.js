@@ -4,6 +4,8 @@ import './input.css'
 import { MdCard, MdDialog, MdButton, MdTable, MdContent, MdMenu, MdList, MdField, MdCheckbox } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+import vueDebounce from 'vue-debounce'
+
 
 import router from './router/router';
 import store from './store/store';
@@ -36,6 +38,10 @@ Vue.component('BaseContactModal', BaseContactModal)
 Vue.component('BaseCompanyModal', BaseCompanyModal)
 Vue.component('BaseAdminModal', BaseAdminModal)
 
+
+Vue.use(vueDebounce, {
+    listenTo: 'input'
+})
 new Vue({
     store,
     router,

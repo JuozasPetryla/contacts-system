@@ -7,7 +7,12 @@
       <md-table-head>Elektroninis pastas</md-table-head>
       <md-table-head>Darbovietes adresas</md-table-head>
     </md-table-row>
-    <md-table-row v-for="contact in contacts" :key="contact.id">
+    <md-table-row
+      v-for="contact in contacts"
+      :key="contact.id"
+      @click="getPostDetailId(contact.id)"
+      class="hover:cursor-pointer"
+    >
       <md-table-cell>{{ `${contact.name} ${contact.surname}` }}</md-table-cell>
       <md-table-cell>{{ contact.position }}</md-table-cell>
       <md-table-cell>{{ contact.phone_number }}</md-table-cell>
@@ -18,10 +23,17 @@
 </template>
   
   <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters(["contacts"]),
+  },
+  methods: {
+    ...mapActions(["getContact"]),
+    getPostDetailId(id) {
+      this.getContact(id);
+      this.$router.push(`/contact-detail/${id}`);
+    },
   },
 };
 </script>

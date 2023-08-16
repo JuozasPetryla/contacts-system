@@ -7,7 +7,6 @@ import divisions from "./divisions";
 import departaments from "./departaments";
 import groups from "./groups";
 import offices from "./offices";
-import relations from './relations'
 
 
 Vue.use(Vuex);
@@ -21,7 +20,6 @@ const store = new Vuex.Store({
         departaments,
         groups,
         offices,
-        relations
     }
 })
 

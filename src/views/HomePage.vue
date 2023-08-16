@@ -11,9 +11,10 @@
         <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
       </BaseIconButton>
     </div>
-    <p class="mb-4 px-2">
+    <p class="mb-4 px-2" v-if="totalContacts">
       Iš viso rasta: <strong>{{ totalContactsText }}</strong>
     </p>
+    <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
     <ThePagination class="absolute bottom-10 left-1/3"></ThePagination>

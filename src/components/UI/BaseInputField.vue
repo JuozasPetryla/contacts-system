@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="flex flex-col space-y-1 w-auto">
     <label :for="inputId">
@@ -10,6 +12,10 @@
         :type="inputType"
         :id="inputId"
         :placeholder="inputPlaceHolder"
+        @blur="$emit('blur')"
+        @input="$emit('input', $event.target.value)"
+        @change="$emit('change', $event.target.value)"
+        :value="value"
         class="bg-inherit focus:outline-none w-72"
       />
       <slot name="image-right"> </slot>
@@ -19,6 +25,6 @@
 
 <script>
 export default {
-  props: ["inputPlaceHolder", "inputId", "inputType"],
+  props: ["inputPlaceHolder", "inputId", "inputType", "value"],
 };
 </script>

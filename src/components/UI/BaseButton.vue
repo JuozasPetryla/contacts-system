@@ -1,5 +1,6 @@
 <template>
   <button
+    :type="type"
     @click="triggerClick"
     class="flex bg-light-blue text-white font-medium tracking-widest rounded-md shadow-md shadow-slate-400 h-11 w-72 justify-center items-center hover:bg-dark-blue"
   >
@@ -9,6 +10,7 @@
   
   <script>
 export default {
+  props: ['type'],
   methods: {
     triggerClick() {
       this.$emit("click");

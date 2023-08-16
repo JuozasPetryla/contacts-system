@@ -2,51 +2,53 @@ import pb from '../plugins/pocketBaseAPI'
 
 const state = {
     companies: [],
+    companyFilterId: '',
 }
 const mutations = {
     setCompanies: (state, companies) => state.companies = companies,
+    setCompanyFilterId: (state, companyFilterId) => state.companyFilterId = companyFilterId,
 }
 const getters = {
     companies: state => state.companies,
 }
 const actions = {
-    async getCompanies({ commit }) {
+    async getCompanies({ commit, state, dispatch }) {
         try {
-            const companies = await pb.collection('companies').getList(1, 5, {
-            })
-            commit('setCompanies', companies.items)
+            let companyList
+            if (state.companyFilterId) {
+                const companies = await pb.collection('companies').getList(1, 5, {
+                })
+                companyList = companies.items
+                const companiesAndOffices = await pb.collection('companies_offices').getList(1, 5, {
+                    filter: `company_id="${state.companyFilterId}"`,
+                    expand: `office_id`
+                })
+                commit('setCompanies', companies.items)
+                const officesFiltered = companiesAndOffices.items.map(office => office.expand.office_id)
+                dispatch('getOffices', officesFiltered, { root: true })
+            } else {
+                const companies = await pb.collection('companies').getList(1, 5, {
+                })
+                dispatch('getOffices', null)
+                commit('setCompanies', companies.items)
+            }
         } catch (err) {
             console.log(err)
         }
     },
     getCompanyFilterId({ commit, dispatch }, companyFilterId) {
+        commit('setCompanyFilterId', companyFilterId)
         if (companyFilterId === '') {
             commit('setFilter', {}, { root: true })
             dispatch('getContacts', { root: true })
-            dispatch('getCompanies', null)
-            dispatch('getRelations',
-                {
-                    filterId: null,
-                    filterMutation: 'setOffices',
-                    relationReq: 'companies_offices',
-                    expandProp: 'office_id',
-                    filterProp: null
-                },
-                { root: true })
+            dispatch('getCompanies')
+
         }
         else {
             commit('setFilter', { filter: `company_id="${companyFilterId}"` }, { root: true })
             dispatch('getContacts', { root: true })
-            dispatch('getCompanies', companyFilterId)
-            dispatch('getRelations',
-                {
-                    filterId: companyFilterId,
-                    filterMutation: 'setOffices',
-                    relationReq: 'companies_offices',
-                    expandProp: 'office_id',
-                    filterProp: 'company_id'
-                },
-                { root: true })
+            dispatch('getCompanies')
+
         }
     }
 }
