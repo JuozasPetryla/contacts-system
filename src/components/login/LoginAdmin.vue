@@ -2,7 +2,7 @@
   <md-card class="h-5/6 w-fit flex flex-col items-center py-10 px-36">
     <h2 class="text-5xl">Admin prisijungimas:</h2>
     <form
-      @submit="
+      @submit.prevent="
         validateForm();
         submitForm();
       "
@@ -51,7 +51,10 @@
         </p>
       </div>
       <p>
-        Pamiršote slaptažodį? <a class="no-underline">Pakeiskite slaptažodį</a>
+        Pamiršote slaptažodį?
+        <a class="no-underline" @click="openForgotPassword"
+          >Pakeiskite slaptažodį</a
+        >
       </p>
       <BaseButton type="submit">PRISIJUNGTI</BaseButton>
     </form>
@@ -59,6 +62,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -95,9 +99,14 @@ export default {
     },
     submitForm() {
       if (!this.formIsValid) return;
-      console.log(this.email);
-      console.log(this.password);
+      this.loginWithPassword({
+        email: this.email,
+        password: this.password,
+      });
+      this.email = "";
+      this.password = "";
     },
+    ...mapActions(["loginWithPassword", "openForgotPassword"]),
   },
 };
 </script>

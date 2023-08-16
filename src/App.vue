@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <TheHeader v-if="headerVisible"></TheHeader>
-    <!-- <TheHeaderNavigation></TheHeaderNavigation> -->
+    <component
+      :is="header"
+      v-if="$router.currentRoute.path !== '/login'"
+    ></component>
     <router-view></router-view>
   </div>
 </template>
@@ -16,11 +18,11 @@ export default {
     TheHeaderNavigation,
   },
   computed: {
-    headerVisible() {
-      if (this.$router.currentRoute.path !== "/login") {
-        return true;
+    header() {
+      if (localStorage.getItem("user")) {
+        return TheHeaderNavigation;
       } else {
-        return false;
+        return TheHeader;
       }
     },
   },

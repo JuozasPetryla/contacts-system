@@ -26,7 +26,7 @@
           ><p>Pakeisti slaptažodį</p>
           <img src="../../assets/Vector.svg" class="pl-2" />
         </md-menu-item>
-        <md-menu-item class="hover:bg-light-gray cursor-pointer"
+        <md-menu-item @click="logout" class="hover:bg-light-gray cursor-pointer"
           ><p>Atsijungti</p></md-menu-item
         >
       </md-menu-content>
@@ -35,6 +35,11 @@
 </template>
   
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions(["logout"]),
+  },
+};
 </script>
   

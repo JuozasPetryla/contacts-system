@@ -7,6 +7,8 @@ import divisions from "./divisions";
 import departaments from "./departaments";
 import groups from "./groups";
 import offices from "./offices";
+import login from "./login";
+import infoModal from "./infoModal";
 
 
 Vue.use(Vuex);
@@ -20,6 +22,8 @@ const store = new Vuex.Store({
         departaments,
         groups,
         offices,
+        login,
+        infoModal
     }
 })
 

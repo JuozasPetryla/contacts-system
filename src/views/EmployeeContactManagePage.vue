@@ -42,6 +42,7 @@ import ThePagination from "../components/layout/ThePagination.vue";
 import TheFilters from "../components/layout/TheFilters.vue";
 import ContactsGridExpanded from "../components/contacts/ContactsGridExpanded.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -64,11 +65,27 @@ export default {
         return ContactsGridExpanded;
       }
     },
+    totalContactsText() {
+      if (this.totalContacts === 1) {
+        return this.totalContacts + " kontaktas";
+      }
+      if (this.totalContacts < 10 && this.totalContacts > 1) {
+        return this.totalContacts + " kontaktai";
+      }
+      if (this.totalContacts > 1) {
+        return this.totalContacts + " kontaktų";
+      }
+    },
+    ...mapGetters(["totalContacts"]),
   },
   methods: {
     toggleMode() {
       this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
+    ...mapActions(["getContacts"]),
+  },
+  created() {
+    this.getContacts();
   },
 };
 </script>

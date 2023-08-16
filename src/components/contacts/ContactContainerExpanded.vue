@@ -1,5 +1,5 @@
 <template>
-  <md-card class="w-11/12">
+  <md-card class="w-11/12 hover-card">
     <div class="flex space-x-4 items-center px-2 py-8">
       <img src="../../assets/Test Account.svg" alt="Blank account icon" />
       <div>
@@ -33,3 +33,18 @@
   </md-card>
 </template>
   
+
+
+
+<style scoped>
+.hover-card {
+  transition: all 0.3s ease;
+}
+
+.hover-card:hover,
+.hover-card:active {
+  transform: translateY(-1%);
+  cursor: pointer;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.3);
+}
+</style>

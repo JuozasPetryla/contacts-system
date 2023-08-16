@@ -1,5 +1,9 @@
 <template>
-  <md-dialog :md-active.sync="show" class="flex flex-col p-24">
+  <md-dialog
+    :md-active="infoModalOpen"
+    :md-clicked-outside="closeInfoModal"
+    class="flex flex-col p-24"
+  >
     <div class="w-96">
       <header class="px-6 pt-6 font-medium text-lg">
         <slot name="header"></slot>
@@ -15,11 +19,13 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    show() {
-      return false;
-    },
+    ...mapGetters(["infoModalOpen"]),
+  },
+  methods: {
+    ...mapActions(["closeInfoModal"]),
   },
 };
 </script>

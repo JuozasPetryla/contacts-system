@@ -12,18 +12,31 @@ import AdminAccountsPage from '../views/AdminAccountsPage.vue'
 
 Vue.use(VueRouter);
 
+const auth = function (to, from, next) {
+    if (!localStorage.getItem('user')) {
+        next('/login')
+    } else {
+        next()
+    }
+}
+
 const routes = [
     { path: '/', component: HomePage },
     { path: '/contact-detail/:id', component: DetailedContactPage },
     { path: '/login', component: AdminLoginPage },
-    { path: '/employee-manage', component: EmployeeContactManagePage },
-    { path: '/company-manage', component: CompaniesManagePage },
-    { path: '/structure-manage', component: StructureManagePage },
-    { path: '/admin-accounts', component: AdminAccountsPage },
+    {
+        path: '/employee-manage', component: EmployeeContactManagePage, beforeEnter: (to, from, next) => auth(to, from, next)
+    },
+    { path: '/company-manage', component: CompaniesManagePage, beforeEnter: (to, from, next) => auth(to, from, next) },
+    { path: '/structure-manage', component: StructureManagePage, beforeEnter: (to, from, next) => auth(to, from, next) },
+    { path: '/admin-accounts', component: AdminAccountsPage, beforeEnter: (to, from, next) => auth(to, from, next) },
 ];
 
 const router = new VueRouter({
+    mode: 'history',
     routes
 });
+
+
 
 export default router;
