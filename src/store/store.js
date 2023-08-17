@@ -10,6 +10,7 @@ import offices from "./offices";
 import login from "./login";
 import infoModal from "./infoModal";
 import contactActions from "./contactActions";
+import companiesActions from "./companiesActions";
 
 
 Vue.use(Vuex);
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
         offices,
         login,
         infoModal,
-        contactActions
+        contactActions,
+        companiesActions
     }
 })
 

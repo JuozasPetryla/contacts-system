@@ -12,8 +12,18 @@
       >
         <h4>{{ company.name }}</h4>
         <div class="flex space-x-4">
-          <BaseButton class="rounded-full">Redaguoti</BaseButton>
-          <BaseButton class="w-36 rounded-full bg-light-red hover:bg-dark-red"
+          <BaseButton
+            class="rounded-full"
+            @click="
+              getCompanyEditInfo(company);
+              openCompanyModal();
+              getCompanyModalMode('edit');
+            "
+            >Redaguoti</BaseButton
+          >
+          <BaseButton
+            class="w-36 rounded-full bg-light-red hover:bg-dark-red"
+            @click="getCompanyDeleteInfo(company)"
             >Ištrinti</BaseButton
           >
         </div>
@@ -26,7 +36,13 @@
 import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
-    ...mapActions(["getCompanies"]),
+    ...mapActions([
+      "getCompanies",
+      "getCompanyEditInfo",
+      "getCompanyDeleteInfo",
+      "openCompanyModal",
+      "getCompanyModalMode",
+    ]),
   },
   computed: {
     ...mapGetters(["companies"]),

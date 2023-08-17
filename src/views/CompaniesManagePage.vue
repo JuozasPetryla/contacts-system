@@ -2,7 +2,13 @@
   <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Įmonės</h3>
     <div class="flex space-x-6 items-center">
-      <BaseIconButton class="h-12 w-12">
+      <BaseIconButton
+        class="h-12 w-12"
+        @click="
+          openCompanyModal();
+          getCompanyModalMode('create');
+        "
+      >
         <img src="../assets/Plus Math.svg" />
       </BaseIconButton>
       <p class="text-lg">Pridėti naują įmonę</p>
@@ -16,15 +22,38 @@
     <CompaniesTable></CompaniesTable>
     <BaseCompanyModal>
       <template #header>
-        <h2 class="text-4xl font-normal">Redaguoti įmonę:</h2>
+        <h2 v-if="companyModalMode === 'edit'" class="text-4xl font-normal">
+          Redaguoti įmonę:
+        </h2>
+        <h2 v-if="companyModalMode === 'create'" class="text-4xl font-normal">
+          Kurti naują įmonę:
+        </h2>
+      </template>
+      <template #actionName>
+        <span v-if="companyModalMode === 'edit'">REDAGUOTI</span>
+        <span v-if="companyModalMode === 'create'">KURTI NAUJĄ</span>
       </template>
     </BaseCompanyModal>
     <BaseInfoDialog>
-      <template #header> Ar tikrai norite ištrinti įmonę? </template>
-      <template #content> Įmonės pavadinimas: įmonės pavadinimas </template>
+      <template #header> {{ infoModalHeader }} </template>
+      <template #content>
+        {{ infoModalText }}
+      </template>
       <template #actions>
-        <md-button class="md-primary">NE</md-button>
-        <md-button class="md-primary">TAIP</md-button>
+        <div v-if="infoModalMode === 'delete'">
+          <md-button @click="closeInfoModal" class="md-primary">NE</md-button>
+          <md-button
+            @click="
+              closeInfoModal();
+              deleteContact(deleteInfo.id);
+            "
+            class="md-primary"
+            >TAIP</md-button
+          >
+        </div>
+        <md-button v-else @click="closeInfoModal" class="md-primary"
+          >UŽDARYTI</md-button
+        >
       </template>
     </BaseInfoDialog>
   </div>
@@ -39,7 +68,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["companies", "totalCompanies"]),
+    ...mapGetters([
+      "infoModalMode",
+      "companies",
+      "totalCompanies",
+      "companyModalMode",
+    ]),
     totalCompaniesText() {
       if (this.totalCompanies === 1) {
         return this.totalCompanies + " įmonė";
@@ -51,10 +85,47 @@ export default {
         return this.totalCompanies + " įmonių";
       }
     },
+    infoModalText() {
+      if (this.infoModalMode === "error") {
+        return this.infoModalError;
+      }
+      if (this.infoModalMode === "delete") {
+        return `Pavadinimas: ${this.companyDeleteInfo.name}`;
+      }
+      if (
+        this.companyModalMode === "create" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Įmonė sėkmingai sukurta";
+      }
+      if (
+        this.companyModalMode === "edit" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Įmonė sėkmingai redaguota";
+      }
+    },
+
+    infoModalHeader() {
+      if (this.infoModalMode === "success") {
+        return "Pavyko";
+      }
+      if (this.infoModalMode === "error") {
+        return "Klaida";
+      }
+      if (this.infoModalMode === "delete") {
+        return "Ar tikrai norite ištrinti įmonę?";
+      }
+    },
   },
 
   methods: {
-    ...mapActions(["getCompanies"]),
+    ...mapActions([
+      "closeInfoModal",
+      "getCompanies",
+      "openCompanyModal",
+      "getCompanyModalMode",
+    ]),
   },
   created() {
     this.getCompanies();
