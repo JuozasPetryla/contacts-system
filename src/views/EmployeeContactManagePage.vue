@@ -10,17 +10,41 @@
         <img src="../assets/BulletList.svg" v-if="mode === 'grid'" />
         <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
       </BaseIconButton>
-      <BaseIconButton class="h-12 w-12">
+      <BaseIconButton
+        class="h-12 w-12"
+        @click="
+          openContactModal();
+          getContactModalMode('create');
+        "
+      >
         <img src="../assets/Plus Math.svg" />
       </BaseIconButton>
     </div>
-    <p class="mb-4 px-2">Iš viso rasta: <strong>10 kontaktų</strong></p>
+    <p class="mb-4 px-2" v-if="totalContacts">
+      Iš viso rasta: <strong>{{ totalContactsText }}</strong>
+    </p>
+    <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
-    <ThePagination class="mb-6"></ThePagination>
-    <BaseContactModal>
+    <ThePagination class="absolute bottom-10 left-1/3"></ThePagination>
+    <BaseContactModal v-if="contactModalOpen">
       <template #header>
-        <h2 class="text-4xl font-normal text-center">Redaguoti kontaktą:</h2>
+        <h2
+          v-if="contactModalMode === 'edit'"
+          class="text-4xl font-normal text-center"
+        >
+          Redaguoti kontaktą:
+        </h2>
+        <h2
+          v-if="contactModalMode === 'create'"
+          class="text-4xl font-normal text-center"
+        >
+          Kurti kontaktą:
+        </h2>
+      </template>
+      <template #action>
+        <span v-if="contactModalMode === 'edit'">REDAGUOTI</span>
+        <span v-if="contactModalMode === 'create'">KURTI NAUJĄ</span>
       </template>
     </BaseContactModal>
     <BaseInfoDialog>
@@ -76,13 +100,13 @@ export default {
         return this.totalContacts + " kontaktų";
       }
     },
-    ...mapGetters(["totalContacts"]),
+    ...mapGetters(["contactModalMode", "totalContacts", "contactModalOpen"]),
   },
   methods: {
     toggleMode() {
       this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
-    ...mapActions(["getContacts"]),
+    ...mapActions(["getContacts", "openContactModal", "getContactModalMode"]),
   },
   created() {
     this.getContacts();

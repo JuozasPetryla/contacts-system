@@ -7,7 +7,7 @@
       </BaseIconButton>
       <p class="text-lg">Pridėti naują įmonę</p>
     </div>
-    <p class="my-4 px-2">Iš viso rasta: <strong>10 kontaktų</strong></p>
+    <p class="my-4 px-2">Iš viso rasta: <strong>10 įmonių</strong></p>
     <CompaniesTable></CompaniesTable>
     <BaseCompanyModal>
       <template #header>

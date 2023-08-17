@@ -1,7 +1,7 @@
 <template>
   <md-dialog
     :md-active="infoModalOpen"
-    :md-clicked-outside="closeInfoModal"
+    @md-clicked-outside="closeInfoModal"
     class="flex flex-col p-24"
   >
     <div class="w-96">

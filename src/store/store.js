@@ -9,12 +9,12 @@ import groups from "./groups";
 import offices from "./offices";
 import login from "./login";
 import infoModal from "./infoModal";
+import contactActions from "./contactActions";
 
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-
     modules: {
         contacts,
         companies,
@@ -23,7 +23,8 @@ const store = new Vuex.Store({
         groups,
         offices,
         login,
-        infoModal
+        infoModal,
+        contactActions
     }
 })
 

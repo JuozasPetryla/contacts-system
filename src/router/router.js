@@ -7,6 +7,7 @@ import AdminLoginPage from '../views/AdminLoginPage.vue'
 import EmployeeContactManagePage from '../views/EmployeeContactManagePage.vue'
 import CompaniesManagePage from '../views/CompaniesManagePage.vue'
 import StructureManagePage from '../views/StructureManagePage.vue'
+import OfficeManagePage from '../views/OfficeManagePage.vue'
 import AdminAccountsPage from '../views/AdminAccountsPage.vue'
 
 
@@ -29,6 +30,7 @@ const routes = [
     },
     { path: '/company-manage', component: CompaniesManagePage, beforeEnter: (to, from, next) => auth(to, from, next) },
     { path: '/structure-manage', component: StructureManagePage, beforeEnter: (to, from, next) => auth(to, from, next) },
+    { path: '/office-manage', component: OfficeManagePage, beforeEnter: (to, from, next) => auth(to, from, next) },
     { path: '/admin-accounts', component: AdminAccountsPage, beforeEnter: (to, from, next) => auth(to, from, next) },
 ];
 

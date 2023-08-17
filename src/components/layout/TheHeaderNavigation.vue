@@ -8,11 +8,21 @@
     <ul
       class="flex items-center text-lg text-white font-medium space-x-36 pl-8"
     >
-      <li>Kontaktai</li>
-      <li>Kompanijos</li>
-      <li>Struktūra</li>
-      <li>Būstinės</li>
-      <li>Paskyros</li>
+      <li>
+        <router-link class="link" to="/employee-manage">Kontaktai</router-link>
+      </li>
+      <li>
+        <router-link class="link" to="/company-manage">Kompanijos</router-link>
+      </li>
+      <li>
+        <router-link class="link" to="/structure-manage">Struktūra</router-link>
+      </li>
+      <li>
+        <router-link class="link" to="/office-manage">Ofisai</router-link>
+      </li>
+      <li>
+        <router-link class="link" to="/admin-accounts">Paskyros</router-link>
+      </li>
     </ul>
     <md-menu md-direction="bottom-start" md-size="medium">
       <BaseIconButton
@@ -43,3 +53,13 @@ export default {
 };
 </script>
   
+<style scoped>
+.link {
+  color: white !important;
+}
+
+.link:hover {
+  text-decoration: none;
+  color: #adadad !important;
+}
+</style>
