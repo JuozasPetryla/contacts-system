@@ -62,4 +62,8 @@ export default {
   text-decoration: none;
   color: #adadad !important;
 }
+
+.router-link-exact-active {
+  color: #adadad !important;
+}
 </style>

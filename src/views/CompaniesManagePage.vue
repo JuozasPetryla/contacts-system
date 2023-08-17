@@ -7,7 +7,12 @@
       </BaseIconButton>
       <p class="text-lg">Pridėti naują įmonę</p>
     </div>
-    <p class="my-4 px-2">Iš viso rasta: <strong>10 įmonių</strong></p>
+    <p v-if="totalCompanies" class="my-4 px-2">
+      Iš viso rasta: <strong>{{ totalCompaniesText }}</strong>
+    </p>
+    <p v-else class="my-4 px-2">
+      <strong>Nerasta įmonių</strong>
+    </p>
     <CompaniesTable></CompaniesTable>
     <BaseCompanyModal>
       <template #header>
@@ -26,10 +31,33 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import CompaniesTable from "../components/companies/CompaniesTable.vue";
 export default {
   components: {
     CompaniesTable,
+  },
+
+  computed: {
+    ...mapGetters(["companies", "totalCompanies"]),
+    totalCompaniesText() {
+      if (this.totalCompanies === 1) {
+        return this.totalCompanies + " įmonė";
+      }
+      if (this.totalCompanies < 10 && this.totalCompanies > 1) {
+        return this.totalCompanies + " įmonės";
+      }
+      if (this.totalCompanies > 10) {
+        return this.totalCompanies + " įmonių";
+      }
+    },
+  },
+
+  methods: {
+    ...mapActions(["getCompanies"]),
+  },
+  created() {
+    this.getCompanies();
   },
 };
 </script>

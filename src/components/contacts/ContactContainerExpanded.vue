@@ -22,6 +22,7 @@
           @click="
             openContactModal();
             getContactModalMode('edit');
+            getEditInfo(info);
           "
         >
           <img
@@ -29,7 +30,14 @@
             src="../../assets/Pencil Drawing.svg"
           />
         </BaseIconButton>
-        <BaseIconButton class="bg-light-red hover:bg-dark-red">
+        <BaseIconButton
+          class="bg-light-red hover:bg-dark-red"
+          @click="
+            getInfoModalMode('delete');
+            openInfoModal();
+            getDeleteInfo(info);
+          "
+        >
           <img class="md-icon md-size-1x" src="../../assets/Trash Can.svg" />
         </BaseIconButton>
       </div>
@@ -40,8 +48,16 @@
 <script>
 import { mapActions } from "vuex";
 export default {
+  props: ["info"],
   methods: {
-    ...mapActions(["openContactModal", "getContactModalMode"]),
+    ...mapActions([
+      "openContactModal",
+      "getInfoModalMode",
+      "openInfoModal",
+      "getContactModalMode",
+      "getDeleteInfo",
+      "getEditInfo",
+    ]),
   },
 };
 </script>

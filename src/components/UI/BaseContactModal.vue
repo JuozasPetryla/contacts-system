@@ -4,7 +4,12 @@
     @md-clicked-outside="closeContactModal"
     class="h-fit w-mxa mx-auto my-auto"
   >
-    <form @submit.prevent="formSubmit">
+    <form
+      @submit.prevent="
+        validateForm();
+        formSubmit();
+      "
+    >
       <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
         <div class="flex flex-col space-y-6">
           <header class="font-medium text-lg">
@@ -16,7 +21,9 @@
             :inputId="'name'"
             :inputType="'text'"
             v-model="name"
+            class="relative"
             @blur="validateName"
+            @input="validateName"
             :class="{ invalid: !nameIsValid }"
             ><template #label>Vardas:</template>
             <template #image-right>
@@ -28,7 +35,9 @@
             :inputId="'surname'"
             :inputType="'text'"
             v-model="surname"
+            class="relative"
             @blur="validateSurname"
+            @input="validateSurname"
             :class="{ invalid: !surnameIsValid }"
             ><template #label>Pavardė:</template>
             <template #image-right>
@@ -40,7 +49,9 @@
             :inputId="'position'"
             :inputType="'text'"
             v-model="position"
+            class="relative"
             @blur="validatePosition"
+            @input="validatePosition"
             :class="{ invalid: !positionIsValid }"
             ><template #label>Pozicija:</template>
             <template #image-right>
@@ -53,7 +64,9 @@
             :inputId="'email'"
             :inputType="'email'"
             v-model="email"
+            class="relative"
             @blur="validateEmail"
+            @input="validateEmail"
             :class="{ invalid: !emailIsValid }"
             ><template #label>Elektroninis paštas:</template>
             <template #image-left>
@@ -77,7 +90,15 @@
             <label for="imone">Įmonė:</label>
             <md-field class="md-elevation-4">
               <label for="imone" class="pl-4">Pasirinkite įmonę...</label>
-              <md-select name="imone" id="imone" v-model="selectedCompany">
+              <md-select
+                name="imone"
+                id="imone"
+                class="pl-4"
+                v-model="selectedCompany"
+                :class="{ invalidSelect: !companyIsValid }"
+                @md-selected="validateCompany"
+                @blur="validateCompany"
+              >
                 <md-option
                   v-for="company in companies"
                   :key="company.id"
@@ -96,7 +117,10 @@
               <md-select
                 name="padalinys"
                 id="padalinys"
+                class="pl-4"
                 v-model="selectedDivision"
+                :class="{ invalidSelect: !divisionIsValid }"
+                @md-selected="validateDivision"
               >
                 <md-option
                   v-for="division in divisions"
@@ -116,6 +140,7 @@
               <md-select
                 name="skyrius"
                 id="skyrius"
+                class="pl-4"
                 v-model="selectedDepartment"
               >
                 <md-option
@@ -134,7 +159,7 @@
               <md-select
                 name="grupe"
                 id="grupe"
-                class="w-80"
+                class="w-80 pl-4"
                 v-model="selectedGroup"
               >
                 <md-option
@@ -153,8 +178,10 @@
               <md-select
                 name="ofisas"
                 id="ofisas"
-                class="w-80"
+                class="w-80 pl-4"
                 v-model="selectedOffice"
+                :class="{ invalidSelect: !officeIsValid }"
+                @md-selected="validateOffice"
               >
                 <md-option
                   v-for="office in offices"
@@ -165,15 +192,24 @@
               </md-select>
             </md-field>
           </div>
-          <BaseButton class="mx-auto">ĮKELTI NUOTRAUKĄ</BaseButton>
+          <div class="relative">
+            <p
+              v-if="!formIsValid"
+              class="text-light-red text-lg absolute -top-14 left-10"
+            >
+              Užpildykite reikiamus laukus
+            </p>
+            <BaseButton class="mx-auto">ĮKELTI NUOTRAUKĄ</BaseButton>
+          </div>
         </div>
         <div class="self-end">
-          <BaseButton type="submit">
+          <BaseButton :type="'submit'">
             <slot name="action"></slot>
           </BaseButton>
         </div>
       </div>
     </form>
+
     <BaseIconButton @click="closeContactModal" class="absolute top-10 right-10">
       <img src="../../assets/Plus Math.svg" class="rotate-45" />
     </BaseIconButton>
@@ -202,6 +238,7 @@ export default {
       companyIsValid: true,
       officeIsValid: true,
       divisionIsValid: true,
+      formIsValid: true,
     };
   },
   computed: {
@@ -212,6 +249,8 @@ export default {
       "departments",
       "groups",
       "offices",
+      "contactModalMode",
+      "editInfo",
     ]),
   },
   methods: {
@@ -222,6 +261,8 @@ export default {
       "getDepartments",
       "getGroups",
       "getOffices",
+      "createContact",
+      "editContact",
     ]),
 
     validateForm() {
@@ -297,6 +338,49 @@ export default {
     },
     formSubmit() {
       if (!this.formIsValid) return;
+      if (this.contactModalMode === "create") {
+        this.createContact({
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          phone_number: this.phone,
+          position: this.position,
+          company_id: this.selectedCompany,
+          office_id: this.selectedOffice,
+          division_id: this.selectedDivision,
+          department_id: this.selectedDepartment,
+          group_id: this.selectedGroup,
+        });
+      }
+      if (this.contactModalMode === "edit") {
+        this.editContact({
+          id: this.editInfo.id,
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+          phone_number: this.phone ? this.phone : this.editInfo.phone_number,
+          position: this.position,
+          company_id: this.selectedCompany,
+          office_id: this.selectedOffice,
+          division_id: this.selectedDivision,
+          department_id: this.selectedDepartment
+            ? this.selectedDepartment
+            : this.editInfo.department_id,
+          group_id: this.selectedGroup
+            ? this.selectedGroup
+            : this.editInfo.group_id,
+        });
+      }
+      this.name = "";
+      this.surname = "";
+      this.position = "";
+      this.phone = "";
+      this.email = "";
+      this.selectedCompany = "";
+      this.selectedDivision = "";
+      this.selectedDepartment = "";
+      this.selectedGroup = "";
+      this.selectedOffice = "";
     },
   },
   created() {
@@ -310,8 +394,25 @@ export default {
 </script>
 
 <style scoped>
-.invalid {
+.invalid::after {
+  content: "";
+  position: absolute;
+  top: 32%;
+  bottom: -1px;
+  right: -1px;
+  left: -1px;
+  z-index: -1;
   border: 1px solid red;
-  background: rgba(255, 0, 0, 0.301);
+}
+
+.invalidSelect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -1px;
+  left: -1px;
+  z-index: -1;
+  border: 1px solid red;
 }
 </style>

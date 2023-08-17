@@ -8,13 +8,11 @@
       <img src="../assets/Curved Arrow.svg" />
     </BaseIconButton>
     <BaseInfoDialog>
-      <template #header>Invalid email or password</template>
-      <template #content
-        >Please input check if your email and password are correct</template
-      >
+      <template #header>Neteisingas el. paštas arba slaptažodis</template>
+      <template #content>Patikrinkite ir pabandykite dar kartą</template>
       <template #actions>
         <md-button class="md-primary pr-12" @click="closeInfoModal"
-          >CLOSE</md-button
+          >UŽDARYTI</md-button
         >
       </template>
     </BaseInfoDialog>

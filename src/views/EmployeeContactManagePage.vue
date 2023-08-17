@@ -1,5 +1,5 @@
 <template>
-  <div class="px-12 my-8 w-full grid overflow-x-hidden h-fit">
+  <div class="px-12 my-8 w-full grid overflow-hidden h-screen">
     <h3 class="text-5xl font-light mb-10 px-2">Kontaktų sistema</h3>
     <div class="flex space-x-6">
       <TheSearchBar class="mb-4 mx-2"></TheSearchBar>
@@ -25,8 +25,8 @@
     </p>
     <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
-    <component :is="currentContacts"></component>
-    <ThePagination class="absolute bottom-10 left-1/3"></ThePagination>
+    <component class="pb-36" :is="currentContacts"></component>
+    <ThePagination class="absolute bottom-5 left-1/3"></ThePagination>
     <BaseContactModal v-if="contactModalOpen">
       <template #header>
         <h2
@@ -48,13 +48,25 @@
       </template>
     </BaseContactModal>
     <BaseInfoDialog>
-      <template #header> Ar tikrai norite ištrinti kontaktą? </template>
+      <template #header> {{ infoModalHeader }} </template>
       <template #content>
-        Vardas ir pavardė: varda_pavardė Pozicija: pozicijos_pavyzdys
+        {{ infoModalText }}
       </template>
       <template #actions>
-        <md-button class="md-primary">NE</md-button>
-        <md-button class="md-primary">TAIP</md-button>
+        <div v-if="infoModalMode === 'delete'">
+          <md-button @click="closeInfoModal" class="md-primary">NE</md-button>
+          <md-button
+            @click="
+              closeInfoModal();
+              deleteContact(deleteInfo.id);
+            "
+            class="md-primary"
+            >TAIP</md-button
+          >
+        </div>
+        <md-button v-else @click="closeInfoModal" class="md-primary"
+          >UŽDARYTI</md-button
+        >
       </template>
     </BaseInfoDialog>
   </div>
@@ -96,17 +108,62 @@ export default {
       if (this.totalContacts < 10 && this.totalContacts > 1) {
         return this.totalContacts + " kontaktai";
       }
-      if (this.totalContacts > 1) {
+      if (this.totalContacts > 10) {
         return this.totalContacts + " kontaktų";
       }
     },
-    ...mapGetters(["contactModalMode", "totalContacts", "contactModalOpen"]),
+    infoModalText() {
+      if (this.infoModalMode === "error") {
+        return this.infoModalError;
+      }
+      if (this.infoModalMode === "delete") {
+        return `Vardas ir pavardė: ${this.deleteInfo.name} ${this.deleteInfo.surname} Pozicija: ${this.deleteInfo.position}`;
+      }
+      if (
+        this.contactModalMode === "create" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai sukurtas";
+      }
+      if (
+        this.contactModalMode === "edit" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai redaguotas";
+      }
+    },
+
+    infoModalHeader() {
+      if (this.infoModalMode === "success") {
+        return "Pavyko";
+      }
+      if (this.infoModalMode === "error") {
+        return "Klaida";
+      }
+      if (this.infoModalMode === "delete") {
+        return "Ar tikrai norite ištrinti kontaktą?";
+      }
+    },
+    ...mapGetters([
+      "contactModalMode",
+      "infoModalError",
+      "totalContacts",
+      "contactModalOpen",
+      "infoModalMode",
+      "deleteInfo",
+    ]),
   },
   methods: {
     toggleMode() {
       this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
-    ...mapActions(["getContacts", "openContactModal", "getContactModalMode"]),
+    ...mapActions([
+      "getContacts",
+      "openContactModal",
+      "getContactModalMode",
+      "closeInfoModal",
+      "deleteContact",
+    ]),
   },
   created() {
     this.getContacts();

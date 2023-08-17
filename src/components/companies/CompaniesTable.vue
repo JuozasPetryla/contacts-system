@@ -6,11 +6,11 @@
     </div>
     <ul class="flex flex-col space-y-5 mt-10 mb-6 justify-center">
       <li
-        v-for="imone in 4"
-        :key="imone"
+        v-for="company in companies"
+        :key="company.id"
         class="text-xl px-14 flex justify-between"
       >
-        <h4>{{ "Įmonė" + imone }}</h4>
+        <h4>{{ company.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton class="rounded-full">Redaguoti</BaseButton>
           <BaseButton class="w-36 rounded-full bg-light-red hover:bg-dark-red"
@@ -23,6 +23,17 @@
 </template>
 
 <script>
-export default {};
+import { mapActions, mapGetters } from "vuex";
+export default {
+  methods: {
+    ...mapActions(["getCompanies"]),
+  },
+  computed: {
+    ...mapGetters(["companies"]),
+  },
+  created() {
+    this.getCompanies();
+  },
+};
 </script>
 

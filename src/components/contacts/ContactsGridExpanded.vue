@@ -4,6 +4,7 @@
       v-for="contact in contacts"
       :key="contact.id"
       @click="getPostDetailId(contact.id)"
+      :info="contact"
     >
       <template #name>{{ `${contact.name} ${contact.surname}` }}</template>
       <template #position>{{ contact.position }}</template>
