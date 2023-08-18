@@ -19,7 +19,7 @@
     <p v-else class="my-4 px-2">
       <strong>Nerasta įmonių</strong>
     </p>
-    <CompaniesTable></CompaniesTable>
+    <CompaniesTable class="overflow-y-auto h-96 mb-24"></CompaniesTable>
     <BaseCompanyModal>
       <template #header>
         <h2 v-if="companyModalMode === 'edit'" class="text-4xl font-normal">
@@ -45,7 +45,7 @@
           <md-button
             @click="
               closeInfoModal();
-              deleteContact(deleteInfo.id);
+              deleteCompany(companyDeleteInfo.id);
             "
             class="md-primary"
             >TAIP</md-button
@@ -73,6 +73,7 @@ export default {
       "companies",
       "totalCompanies",
       "companyModalMode",
+      "companyDeleteInfo",
     ]),
     totalCompaniesText() {
       if (this.totalCompanies === 1) {
@@ -81,7 +82,7 @@ export default {
       if (this.totalCompanies < 10 && this.totalCompanies > 1) {
         return this.totalCompanies + " įmonės";
       }
-      if (this.totalCompanies > 10) {
+      if (this.totalCompanies >= 10) {
         return this.totalCompanies + " įmonių";
       }
     },
@@ -104,6 +105,12 @@ export default {
       ) {
         return "Įmonė sėkmingai redaguota";
       }
+      if (
+        this.companyModalMode === "delete" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Įmonė sėkmingai ištrinta";
+      }
     },
 
     infoModalHeader() {
@@ -125,6 +132,7 @@ export default {
       "getCompanies",
       "openCompanyModal",
       "getCompanyModalMode",
+      "deleteCompany",
     ]),
   },
   created() {

@@ -39,14 +39,12 @@ const actions = {
         try {
             const contact = await pb.collection('employees').create(contactCreateObj)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('openInfoModal', { root: true })
         }
@@ -55,14 +53,12 @@ const actions = {
         try {
             const contact = await pb.collection('employees').update(contactEditObj.id, contactEditObj)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('openInfoModal', { root: true })
         }
@@ -71,14 +67,12 @@ const actions = {
         try {
             const contact = await pb.collection('employees').delete(contactId)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setContactModalMode', '')
             commit('setContactModalClosed')
             dispatch('openInfoModal', { root: true })
         }

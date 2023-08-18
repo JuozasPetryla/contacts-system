@@ -35,6 +35,7 @@
           @click="
             getInfoModalMode('delete');
             openInfoModal();
+            getContactModalMode('delete');
             getDeleteInfo(info);
           "
         >

@@ -14,19 +14,19 @@ const getters = {
 const actions = {
     async getGroups({ commit, state, rootState }, groupsFiltered) {
         try {
-            if (state.groupFilterId) {
-                const groups = await pb.collection('groups').getList(1, 5)
-                commit('setGroups', groups.items)
-            } else if (groupsFiltered) {
-                commit('setGroups', groupsFiltered)
+            // if (state.groupFilterId) {
+            //     const groups = await pb.collection('groups').getList(1, 5)
+            //     commit('setGroups', groups.items)
+            // } else if (groupsFiltered) {
+            //     commit('setGroups', groupsFiltered)
 
-            }
-            else {
-                const groups = await pb.collection('groups').getList(1, 5)
-                commit('setGroups', groups.items)
+            // }
+            // else {
+            const groups = await pb.collection('groups').getList(1, 10)
+            commit('setGroups', groups.items)
 
 
-            }
+            // }
         } catch (err) {
             console.log(err)
         }

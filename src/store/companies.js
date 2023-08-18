@@ -30,7 +30,7 @@ const actions = {
             //     const officesFiltered = companiesAndOffices.items.map(office => office.expand.office_id)
             //     dispatch('getOffices', officesFiltered, { root: true })
             // } else {
-            const companies = await pb.collection('companies').getList(1, 5, {
+            const companies = await pb.collection('companies').getList(1, 25, {
             })
             // dispatch('getOffices', null)
             commit('setCompanies', companies.items)

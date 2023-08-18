@@ -57,7 +57,7 @@ export default {
       if (this.totalContacts < 10 && this.totalContacts > 1) {
         return this.totalContacts + " kontaktai";
       }
-      if (this.totalContacts > 1) {
+      if (this.totalContacts >= 10) {
         return this.totalContacts + " kontaktų";
       }
     },

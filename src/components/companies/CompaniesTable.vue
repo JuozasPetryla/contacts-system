@@ -1,9 +1,10 @@
 <template>
   <md-card class="mt-16">
-    <div class="flex justify-between bg-light-gray">
+    <div class="flex justify-between bg-light-gray sticky top-0">
       <p class="text-base px-12">Įmonės pavadinimas</p>
       <p class="text-base px-48">Veiksmas</p>
     </div>
+
     <ul class="flex flex-col space-y-5 mt-10 mb-6 justify-center">
       <li
         v-for="company in companies"
@@ -23,7 +24,12 @@
           >
           <BaseButton
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
-            @click="getCompanyDeleteInfo(company)"
+            @click="
+              getCompanyDeleteInfo(company);
+              openInfoModal();
+              getInfoModalMode('delete');
+              getCompanyModalMode('delete');
+            "
             >Ištrinti</BaseButton
           >
         </div>
@@ -42,6 +48,8 @@ export default {
       "getCompanyDeleteInfo",
       "openCompanyModal",
       "getCompanyModalMode",
+      "openInfoModal",
+      "getInfoModalMode",
     ]),
   },
   computed: {

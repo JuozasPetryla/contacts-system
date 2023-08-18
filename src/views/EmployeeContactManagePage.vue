@@ -1,5 +1,5 @@
 <template>
-  <div class="px-12 my-8 w-full grid overflow-hidden h-screen">
+  <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Kontaktų sistema</h3>
     <div class="flex space-x-6">
       <TheSearchBar class="mb-4 mx-2"></TheSearchBar>
@@ -108,7 +108,7 @@ export default {
       if (this.totalContacts < 10 && this.totalContacts > 1) {
         return this.totalContacts + " kontaktai";
       }
-      if (this.totalContacts > 10) {
+      if (this.totalContacts >= 10) {
         return this.totalContacts + " kontaktų";
       }
     },
@@ -130,6 +130,12 @@ export default {
         this.infoModalMode === "success"
       ) {
         return "Kontaktas sėkmingai redaguotas";
+      }
+      if (
+        this.contactModalMode === "delete" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai ištrintas";
       }
     },
 

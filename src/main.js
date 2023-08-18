@@ -18,6 +18,9 @@ import BaseInfoDialog from './components/UI/BaseInfoDialog.vue'
 import BaseContactModal from './components/UI/BaseContactModal.vue'
 import BaseCompanyModal from './components/UI/BaseCompanyModal.vue'
 import BaseAdminModal from './components/UI/BaseAdminModal.vue'
+import BaseStructureModal from './components/UI/BaseStructureModal.vue'
+import BaseOfficeModal from './components/UI/BaseOfficeModal.vue'
+import BaseStructureChooseModal from './components/UI/BaseStructureChooseModal.vue'
 
 Vue.use(MdCard)
 Vue.use(MdDialog)
@@ -37,6 +40,9 @@ Vue.component('BaseInfoDialog', BaseInfoDialog)
 Vue.component('BaseContactModal', BaseContactModal)
 Vue.component('BaseCompanyModal', BaseCompanyModal)
 Vue.component('BaseAdminModal', BaseAdminModal)
+Vue.component('BaseStructureModal', BaseStructureModal)
+Vue.component('BaseOfficeModal', BaseOfficeModal)
+Vue.component('BaseStructureChooseModal', BaseStructureChooseModal)
 
 
 Vue.use(vueDebounce, {

@@ -39,14 +39,12 @@ const actions = {
         try {
             const company = await pb.collection('companies').create(companyCreateObj)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('openInfoModal', { root: true })
         }
@@ -55,14 +53,12 @@ const actions = {
         try {
             const company = await pb.collection('companies').update(companyEditObj.id, companyEditObj)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('openInfoModal', { root: true })
         }
@@ -71,14 +67,12 @@ const actions = {
         try {
             const company = await pb.collection('companies').delete(companyId)
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
-            commit('setCompanyModalMode', '')
             commit('setCompanyModalClosed')
             dispatch('openInfoModal', { root: true })
         }

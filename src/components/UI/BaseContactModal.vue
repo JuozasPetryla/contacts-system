@@ -121,6 +121,7 @@
                 v-model="selectedDivision"
                 :class="{ invalidSelect: !divisionIsValid }"
                 @md-selected="validateDivision"
+                @blur="validateDivision"
               >
                 <md-option
                   v-for="division in divisions"
@@ -182,7 +183,7 @@
                 v-model="selectedOffice"
                 :class="{ invalidSelect: !officeIsValid }"
                 @md-selected="validateOffice"
-              >
+                @blur="validateOffice"              >
                 <md-option
                   v-for="office in offices"
                   :key="office.id"

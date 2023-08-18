@@ -91,7 +91,7 @@ export default {
       }
     },
     validatePassword() {
-      if (this.password.length >= 7) {
+      if (this.password.length > 7) {
         this.passwordIsValid = true;
       } else {
         this.passwordIsValid = false;

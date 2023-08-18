@@ -9,9 +9,16 @@ import groups from "./groups";
 import offices from "./offices";
 import login from "./login";
 import infoModal from "./infoModal";
-import contactActions from "./contactActions";
+import contactActions from "./contactsActions";
 import companiesActions from "./companiesActions";
-
+import structureModal from "./structureModal";
+import structureChooseModal from "./structureChooseModal";
+import officesActions from "./officesActions";
+import divisionsActions from "./divisionsActions";
+import departmentsActions from "./departmentsActions";
+import groupsActions from "./groupsActions";
+import users from "./users";
+import userActions from "./userActions";
 
 Vue.use(Vuex);
 
@@ -26,7 +33,15 @@ const store = new Vuex.Store({
         login,
         infoModal,
         contactActions,
-        companiesActions
+        companiesActions,
+        structureModal,
+        structureChooseModal,
+        officesActions,
+        divisionsActions,
+        departmentsActions,
+        groupsActions,
+        users,
+        userActions
     }
 })
 
