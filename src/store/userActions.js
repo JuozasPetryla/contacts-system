@@ -21,6 +21,9 @@ const getters = {
 }
 const actions = {
     openUserModal({ commit }) {
+        if (state.userModalMode === 'create') {
+            commit('setUserPermissions', {})
+        }
         commit('setUserModalOpen')
     },
     closeUserModal({ commit }) {
@@ -42,7 +45,6 @@ const actions = {
                 ...userCreateObj,
                 permissions_id: userPermissions.id
             }
-            console.log(userObj)
             const user = await pb.collection('users').create(userObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
@@ -57,30 +59,27 @@ const actions = {
     },
     async editUser({ commit, dispatch }, userEditObj) {
         try {
-            const user = await pb.collection('users').getFirstListItem(`id="${userEditObj.id}"`)
-            const userFull = {
-                ...userEditObj,
-                permissions_id: user.permissions_id
+
+            const userEdited = await pb.collection('users').update(userEditObj.id, userEditObj)
+
+            if (userEdited.status === 400) {
+                throw new Error()
             }
-            console.log(userFull)
-            console.log(userEditObj)
-            const userEdited = await pb.collection('users').update(userEditObj.id, userFull)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
+            console.log(err)
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
             commit('setUserModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
-    async editUserPermissions({ commit, dispatch }, { id, userPermissionsObj }) {
+    async editUserPermissions({ commit, dispatch }, userPermissionsObj) {
         try {
-            const user = await pb.collection('users').getFirstListItem(`id="${id}"`)
-
-            const userPermissions = await pb.collection('users').update(user.permissions_id, userPermissionsObj)
+            const userPermissions = await pb.collection('user_permissions').update(userPermissionsObj.id, userPermissionsObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
@@ -94,7 +93,10 @@ const actions = {
     },
     async deleteUser({ commit, dispatch }, userId) {
         try {
-            const user = await pb.collection('users').delete(userId)
+            const user = await pb.collection('users').getFirstListItem(`id="${userId}"`)
+            console.log(user)
+            const userDelete = await pb.collection('users').delete(userId)
+            const userPermissions = await pb.collection('user_permissions').delete(user.permissions_id)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })

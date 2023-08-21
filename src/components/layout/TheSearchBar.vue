@@ -7,11 +7,26 @@
       type="search"
       placeholder="Ieškoti kontakto..."
       class="w-96 bg-inherit focus:outline-none"
+      v-model="searchTerm"
+      v-debounce:1000="onGetSearchTerm"
     />
   </div>
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  data() {
+    return {
+      searchTerm: "",
+    };
+  },
+  methods: {
+    onGetSearchTerm() {
+      this.getSearchTerm(this.searchTerm);
+    },
+    ...mapActions(["getSearchTerm"]),
+  },
+};
 </script>
 

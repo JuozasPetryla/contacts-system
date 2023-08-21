@@ -24,16 +24,40 @@
       </div>
       <div class="flex flex-col space-y-12">
         <h4 class="text-2xl">Kompanijos detalės:</h4>
-        <p class="text-xl">Kompanija: {{ contact.company_id }}</p>
-        <p class="text-xl">Būstinė: {{ contact.department_id }}</p>
         <p class="text-xl">
-          Departamentas: <a>{{ contact.division_id }}</a>
+          Kompanija:
+          {{
+            companies.filter((company) => company.id === contact.company_id)[0]
+              ?.name
+          }}
         </p>
         <p class="text-xl">
-          Divizija: <a>{{ contact.office_id }}</a>
+          Būstinė:
+          {{
+            offices.filter((office) => office.id === contact.office_id)[0]?.name
+          }}
         </p>
         <p class="text-xl">
-          Grupė: <a>{{ contact.group_id }}</a>
+          Departamentas:
+          <a>{{
+            departments.filter(
+              (department) => department.id === contact.department_id
+            )[0]?.name
+          }}</a>
+        </p>
+        <p class="text-xl">
+          Divizija:
+          <a>{{
+            divisions.filter(
+              (division) => division.id === contact.division_id
+            )[0]?.name
+          }}</a>
+        </p>
+        <p class="text-xl">
+          Grupė:
+          <a>{{
+            groups.filter((group) => group.id === contact.group_id)[0]?.name
+          }}</a>
         </p>
       </div>
     </md-card>
@@ -44,13 +68,32 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["contact"]),
+    ...mapGetters([
+      "contact",
+      "divisions",
+      "offices",
+      "groups",
+      "departments",
+      "companies",
+    ]),
   },
   methods: {
-    ...mapActions(["getContact"]),
+    ...mapActions([
+      "getContact",
+      "getCompanies",
+      "getOffices",
+      "getDivisions",
+      "getDepartments",
+      "getGroups",
+    ]),
   },
   created() {
     this.getContact(this.$route.params.id);
+    this.getCompanies();
+    this.getOffices();
+    this.getDivisions();
+    this.getDepartments();
+    this.getGroups();
   },
 };
 </script>

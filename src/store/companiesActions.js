@@ -65,6 +65,13 @@ const actions = {
     },
     async deleteCompany({ commit, dispatch }, companyId) {
         try {
+            const companiesOffices = await pb.collection('companies_offices').getFullList({
+                filter: `company_id="${companyId}"`,
+                expand: 'office_id'
+            })
+            companiesOffices.forEach(office => {
+                dispatch('deleteOffice', office.expand.office_id.id)
+            })
             const company = await pb.collection('companies').delete(companyId)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setCompanyModalClosed')

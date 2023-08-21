@@ -83,6 +83,13 @@ const actions = {
     },
     async deleteOffice({ commit, dispatch }, officeDeleteInfo) {
         try {
+            const officesDivisions = await pb.collection('offices_divisions').getFullList({
+                filter: `office_id="${officeDeleteInfo}"`,
+                expand: 'division_id'
+            })
+            officesDivisions.forEach(division => {
+                dispatch('deleteDivision', division.expand.division_id.id)
+            })
             const office = await pb.collection('offices').delete(officeDeleteInfo)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setOfficeModalClosed')

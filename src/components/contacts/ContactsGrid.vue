@@ -10,7 +10,12 @@
       <template #contact-info>
         <p>Telefono nr: {{ contact.phone_number }}</p>
         <p>El. paštas: {{ contact.email }}</p>
-        <p>Adresas: {{ contact.office_id }}</p>
+        <p>
+          Adresas:
+          {{
+            offices.filter((office) => office.id === contact.office_id)[0].name
+          }}
+        </p>
       </template>
     </ContactContainer>
   </div>
@@ -24,14 +29,17 @@ export default {
     ContactContainer,
   },
   methods: {
-    ...mapActions(["getContact"]),
+    ...mapActions(["getContact", "getOffices"]),
     getPostDetailId(id) {
       this.getContact(id);
       this.$router.push(`/contact-detail/${id}`);
     },
   },
   computed: {
-    ...mapGetters(["contacts"]),
+    ...mapGetters(["contacts", "offices"]),
+  },
+  created() {
+    this.getOffices();
   },
 };
 </script>

@@ -54,37 +54,49 @@
         v-if="userModalMode === 'create' || userModalMode === 'editPermissions'"
       >
         <h2 class="text-2xl text-center w-64">Administracinės teisės:</h2>
-        <md-checkbox class="md-primary" v-model="edit_employees"
+        <md-checkbox class="md-primary" v-model="permissionsObj.edit_employees"
           >Redaguoti ir kurti kontaktus</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="delete_employees"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.delete_employees"
           >Trinti kontaktus</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="edit_companies"
+        <md-checkbox class="md-primary" v-model="permissionsObj.edit_companies"
           >Redaguoti ir kurti įmones</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="delete_companies"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.delete_companies"
           >Trinti įmones</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="edit_offices"
+        <md-checkbox class="md-primary" v-model="permissionsObj.edit_offices"
           >Redaguoti ir kurti ofisus</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="delete_offices"
+        <md-checkbox class="md-primary" v-model="permissionsObj.delete_offices"
           >Trinti ofisus</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="edit_structure"
+        <md-checkbox class="md-primary" v-model="permissionsObj.edit_structure"
           >Redaguoti ir kurti struktūras</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="delete_structure"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.delete_structure"
           >Trinti struktūras</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="read_permissions"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.read_permissions"
           >Skaityti admin paskyras</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="edit_permissions"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.edit_permissions"
           >Redaguoti ir kurti administracines teises</md-checkbox
         >
-        <md-checkbox class="md-primary" v-model="delete_permissions"
+        <md-checkbox
+          class="md-primary"
+          v-model="permissionsObj.delete_permissions"
           >Trinti admin paskyras</md-checkbox
         >
       </div>
@@ -107,7 +119,7 @@
 </template>
     
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -115,24 +127,27 @@ export default {
       nameIsValid: true,
       email: "",
       emailIsValid: true,
-      edit_employees: false,
-      delete_employees: false,
-      edit_offices: false,
-      delete_offices: false,
-      edit_structure: false,
-      delete_structure: false,
-      read_permissions: false,
-      edit_permissions: false,
-      delete_permissions: false,
-      edit_companies: false,
-      delete_companies: false,
       formIsValid: true,
     };
   },
   computed: {
-    ...mapGetters(["userModalOpen", "userModalMode", "userEditInfo"]),
+    ...mapGetters([
+      "userPermissions",
+      "userModalOpen",
+      "userModalMode",
+      "userEditInfo",
+    ]),
+    permissionsObj: {
+      get() {
+        return this.userPermissions;
+      },
+      set(newValue) {
+        this.setUserPermissions(newValue);
+      },
+    },
   },
   methods: {
+    ...mapMutations(["setUserPermissions"]),
     ...mapActions([
       "closeUserModal",
       "createUser",
@@ -178,40 +193,13 @@ export default {
     },
     formSubmit() {
       if (this.userModalMode === "editPermissions") {
-        this.editUserPermissions({
-          id: this.userEditInfo.id,
-          userPermissionsObj: {
-            edit_employees: this.edit_employees,
-            delete_employees: this.delete_employees,
-            edit_offices: this.edit_offices,
-            delete_offices: this.delete_offices,
-            edit_structure: this.edit_structure,
-            delete_structure: this.delete_structure,
-            read_permissions: this.read_permissions,
-            edit_permissions: this.edit_permissions,
-            delete_permissions: this.delete_permissions,
-            edit_companies: this.edit_companies,
-            delete_companies: this.delete_companies,
-          },
-        });
+        this.editUserPermissions(this.userPermissions);
       }
       if (!this.formIsValid) return;
       const password = this.generatePass();
       if (this.userModalMode === "create") {
         this.createUser({
-          userPermissionsObj: {
-            edit_employees: this.edit_employees,
-            delete_employees: this.delete_employees,
-            edit_offices: this.edit_offices,
-            delete_offices: this.delete_offices,
-            edit_structure: this.edit_structure,
-            delete_structure: this.delete_structure,
-            read_permissions: this.read_permissions,
-            edit_permissions: this.edit_permissions,
-            delete_permissions: this.delete_permissions,
-            edit_companies: this.edit_companies,
-            delete_companies: this.delete_companies,
-          },
+          userPermissionsObj: this.userPermissions,
           userCreateObj: {
             name: this.name,
             email: this.email,
@@ -226,6 +214,8 @@ export default {
           id: this.userEditInfo.id,
           name: this.name,
           email: this.email,
+          emailVisibility: true,
+          permissions_id: this.userEditInfo.permissions_id
         });
       }
 

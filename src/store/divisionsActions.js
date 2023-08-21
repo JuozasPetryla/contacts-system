@@ -64,6 +64,13 @@ const actions = {
     },
     async deleteDivision({ commit, dispatch }, divisionDeleteInfo) {
         try {
+            const divisionsDepartments = await pb.collection('divisions_departments').getFullList({
+                filter: `division_id="${divisionDeleteInfo}"`,
+                expand: 'department_id'
+            })
+            divisionsDepartments.forEach(department => {
+                dispatch('deleteDepartment', department.expand.department_id.id)
+            })
             const division = await pb.collection('divisions').delete(divisionDeleteInfo)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')

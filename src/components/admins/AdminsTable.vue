@@ -21,8 +21,8 @@
             @click="
               openUserModal();
               getUserModalMode('editPermissions');
-
               getUserEditInfo(user);
+              getUserPermissions(user);
             "
             >Keisti leidimus</BaseButton
           >
@@ -63,6 +63,7 @@ export default {
       "openInfoModal",
       "getInfoModalMode",
       "openUserModal",
+      "getUserPermissions",
     ]),
   },
   computed: {
@@ -70,7 +71,6 @@ export default {
   },
   created() {
     this.getUsers();
-    this.getUserPermissions()
   },
 };
 </script>

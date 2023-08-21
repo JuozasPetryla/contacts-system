@@ -5,8 +5,8 @@
       <BaseIconButton
         class="h-12 w-12"
         @click="
-          openUserModal();
           getUserModalMode('create');
+          openUserModal();
         "
       >
         <img src="../assets/Plus Math.svg" />

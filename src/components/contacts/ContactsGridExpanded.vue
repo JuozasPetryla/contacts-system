@@ -11,7 +11,12 @@
       <template #contact-info>
         <p>Telefono nr: {{ contact.phone_number }}</p>
         <p>El. paštas: {{ contact.email }}</p>
-        <p>Adresas: {{ contact.office_id }}</p>
+        <p>
+          Adresas:
+          {{
+            offices.filter((office) => office.id === contact.office_id)[0]?.name
+          }}
+        </p>
       </template>
     </ContactContainerExpanded>
   </div>
@@ -32,8 +37,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["contacts"]),
+    ...mapGetters(["contacts", "offices"]),
   },
+  created() {},
 };
 </script>
   

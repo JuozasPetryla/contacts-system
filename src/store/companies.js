@@ -15,44 +15,53 @@ const getters = {
     totalCompanies: state => state.totalCompanies,
 }
 const actions = {
-    async getCompanies({ commit, state, dispatch }) {
+    async getCompanies({ commit, dispatch }) {
         try {
-            // let companyList
-            // if (state.companyFilterId) {
-            //     const companies = await pb.collection('companies').getList(1, 5, {
-            //     })
-            //     companyList = companies.items
-            //     const companiesAndOffices = await pb.collection('companies_offices').getList(1, 5, {
-            //         filter: `company_id="${state.companyFilterId}"`,
-            //         expand: `office_id`
-            //     })
-            //     commit('setCompanies', companies.items)
-            //     const officesFiltered = companiesAndOffices.items.map(office => office.expand.office_id)
-            //     dispatch('getOffices', officesFiltered, { root: true })
-            // } else {
-            const companies = await pb.collection('companies').getList(1, 25, {
-            })
-            // dispatch('getOffices', null)
-            commit('setCompanies', companies.items)
-            commit('setTotalCompanies', companies.totalItems)
-            // }
+            let companyList
+            if (state.companyFilterId) {
+                const companies = await pb.collection('companies').getFullList({
+                })
+                companyList = companies
+                const companiesAndOffices = await pb.collection('companies_offices').getFullList({
+                    filter: `company_id="${state.companyFilterId}"`,
+                    expand: `office_id`
+                })
+                commit('setCompanies', companies)
+                const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
+                dispatch('getOffices', officesFiltered, { root: true })
+            } else if (!state.companyFilterId) {
+                const companies = await pb.collection('companies').getFullList({
+                })
+                commit('setCompanies', companies)
+                commit('setTotalCompanies', companies.length)
+            }
         } catch (err) {
             console.log(err)
         }
     },
-    getCompanyFilterId({ commit, dispatch }, companyFilterId) {
-        commit('setCompanyFilterId', companyFilterId)
-        if (companyFilterId === '') {
-            commit('setFilter', {}, { root: true })
+    getCompanyFilterId({ commit, dispatch, rootState }, companyFilterId) {
+        if (!companyFilterId) {
+            const oldFilter = rootState.contacts.filter.includes('&&') ? ` && company_id="${state.companyFilterId}"` : `company_id="${state.companyFilterId}"`
+            commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
+            commit('setCompanyFilterId', companyFilterId)
             dispatch('getContacts', { root: true })
             dispatch('getCompanies')
-
-        }
-        else {
-            commit('setFilter', { filter: `company_id="${companyFilterId}"` }, { root: true })
+        } else if (rootState.contacts.filter && state.companyFilterId) {
+            commit('resetFilter', { oldFilter: state.companyFilterId, newFilter: companyFilterId }, { root: true })
             dispatch('getContacts', { root: true })
+            commit('setCompanyFilterId', companyFilterId)
+            dispatch('getCompanies')
+        } else if (!rootState.contacts.filter) {
+            commit('setFilter', `company_id="${companyFilterId}"`, { root: true })
+            dispatch('getContacts', { root: true })
+            commit('setCompanyFilterId', companyFilterId)
             dispatch('getCompanies')
 
+        } else if (rootState.contacts.filter && !state.companyFilterId) {
+            commit('setFilter', `${rootState.contacts.filter} && company_id="${companyFilterId}"`, { root: true })
+            dispatch('getContacts', { root: true })
+            commit('setCompanyFilterId', companyFilterId)
+            dispatch('getCompanies')
         }
     }
 }

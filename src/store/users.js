@@ -2,7 +2,19 @@ import pb from '../plugins/pocketBaseAPI'
 
 const state = {
     users: [],
-    userPermissions: {}
+    userPermissions: {
+        edit_employees: false,
+        delete_employees: false,
+        edit_offices: false,
+        delete_offices: false,
+        edit_structure: false,
+        delete_structure: false,
+        edit_permissions: false,
+        delete_permissions: false,
+        read_permissions: false,
+        edit_companies: false,
+        delete_companies: false,
+    }
 }
 const mutations = {
     setUsers: (state, users) => state.users = users,
@@ -21,10 +33,10 @@ const actions = {
             console.log(err)
         }
     },
-    async getUserPermission({ commit }, userId) {
+    async getUserPermissions({ commit }, user) {
         try {
-            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${userId}"`)
-            commit('setUserPermissions', userPermissions.items)
+            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${user.permissions_id}"`)
+            commit('setUserPermissions', userPermissions)
         } catch (err) {
             console.log(err)
         }
