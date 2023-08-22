@@ -386,6 +386,26 @@ export default {
     this.getGroupsForDisplay();
     this.getOfficesForDisplay();
   },
+  updated() {
+    if (
+      this.structureModalFormMode === "division" &&
+      this.structureModalMode === "edit"
+    ) {
+      this.division = this.divisionEditInfo.name;
+    }
+    if (
+      this.structureModalFormMode === "department" &&
+      this.structureModalMode === "edit"
+    ) {
+      this.department = this.departmentEditInfo.name;
+    }
+    if (
+      this.structureModalFormMode === "group" &&
+      this.structureModalMode === "edit"
+    ) {
+      this.group = this.groupEditInfo.name;
+    }
+  },
 };
 </script>
   

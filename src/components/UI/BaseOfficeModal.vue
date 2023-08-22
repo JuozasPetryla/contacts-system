@@ -234,6 +234,13 @@ export default {
   created() {
     this.getCompanies();
   },
+  updated() {
+    if (this.officeModalMode === "edit") {
+      this.address = `${this.officeEditInfo.street} ${this.officeEditInfo.street_number}`;
+      this.city = this.officeEditInfo.city;
+      this.country = this.officeEditInfo.country;
+    }
+  },
 };
 </script>
     

@@ -88,6 +88,11 @@ export default {
       this.name = "";
     },
   },
+  updated() {
+    if (this.companyModalMode === "edit") {
+      this.name = this.companyEditInfo.name;
+    }
+  },
 };
 </script>
 

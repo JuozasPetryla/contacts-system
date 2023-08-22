@@ -305,6 +305,7 @@ export default {
       this.validateDivision();
       this.validateEmail();
       this.validateName();
+      this.validateSurname();
       this.validateOffice();
       this.validatePosition();
       if (

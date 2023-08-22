@@ -33,14 +33,18 @@
         <BaseInputField
           :inputPlaceHolder="'Įveskite slaptažodį...'"
           :inputId="'password'"
-          :inputType="'password'"
+          :inputType="passwordInputType"
           @blur="validatePassword"
           @input="validatePassword"
           v-model="password"
         >
           <template #label> Slaptažodis: </template>
           <template #image-right>
-            <img src="../../assets/Trailing Icon.svg" class="Mail icon" />
+            <img
+              @click="changeInputType"
+              src="../../assets/Trailing Icon.svg"
+              class="Mail icon hover:cursor-pointer"
+            />
           </template>
           <template #image-left>
             <img src="../../assets/Lock.svg" class="Mail icon" />
@@ -71,9 +75,17 @@ export default {
       emailIsValid: true,
       passwordIsValid: true,
       formIsValid: false,
+      passwordInputType: "password",
     };
   },
   methods: {
+    changeInputType() {
+      if (this.passwordInputType === "password") {
+        this.passwordInputType = "text";
+      } else {
+        this.passwordInputType = "password";
+      }
+    },
     validateForm() {
       this.validateEmail();
       this.validatePassword();
