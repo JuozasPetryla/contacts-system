@@ -77,7 +77,11 @@
             :inputPlaceHolder="'Įveskite telefono numerį...'"
             :inputId="'phone'"
             :inputType="'tel'"
+            class="relative"
+            @blur="validatePhone"
+            @input="validatePhone"
             v-model="phone"
+            :class="{ invalid: !phoneIsValid }"
             ><template #label>Telefono numeris</template>
             <template #image-left>
               <img src="../../assets/Call Squared.svg" alt="Mail icon" />
@@ -255,6 +259,7 @@ export default {
       surnameIsValid: true,
       emailIsValid: true,
       positionIsValid: true,
+      phoneIsValid: true,
       companyIsValid: true,
       officeIsValid: true,
       divisionIsValid: true,
@@ -309,7 +314,8 @@ export default {
         this.officeIsValid &&
         this.divisionIsValid &&
         this.nameIsValid &&
-        this.surnameIsValid
+        this.surnameIsValid &&
+        this.phoneIsValid
       ) {
         this.formIsValid = true;
       } else {
@@ -335,6 +341,13 @@ export default {
         this.positionIsValid = true;
       } else {
         this.positionIsValid = false;
+      }
+    },
+    validatePhone() {
+      if (/\d/.test(this.phone) || !this.phone) {
+        this.phoneIsValid = true;
+      } else {
+        this.phoneIsValid = false;
       }
     },
     validateCompany() {
