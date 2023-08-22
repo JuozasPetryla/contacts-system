@@ -23,8 +23,12 @@ const actions = {
     openContactModal({ commit }) {
         commit('setContactModalOpen')
     },
-    closeContactModal({ commit }) {
+    closeContactModal({ commit, dispatch }) {
+        dispatch('getFile', {})
         commit('setContactModalClosed')
+        commit('setImageDropClosed')
+        dispatch('getFilter', '')
+        dispatch('getContacts')
     },
     getContactModalMode({ commit }, contactModalMode) {
         commit('setContactModalMode', contactModalMode)
@@ -35,13 +39,18 @@ const actions = {
     getEditInfo({ commit }, info) {
         commit('setEditInfo', info)
     },
-    async createContact({ commit, dispatch }, contactCreateObj) {
+    async createContact({ commit, dispatch, rootState }, contactCreateObj) {
         try {
-            const contact = await pb.collection('employees').create(contactCreateObj)
+            const contactCreateObjAll = {
+                ...contactCreateObj,
+                photo: rootState.drop.file
+            }
+            const contact = await pb.collection('employees').create(contactCreateObjAll)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
+            dispatch('getFile', {})
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
@@ -51,11 +60,18 @@ const actions = {
     },
     async editContact({ commit, dispatch }, contactEditObj) {
         try {
-            const contact = await pb.collection('employees').update(contactEditObj.id, contactEditObj)
+            const contactEditObjAll = {
+                ...contactEditObj,
+                photo: rootState.drop.file
+            }
+
+            const contact = await pb.collection('employees').update(contactEditObj.id, contactEditObjAll)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
+            dispatch('getFile', {})
+
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })

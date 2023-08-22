@@ -21,6 +21,23 @@
         </select>
       </template>
     </BaseFilter>
+    <BaseFilter :selectId="'ofisas'">
+      <template #filter-name>Ofisas</template>
+      <template #filter
+        ><select
+          id="office"
+          name="office"
+          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          v-model="selectedOffice"
+          @change="getOfficeFilterId(selectedOffice)"
+        >
+          <option value="">Filtruoti adresus...</option>
+          <option v-for="office in offices" :key="office.id" :value="office.id">
+            {{ office.name }}
+          </option>
+        </select>
+      </template>
+    </BaseFilter>
     <BaseFilter :selectId="'division'">
       <template #filter-name>Padalinys</template>
       <template #filter
@@ -80,23 +97,6 @@
         </select>
       </template>
     </BaseFilter>
-    <BaseFilter :selectId="'ofisas'">
-      <template #filter-name>Ofisas</template>
-      <template #filter
-        ><select
-          id="office"
-          name="office"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
-          v-model="selectedOffice"
-          @change="getOfficeFilterId(selectedOffice)"
-        >
-          <option value="">Filtruoti adresus...</option>
-          <option v-for="office in offices" :key="office.id" :value="office.id">
-            {{ office.name }}
-          </option>
-        </select>
-      </template>
-    </BaseFilter>
   </div>
 </template>
 
@@ -124,10 +124,6 @@ export default {
   methods: {
     ...mapActions([
       "getCompanies",
-      "getDivisions",
-      "getDepartments",
-      "getGroups",
-      "getOffices",
       "getCompanyFilterId",
       "getDivisionFilterId",
       "getDepartmentFilterId",
@@ -138,10 +134,6 @@ export default {
   },
   created() {
     this.getCompanies();
-    this.getDivisions();
-    this.getDepartments();
-    this.getGroups();
-    this.getOffices();
   },
 };
 </script>

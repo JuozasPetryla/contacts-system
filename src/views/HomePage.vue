@@ -14,6 +14,9 @@
     <p class="mb-4 px-2" v-if="totalContacts">
       Iš viso rasta: <strong>{{ totalContactsText }}</strong>
     </p>
+    <p class="mb-4 px-2" v-if="totalContacts">
+      Puslapis: <strong>{{ page }}</strong>
+    </p>
     <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
     <component :is="currentContacts"></component>
@@ -61,7 +64,7 @@ export default {
         return this.totalContacts + " kontaktų";
       }
     },
-    ...mapGetters(["totalContacts"]),
+    ...mapGetters(["totalContacts", "page"]),
   },
   methods: {
     toggleMode() {

@@ -19,10 +19,20 @@ import departmentsActions from "./departmentsActions";
 import groupsActions from "./groupsActions";
 import users from "./users";
 import userActions from "./userActions";
+import drop from "./drop";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
+    state: {
+        errorMessage: ''
+    },
+    mutations: {
+        setErrorMessage: (state, errorMessage) => state.errorMessage = errorMessage
+    },
+    getters: {
+        errorMessage: state => state.errorMessage
+    },
     modules: {
         contacts,
         companies,
@@ -41,7 +51,8 @@ const store = new Vuex.Store({
         departmentsActions,
         groupsActions,
         users,
-        userActions
+        userActions,
+        drop
     }
 })
 

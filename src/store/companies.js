@@ -18,23 +18,20 @@ const actions = {
     async getCompanies({ commit, dispatch }) {
         try {
             let companyList
-            if (state.companyFilterId) {
-                const companies = await pb.collection('companies').getFullList({
-                })
-                companyList = companies
-                const companiesAndOffices = await pb.collection('companies_offices').getFullList({
-                    filter: `company_id="${state.companyFilterId}"`,
-                    expand: `office_id`
-                })
-                commit('setCompanies', companies)
-                const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
-                dispatch('getOffices', officesFiltered, { root: true })
-            } else if (!state.companyFilterId) {
-                const companies = await pb.collection('companies').getFullList({
-                })
-                commit('setCompanies', companies)
-                commit('setTotalCompanies', companies.length)
-            }
+
+            const companies = await pb.collection('companies').getFullList({
+            })
+            companyList = companies
+            const companiesAndOffices = await pb.collection('companies_offices').getFullList({
+                filter: `company_id="${state.companyFilterId}"`,
+                expand: `office_id`
+            })
+            commit('setCompanies', companies)
+            const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
+            dispatch('getOffices', officesFiltered, { root: true })
+
+            commit('setTotalCompanies', companies.length)
+
         } catch (err) {
             console.log(err)
         }
@@ -46,17 +43,18 @@ const actions = {
             commit('setCompanyFilterId', companyFilterId)
             dispatch('getContacts', { root: true })
             dispatch('getCompanies')
+            commit('setOffices', [])
         } else if (rootState.contacts.filter && state.companyFilterId) {
             commit('resetFilter', { oldFilter: state.companyFilterId, newFilter: companyFilterId }, { root: true })
             dispatch('getContacts', { root: true })
             commit('setCompanyFilterId', companyFilterId)
             dispatch('getCompanies')
+            commit('setOffices', [])
         } else if (!rootState.contacts.filter) {
             commit('setFilter', `company_id="${companyFilterId}"`, { root: true })
             dispatch('getContacts', { root: true })
             commit('setCompanyFilterId', companyFilterId)
             dispatch('getCompanies')
-
         } else if (rootState.contacts.filter && !state.companyFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && company_id="${companyFilterId}"`, { root: true })
             dispatch('getContacts', { root: true })

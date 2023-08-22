@@ -25,6 +25,7 @@ export default {
     onGetSearchTerm() {
       this.getSearchTerm(this.searchTerm);
     },
+
     ...mapActions(["getSearchTerm"]),
   },
 };

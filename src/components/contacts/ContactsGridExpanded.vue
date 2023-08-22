@@ -14,7 +14,9 @@
         <p>
           Adresas:
           {{
-            offices.filter((office) => office.id === contact.office_id)[0]?.name
+            officesForDisplay.filter(
+              (office) => office.id === contact.office_id
+            )[0]?.name
           }}
         </p>
       </template>
@@ -30,16 +32,18 @@ export default {
     ContactContainerExpanded,
   },
   methods: {
-    ...mapActions(["getContact"]),
+    ...mapActions(["getContact", "getOfficesForDisplay"]),
     getPostDetailId(id) {
       this.getContact(id);
       this.$router.push(`/contact-detail/${id}`);
     },
   },
   computed: {
-    ...mapGetters(["contacts", "offices"]),
+    ...mapGetters(["contacts", "officesForDisplay"]),
   },
-  created() {},
+  created() {
+    this.getOfficesForDisplay();
+  },
 };
 </script>
   

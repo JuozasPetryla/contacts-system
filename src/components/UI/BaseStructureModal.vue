@@ -62,7 +62,6 @@
           </BaseInputField>
         </div>
         <div class="space-y-6 pt-16">
-          
           <div v-if="structureModalFormMode === 'division'">
             <label for="ofisas">Ofisas:</label>
             <md-field class="md-elevation-4">
@@ -77,7 +76,7 @@
                 @blur="validateSelectedOffice"
               >
                 <md-option
-                  v-for="office in offices"
+                  v-for="office in officesForDisplay"
                   :key="office.id"
                   :value="office.id"
                   >{{ office.name }}</md-option
@@ -101,7 +100,7 @@
                 @blur="validateSelectedDivision"
               >
                 <md-option
-                  v-for="division in divisions"
+                  v-for="division in divisionsForDisplay"
                   :key="division.id"
                   :value="division.id"
                   >{{ division.name }}</md-option
@@ -125,7 +124,7 @@
                 @blur="validateSelectedDepartment"
               >
                 <md-option
-                  v-for="department in departments"
+                  v-for="department in departmentsForDisplay"
                   :key="department.id"
                   :value="department.id"
                   >{{ department.name }}</md-option
@@ -188,10 +187,10 @@ export default {
     ...mapGetters([
       "structureModalOpen",
 
-      "divisions",
-      "departments",
-      "groups",
-      "offices",
+      "divisionsForDisplay",
+      "departmentsForDisplay",
+      "groupsForDisplay",
+      "officesForDisplay",
       "structureModalMode",
       "divisionEditInfo",
       "departmentEditInfo",
@@ -203,10 +202,10 @@ export default {
     ...mapActions([
       "closeStructureModal",
       "getCompanies",
-      "getDivisions",
-      "getDepartments",
-      "getGroups",
-      "getOffices",
+      "getDivisionsForDisplay",
+      "getDepartmentsForDisplay",
+      "getGroupsForDisplay",
+      "getOfficesForDisplay",
 
       "createDivision",
       "editDivision",
@@ -219,7 +218,6 @@ export default {
       this.formIsValid = true;
     },
     validateForm() {
-     
       if (this.structureModalFormMode === "division") {
         this.validateDivision();
         this.validateSelectedOffice();
@@ -248,7 +246,7 @@ export default {
         }
       }
     },
-   
+
     validateDivision() {
       if (this.division) {
         this.divisionIsValid = true;
@@ -301,8 +299,6 @@ export default {
 
     formSubmit() {
       if (!this.formIsValid) return;
-
-      
 
       if (
         this.structureModalFormMode === "division" &&
@@ -385,10 +381,10 @@ export default {
   },
   created() {
     this.getCompanies();
-    this.getDivisions();
-    this.getDepartments();
-    this.getGroups();
-    this.getOffices();
+    this.getDivisionsForDisplay();
+    this.getDepartmentsForDisplay();
+    this.getGroupsForDisplay();
+    this.getOfficesForDisplay();
   },
 };
 </script>

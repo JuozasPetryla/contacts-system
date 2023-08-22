@@ -34,13 +34,15 @@
         <p class="text-xl">
           Būstinė:
           {{
-            offices.filter((office) => office.id === contact.office_id)[0]?.name
+            officesForDisplay.filter(
+              (office) => office.id === contact.office_id
+            )[0]?.name
           }}
         </p>
         <p class="text-xl">
           Departamentas:
           <a>{{
-            departments.filter(
+            departmentsForDisplay.filter(
               (department) => department.id === contact.department_id
             )[0]?.name
           }}</a>
@@ -48,7 +50,7 @@
         <p class="text-xl">
           Divizija:
           <a>{{
-            divisions.filter(
+            divisionsForDisplay.filter(
               (division) => division.id === contact.division_id
             )[0]?.name
           }}</a>
@@ -56,7 +58,8 @@
         <p class="text-xl">
           Grupė:
           <a>{{
-            groups.filter((group) => group.id === contact.group_id)[0]?.name
+            groupsForDisplay.filter((group) => group.id === contact.group_id)[0]
+              ?.name
           }}</a>
         </p>
       </div>
@@ -70,10 +73,10 @@ export default {
   computed: {
     ...mapGetters([
       "contact",
-      "divisions",
-      "offices",
-      "groups",
-      "departments",
+      "divisionsForDisplay",
+      "officesForDisplay",
+      "groupsForDisplay",
+      "departmentsForDisplay",
       "companies",
     ]),
   },
@@ -81,19 +84,19 @@ export default {
     ...mapActions([
       "getContact",
       "getCompanies",
-      "getOffices",
-      "getDivisions",
-      "getDepartments",
-      "getGroups",
+      "getOfficesForDisplay",
+      "getDivisionsForDisplay",
+      "getDepartmentsForDisplay",
+      "getGroupsForDisplay",
     ]),
   },
   created() {
     this.getContact(this.$route.params.id);
     this.getCompanies();
-    this.getOffices();
-    this.getDivisions();
-    this.getDepartments();
-    this.getGroups();
+    this.getOfficesForDisplay();
+    this.getDivisionsForDisplay();
+    this.getDepartmentsForDisplay();
+    this.getGroupsForDisplay();
   },
 };
 </script>

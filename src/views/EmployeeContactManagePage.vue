@@ -23,6 +23,9 @@
     <p class="mb-4 px-2" v-if="totalContacts">
       Iš viso rasta: <strong>{{ totalContactsText }}</strong>
     </p>
+    <p class="mb-4 px-2" v-if="totalContacts">
+      Puslapis: <strong>{{ page }}</strong>
+    </p>
     <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
     <component class="pb-36" :is="currentContacts"></component>
@@ -69,6 +72,7 @@
         >
       </template>
     </BaseInfoDialog>
+    <BaseDrop></BaseDrop>
   </div>
 </template>
   
@@ -157,6 +161,7 @@ export default {
       "contactModalOpen",
       "infoModalMode",
       "deleteInfo",
+      "page",
     ]),
   },
   methods: {

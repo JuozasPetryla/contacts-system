@@ -30,7 +30,7 @@ const actions = {
             const groupsCompanies = await pb.collection('departments_groups').create(groupCompaniesObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getGroups', { root: true })
+            dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
@@ -53,7 +53,7 @@ const actions = {
 
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getGroups', { root: true })
+            dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
@@ -67,7 +67,7 @@ const actions = {
             const group = await pb.collection('groups').delete(groupDeleteInfo)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getGroups', { root: true })
+            dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })

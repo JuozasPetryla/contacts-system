@@ -1,4 +1,5 @@
 import pb from '../plugins/pocketBaseAPI'
+import router from '../router/router'
 
 const state = {
     contacts: [],
@@ -7,7 +8,7 @@ const state = {
     contact: {},
     page: 1,
     totalPages: 0,
-    searchTerm: ''
+    searchTerm: '',
 }
 const mutations = {
     setContacts: (state, contacts) => state.contacts = contacts,
@@ -33,14 +34,15 @@ const mutations = {
             state.page--
         }
     },
-    setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm
+    setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
 }
 const getters = {
     contacts: state => state.contacts,
     contact: state => state.contact,
     totalContacts: state => state.totalContacts,
     getters: state => state.filter,
-    page: state => state.page
+    page: state => state.page,
+    totalPages: state => state.totalPages
 }
 const actions = {
     async getContacts({ commit, state }) {
@@ -52,17 +54,19 @@ const actions = {
             commit('setTotalContacts', contacts.totalItems)
 
             commit('setTotalPages', contacts.totalPages)
-
         } catch (err) {
-            console.log(err)
+            commit('setErrorMessage', err.message)
+            router.push({ name: 'error' })
         }
     },
     async getContact({ commit }, id) {
         try {
             const contact = await pb.collection('employees').getFirstListItem(`id="${id}"`)
             commit('setContact', contact)
+
         } catch (err) {
-            console.log(err)
+            commit('setErrorMessage', err.message)
+            router.push({ name: 'error' })
         }
     },
     goToNextPage({ commit }) {
@@ -71,24 +75,35 @@ const actions = {
     goToPrevPage({ commit }) {
         commit('setPrevPage')
     },
+
     getSearchTerm({ commit, dispatch }, searchTerm) {
+        let oldFilter = ''
+        if (state.filter.includes('&&') && state.filter.startsWith('(')) {
+            oldFilter = `(name~"${state.searchTerm}" || surname~"${state.searchTerm}" || email~"${state.searchTerm}") && `
+        } else if (state.filter.includes('&&') && !state.filter.startsWith('(')) {
+            oldFilter = ` && (name~"${state.searchTerm}" || surname~"${state.searchTerm}" || email~"${state.searchTerm}")`
+        } else {
+            oldFilter = `(name~"${state.searchTerm}" || surname~"${state.searchTerm}" || email~"${state.searchTerm}")`
+        }
         if (searchTerm === '') {
-            const oldFilter = state.filter.includes('&&') ? ` && (name~"${state.searchTerm}" || surname~"${state.searchTerm}" || email~"${state.searchTerm}")` : `(name~"${state.searchTerm}" || surname~"${state.searchTerm}" || email~"${state.searchTerm}")`
+
             commit('resetFilter', { oldFilter, newFilter: '' })
             dispatch('getContacts')
         } else {
-            console.log(state.filter)
             commit('setSearchTerm', searchTerm)
             const filter = state.filter.includes('&&') ? ` && (name~"${searchTerm}" || surname~"${searchTerm}" || email~"${searchTerm}")` : `(name~"${searchTerm}" || surname~"${searchTerm}" || email~"${searchTerm}")`
+            commit('resetFilter', { oldFilter, newFilter: '' })
+
             commit('setFilter', state.filter + filter)
             dispatch('getContacts')
         }
+    },
+    getFilter({ commit }, filter) {
+        commit('setFilter', filter)
     }
 }
 
 
-// Groups aren't resetting when filter empty.
-// Filters don't react to child filters changes.
 
 export default {
     state,

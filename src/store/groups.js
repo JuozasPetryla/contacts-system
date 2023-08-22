@@ -2,31 +2,31 @@ import pb from '../plugins/pocketBaseAPI'
 
 const state = {
     groups: [],
+    groupsForDisplay: [],
     groupFilterId: '',
 }
 const mutations = {
+    setGroupsForDisplay: (state, groupsForDisplay) => state.groupsForDisplay = groupsForDisplay,
     setGroups: (state, groups) => state.groups = groups,
-    setGroupFilterId: (state, groupFilterId) => state.getGroupFilterId = groupFilterId
+    setGroupFilterId: (state, groupFilterId) => state.groupFilterId = groupFilterId
 }
 const getters = {
-    groups: state => state.groups
+    groups: state => state.groups,
+    groupsForDisplay: state => state.groupsForDisplay
 }
 const actions = {
-    async getGroups({ commit, state, rootState }, groupsFiltered) {
+    async getGroups({ commit }, groupsFiltered) {
         try {
-            if (state.groupFilterId) {
-                const groups = await pb.collection('groups').getList(1, 5)
-                commit('setGroups', groups.items)
-            } else if (groupsFiltered) {
+            if (groupsFiltered) {
                 commit('setGroups', groupsFiltered)
-            }
-            else {
-                const groups = await pb.collection('groups').getList(1, 10)
-                commit('setGroups', groups.items)
             }
         } catch (err) {
             console.log(err)
         }
+    },
+    async getGroupsForDisplay({ commit }) {
+        const groups = await pb.collection('groups').getFullList()
+        commit('setGroupsForDisplay', groups)
     },
     getGroupFilterId({ commit, dispatch, rootState }, groupFilterId) {
         if (!groupFilterId) {
@@ -34,12 +34,12 @@ const actions = {
             commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
             commit('setGroupFilterId', groupFilterId)
             dispatch('getContacts', { root: true })
-            dispatch('getGroups')
+            dispatch('getDepartments')
         } else if (rootState.contacts.filter && state.groupFilterId) {
             commit('resetFilter', { oldFilter: state.groupFilterId, newFilter: groupFilterId }, { root: true })
             dispatch('getContacts', { root: true })
             commit('setGroupFilterId', groupFilterId)
-            dispatch('getGroups')
+            dispatch('getDepartments')
         } else if (!rootState.contacts.filter) {
             commit('setFilter', `group_id="${groupFilterId}"`, { root: true })
             dispatch('getContacts', { root: true })

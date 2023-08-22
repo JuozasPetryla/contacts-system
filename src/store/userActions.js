@@ -26,8 +26,10 @@ const actions = {
         }
         commit('setUserModalOpen')
     },
-    closeUserModal({ commit }) {
+    closeUserModal({ commit, dispatch }) {
         commit('setUserModalClosed')
+        dispatch('getFile', {})
+
     },
     getUserModalMode({ commit }, userModalMode) {
         commit('setUserModalMode', userModalMode)
@@ -38,18 +40,22 @@ const actions = {
     getUserEditInfo({ commit }, info) {
         commit('setUserEditInfo', info)
     },
-    async createUser({ commit, dispatch }, { userPermissionsObj, userCreateObj }) {
+    async createUser({ commit, dispatch, rootState }, { userPermissionsObj, userCreateObj }) {
         try {
             const userPermissions = await pb.collection('user_permissions').create(userPermissionsObj)
             const userObj = {
                 ...userCreateObj,
+                avatar: rootState.drop.file,
                 permissions_id: userPermissions.id
             }
+
             const user = await pb.collection('users').create(userObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
+            dispatch('getFile', {})
+
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
@@ -57,18 +63,19 @@ const actions = {
             dispatch('openInfoModal', { root: true })
         }
     },
-    async editUser({ commit, dispatch }, userEditObj) {
+    async editUser({ commit, dispatch, rootState }, userEditObj) {
         try {
-
-            const userEdited = await pb.collection('users').update(userEditObj.id, userEditObj)
-
-            if (userEdited.status === 400) {
-                throw new Error()
+            const userObj = {
+                ...userEditObj,
+                avatar: rootState.drop.file,
             }
+            const userEdited = await pb.collection('users').update(userEditObj.id, userObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
+            dispatch('getFile', {})
+
         } catch (err) {
             console.log(err)
             commit('setInfoModalMode', 'error', { root: true })
@@ -94,7 +101,6 @@ const actions = {
     async deleteUser({ commit, dispatch }, userId) {
         try {
             const user = await pb.collection('users').getFirstListItem(`id="${userId}"`)
-            console.log(user)
             const userDelete = await pb.collection('users').delete(userId)
             const userPermissions = await pb.collection('user_permissions').delete(user.permissions_id)
             commit('setInfoModalMode', 'success', { root: true })

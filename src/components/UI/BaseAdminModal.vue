@@ -15,7 +15,7 @@
       class="flex px-20 pt-20 pb-36 items-start space-x-12 pr-96"
     >
       <div
-        class="mt-10 flex flex-col space-y-8"
+        class="flex flex-col space-y-8 mb-12"
         v-if="userModalMode === 'create' || userModalMode === 'edit'"
       >
         <h3 class="text-2xl text-start">Kontaktiniai duomenys:</h3>
@@ -34,6 +34,7 @@
           </template>
         </BaseInputField>
         <BaseInputField
+          v-if="userModalMode === 'create'"
           :inputPlaceHolder="'Įveskite el.paštą...'"
           :inputId="'email'"
           :inputType="'email'"
@@ -47,7 +48,6 @@
             <img src="../../assets/Mail.svg" alt="Mail icon" />
           </template>
         </BaseInputField>
-        <BaseButton class="mx-auto">ĮKELTI NUOTRAUKĄ</BaseButton>
       </div>
       <div
         class="space-y-6 flex flex-col"
@@ -115,6 +115,13 @@
     >
       <img src="../../assets/Plus Math.svg" class="rotate-45" />
     </BaseIconButton>
+    <div
+      class="absolute top-3/4 ml-[7rem]"
+      v-if="userModalMode === 'create' || userModalMode === 'edit'"
+    >
+      <BaseButton @click="openImageDrop">ĮKELTI NUOTRAUKĄ</BaseButton>
+      <p v-if="file" class="mt-6">{{ file.name }}</p>
+    </div>
   </md-dialog>
 </template>
     
@@ -136,6 +143,7 @@ export default {
       "userModalOpen",
       "userModalMode",
       "userEditInfo",
+      "file",
     ]),
     permissionsObj: {
       get() {
@@ -153,6 +161,7 @@ export default {
       "createUser",
       "editUser",
       "editUserPermissions",
+      "openImageDrop",
     ]),
     validateName() {
       if (this.name) {
@@ -169,12 +178,21 @@ export default {
       }
     },
     validateForm() {
-      this.validateName();
-      this.validateEmail();
-      if (this.nameIsValid && this.emailIsValid) {
-        this.formIsValid = true;
-      } else {
-        this.formIsValid = false;
+      if (this.userModalMode === "create") {
+        this.validateName();
+        this.validateEmail();
+        if (this.nameIsValid && this.emailIsValid) {
+          this.formIsValid = true;
+        } else {
+          this.formIsValid = false;
+        }
+      } else if (this.userModalMode === "edit") {
+        this.validateName();
+        if (this.nameIsValid) {
+          this.formIsValid = true;
+        } else {
+          this.formIsValid = false;
+        }
       }
     },
     generatePass() {
@@ -215,7 +233,7 @@ export default {
           name: this.name,
           email: this.email,
           emailVisibility: true,
-          permissions_id: this.userEditInfo.permissions_id
+          permissions_id: this.userEditInfo.permissions_id,
         });
       }
 

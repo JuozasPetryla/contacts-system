@@ -96,7 +96,10 @@
                 class="pl-4"
                 v-model="selectedCompany"
                 :class="{ invalidSelect: !companyIsValid }"
-                @md-selected="validateCompany"
+                @md-selected="
+                  validateCompany();
+                  getCompanyFilterId(selectedCompany);
+                "
                 @blur="validateCompany"
               >
                 <md-option
@@ -109,7 +112,32 @@
             </md-field>
           </div>
           <div>
-            <label for="imone">Padalinys:</label>
+            <label for="ofisas">Ofisas:</label>
+            <md-field class="md-elevation-4">
+              <label for="ofisas" class="pl-4">Pasirinkite ofisą...</label>
+              <md-select
+                name="ofisas"
+                id="ofisas"
+                class="w-80 pl-4"
+                v-model="selectedOffice"
+                :class="{ invalidSelect: !officeIsValid }"
+                @md-selected="
+                  validateOffice();
+                  getOfficeFilterId(selectedOffice);
+                "
+                @blur="validateOffice"
+              >
+                <md-option
+                  v-for="office in offices"
+                  :key="office.id"
+                  :value="office.id"
+                  >{{ office.name }}</md-option
+                >
+              </md-select>
+            </md-field>
+          </div>
+          <div>
+            <label for="padalinys">Padalinys:</label>
             <md-field class="md-elevation-4">
               <label for="padalinys" class="pl-4"
                 >Pasirinkite diviziją...</label
@@ -120,7 +148,10 @@
                 class="pl-4"
                 v-model="selectedDivision"
                 :class="{ invalidSelect: !divisionIsValid }"
-                @md-selected="validateDivision"
+                @md-selected="
+                  validateDivision();
+                  getDivisionFilterId(selectedDivision);
+                "
                 @blur="validateDivision"
               >
                 <md-option
@@ -133,7 +164,7 @@
             </md-field>
           </div>
           <div>
-            <label for="imone">Skyrius:</label>
+            <label for="skyrius">Skyrius:</label>
             <md-field class="md-elevation-4">
               <label for="skyrius" class="pl-4"
                 >Pasirinkite departamentą...</label
@@ -143,6 +174,7 @@
                 id="skyrius"
                 class="pl-4"
                 v-model="selectedDepartment"
+                @md-selected="getDepartmentFilterId(selectedDepartment)"
               >
                 <md-option
                   v-for="department in departments"
@@ -153,14 +185,15 @@
               </md-select>
             </md-field>
           </div>
-          <div>
-            <label for="imone">Grupė:</label>
+          <div class="pb-14">
+            <label for="grupe">Grupė:</label>
             <md-field class="md-elevation-4">
               <label for="grupe" class="pl-4">Pasirinkite grupę...</label>
               <md-select
                 name="grupe"
                 id="grupe"
                 class="w-80 pl-4"
+                @md-selected="getGroupFilterId(selectedGroup)"
                 v-model="selectedGroup"
               >
                 <md-option
@@ -172,27 +205,7 @@
               </md-select>
             </md-field>
           </div>
-          <div class="pb-14">
-            <label for="ofisas">Ofisas:</label>
-            <md-field class="md-elevation-4">
-              <label for="ofisas" class="pl-4">Pasirinkite ofisą...</label>
-              <md-select
-                name="ofisas"
-                id="ofisas"
-                class="w-80 pl-4"
-                v-model="selectedOffice"
-                :class="{ invalidSelect: !officeIsValid }"
-                @md-selected="validateOffice"
-                @blur="validateOffice"              >
-                <md-option
-                  v-for="office in offices"
-                  :key="office.id"
-                  :value="office.id"
-                  >{{ office.name }}</md-option
-                >
-              </md-select>
-            </md-field>
-          </div>
+
           <div class="relative">
             <p
               v-if="!formIsValid"
@@ -200,7 +213,6 @@
             >
               Užpildykite reikiamus laukus
             </p>
-            <BaseButton class="mx-auto">ĮKELTI NUOTRAUKĄ</BaseButton>
           </div>
         </div>
         <div class="self-end">
@@ -211,9 +223,16 @@
       </div>
     </form>
 
-    <BaseIconButton @click="closeContactModal" class="absolute top-10 right-10">
+    <BaseIconButton
+      @click="closeContactModal()"
+      class="absolute top-10 right-10"
+    >
       <img src="../../assets/Plus Math.svg" class="rotate-45" />
     </BaseIconButton>
+    <div class="absolute top-3/4 ml-[31rem]">
+      <BaseButton @click="openImageDrop">ĮKELTI NUOTRAUKĄ</BaseButton>
+      <p v-if="file" class="mt-6">{{ file.name }}</p>
+    </div>
   </md-dialog>
 </template>
   
@@ -252,6 +271,7 @@ export default {
       "offices",
       "contactModalMode",
       "editInfo",
+      "file",
     ]),
   },
   methods: {
@@ -262,10 +282,18 @@ export default {
       "getDepartments",
       "getGroups",
       "getOffices",
+      "getCompanyFilterId",
+      "getOfficeFilterId",
+      "getDivisionFilterId",
+      "getDepartmentFilterId",
+      "getGroupFilterId",
       "createContact",
       "editContact",
+      "openImageDrop",
+      "getFile",
+      "getContacts",
+      "getFilter",
     ]),
-
     validateForm() {
       this.validateEmail();
       this.validateCompany();
@@ -382,14 +410,13 @@ export default {
       this.selectedDepartment = "";
       this.selectedGroup = "";
       this.selectedOffice = "";
+      this.getCompanyFilterId("");
+      this.getFilter("");
+      this.getContacts();
     },
   },
   created() {
     this.getCompanies();
-    this.getDivisions();
-    this.getDepartments();
-    this.getGroups();
-    this.getOffices();
   },
 };
 </script>

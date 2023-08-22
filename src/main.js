@@ -21,6 +21,7 @@ import BaseAdminModal from './components/UI/BaseAdminModal.vue'
 import BaseStructureModal from './components/UI/BaseStructureModal.vue'
 import BaseOfficeModal from './components/UI/BaseOfficeModal.vue'
 import BaseStructureChooseModal from './components/UI/BaseStructureChooseModal.vue'
+import BaseDrop from './components/UI/BaseDrop.vue'
 
 Vue.use(MdCard)
 Vue.use(MdDialog)
@@ -43,6 +44,7 @@ Vue.component('BaseAdminModal', BaseAdminModal)
 Vue.component('BaseStructureModal', BaseStructureModal)
 Vue.component('BaseOfficeModal', BaseOfficeModal)
 Vue.component('BaseStructureChooseModal', BaseStructureChooseModal)
+Vue.component('BaseDrop', BaseDrop)
 
 
 Vue.use(vueDebounce, {

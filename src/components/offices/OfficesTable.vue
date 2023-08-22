@@ -6,7 +6,7 @@
     </div>
     <ul class="flex flex-col space-y-5 mt-10 mb-6 justify-center">
       <li
-        v-for="office in offices"
+        v-for="office in officesForDisplay"
         :key="office.id"
         class="text-xl px-14 flex justify-between"
       >
@@ -42,7 +42,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   methods: {
     ...mapActions([
-      "getOffices",
+      "getOfficesForDisplay",
       "getOfficeEditInfo",
       "getOfficeDeleteInfo",
       "openOfficeModal",
@@ -52,10 +52,10 @@ export default {
     ]),
   },
   computed: {
-    ...mapGetters(["offices"]),
+    ...mapGetters(["officesForDisplay"]),
   },
   created() {
-    this.getOffices();
+    this.getOfficesForDisplay();
   },
 };
 </script>

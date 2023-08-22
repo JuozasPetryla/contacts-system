@@ -33,6 +33,7 @@
             @click="
               closeInfoModal();
               deleteUser(userDeleteInfo.id);
+              getUserModalMode('delete');
             "
             class="md-primary"
             >TAIP</md-button
@@ -43,6 +44,7 @@
         >
       </template>
     </BaseInfoDialog>
+    <BaseDrop></BaseDrop>
   </div>
 </template>
     
@@ -60,18 +62,8 @@ export default {
       "totalUsers",
       "userModalMode",
       "userDeleteInfo",
+      "infoModalError",
     ]),
-    totalUsersText() {
-      if (this.totalUsers === 1) {
-        return this.totalUsers + " įmonė";
-      }
-      if (this.totalUsers < 10 && this.totalUsers > 1) {
-        return this.totalUsers + " įmonės";
-      }
-      if (this.totalUsers >= 10) {
-        return this.totalUsers + " įmonių";
-      }
-    },
     infoModalText() {
       if (this.infoModalMode === "error") {
         return this.infoModalError;
@@ -84,6 +76,12 @@ export default {
       }
       if (this.userModalMode === "edit" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai redaguotas";
+      }
+      if (
+        this.userModalMode === "editPermissions" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Vartotojo leidimai sėkmingai redaguoti";
       }
       if (this.userModalMode === "delete" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai ištrintas";

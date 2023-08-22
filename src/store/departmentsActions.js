@@ -30,7 +30,7 @@ const actions = {
             const departmentsCompanies = await pb.collection('divisions_departments').create(departmentCompaniesObj)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getDepartments', { root: true })
+            dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
@@ -53,7 +53,7 @@ const actions = {
 
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getDepartments', { root: true })
+            dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
@@ -74,7 +74,7 @@ const actions = {
             const department = await pb.collection('departments').delete(departmentDeleteInfo)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
-            dispatch('getDepartments', { root: true })
+            dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })

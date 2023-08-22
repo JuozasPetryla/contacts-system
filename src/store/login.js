@@ -16,9 +16,8 @@ const getters = {
 }
 
 const actions = {
-    async loginWithPassword({ commit }, { email, password }) {
+    async loginWithPassword({ commit, dispatch }, { email, password }) {
         try {
-
             const user = await pb.collection('users').authWithPassword(
                 `${email}`,
                 `${password}`
@@ -27,7 +26,9 @@ const actions = {
             localStorage.setItem('user', user.token)
             router.push('/employee-manage')
         } catch (err) {
-            commit('setInfoModalOpen')
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', err.message, { root: true })
+            dispatch('openInfoModal', { root: true })
         }
     },
     logout() {

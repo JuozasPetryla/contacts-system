@@ -9,7 +9,7 @@
       class="flex flex-col space-y-5 mt-6 mb-6 pb-6 justify-center border-b-2"
     >
       <li
-        v-for="division in divisions"
+        v-for="division in divisionsForDisplay"
         :key="division.id"
         class="text-xl px-14 flex justify-between"
       >
@@ -46,7 +46,7 @@
       class="flex flex-col space-y-5 mt-6 mb-6 pb-6 justify-center border-b-2"
     >
       <li
-        v-for="department in departments"
+        v-for="department in departmentsForDisplay"
         :key="department.id"
         class="text-xl px-14 flex justify-between"
       >
@@ -80,7 +80,7 @@
 
     <ul class="flex flex-col space-y-5 mt-6 mb-6 pb-6 justify-center">
       <li
-        v-for="group in groups"
+        v-for="group in groupsForDisplay"
         :key="group.id"
         class="text-xl px-14 flex justify-between"
       >
@@ -131,10 +131,22 @@ export default {
       "getDivisionDeleteInfo",
       "getDepartmentDeleteInfo",
       "getGroupDeleteInfo",
+      "getDivisionsForDisplay",
+      "getDepartmentsForDisplay",
+      "getGroupsForDisplay",
     ]),
   },
   computed: {
-    ...mapGetters(["divisions", "offices", "departments", "groups"]),
+    ...mapGetters([
+      "divisionsForDisplay",
+      "departmentsForDisplay",
+      "groupsForDisplay",
+    ]),
+  },
+  created() {
+    this.getDivisionsForDisplay();
+    this.getDepartmentsForDisplay();
+    this.getGroupsForDisplay();
   },
 };
 </script>
