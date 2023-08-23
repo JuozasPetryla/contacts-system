@@ -219,11 +219,15 @@
             </p>
           </div>
         </div>
-        <div class="self-end">
+        <div class="self-end relative">
           <BaseButton :type="'submit'">
             <slot name="action"></slot>
           </BaseButton>
         </div>
+      </div>
+      <div class="absolute top-2/4 right-20">
+        <p v-if="file" class="mt-6">{{ file.name }}</p>
+        <img :src="fileUrl" class="h-48-w-48"/>
       </div>
     </form>
 
@@ -235,7 +239,6 @@
     </BaseIconButton>
     <div class="absolute top-3/4 ml-[31rem]">
       <BaseButton @click="openImageDrop">ĮKELTI NUOTRAUKĄ</BaseButton>
-      <p v-if="file" class="mt-6">{{ file.name }}</p>
     </div>
   </md-dialog>
 </template>
@@ -277,6 +280,7 @@ export default {
       "contactModalMode",
       "editInfo",
       "file",
+      "fileUrl",
     ]),
   },
   methods: {
@@ -345,7 +349,7 @@ export default {
       }
     },
     validatePhone() {
-      if (/\d/.test(this.phone) || !this.phone) {
+      if ((/^\d+$/.test(this.phone) && this.phone.length >= 8) || !this.phone) {
         this.phoneIsValid = true;
       } else {
         this.phoneIsValid = false;
@@ -439,6 +443,15 @@ export default {
       this.position = this.editInfo.position;
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
+      // this.selectedCompany = this.editInfo.company_id;
+      // this.getCompanyFilterId(this.editInfo.company_id);
+      // this.selectedOffice = this.editInfo.office_id;
+      // this.getOfficeFilterId(this.editInfo.office_id);
+      // this.selectedDivision = this.editInfo.division_id;
+      // this.getDivisionFilterId(this.editInfo.division_id);
+      // this.selectedDepartment = this.editInfo.department_id;
+      // this.getDepartmentFilterId(this.editInfo.department_id);
+      // this.selectedGroup = this.editInfo.group_id;
     }
   },
 };

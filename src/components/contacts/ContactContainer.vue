@@ -2,7 +2,9 @@
   <div @click="$emit('click')">
     <md-card class="w-full hover-card">
       <div class="flex space-x-4 items-center p-8">
-        <img src="../../assets/Test Account.svg" alt="Blank account icon" />
+        <slot name="account">
+          <img src="../../assets/Test Account.svg" alt="Blank account icon" />
+        </slot>
         <div>
           <h3 class="font-medium">
             <slot name="name">Vardas ir pavarde</slot>

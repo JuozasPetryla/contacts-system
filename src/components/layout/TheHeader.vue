@@ -5,7 +5,7 @@
       alt="Teltonika company logo"
       class="md-image h-12"
     />
-    <div @click="$router.push('/login')">
+    <div @click="redirect">
       <svg
         class="h-9 w-9 fill-white hover:cursor-pointer hover:fill-gray-300"
         version="1.1"
@@ -52,3 +52,12 @@
   </header>
 </template>
 
+<script>
+export default {
+  methods: {
+    redirect() {
+      this.$router.push("/login");
+    },
+  },
+};
+</script>

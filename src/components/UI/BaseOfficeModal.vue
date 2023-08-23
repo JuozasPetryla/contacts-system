@@ -8,6 +8,7 @@
       @submit.prevent="
         validateForm();
         formSubmit();
+        setFormIsValid();
       "
     >
       <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
@@ -145,6 +146,10 @@ export default {
     ]),
     setFormIsValid() {
       this.formIsValid = true;
+      this.addressIsValid = true;
+      this.cityIsValid = true;
+      this.countryIsValid = true;
+      this.selectedCompanyIsValid = true;
     },
     validateForm() {
       this.validateAdress();
@@ -164,21 +169,33 @@ export default {
     },
 
     validateAdress() {
-      if (/\d/.test(this.address)) {
+      if (
+        /\d/.test(this.address) &&
+        /[a-zA-Z]/g.test(this.address) &&
+        this.address.length >= 5
+      ) {
         this.addressIsValid = true;
       } else {
         this.addressIsValid = false;
       }
     },
     validateCity() {
-      if (this.city) {
+      if (
+        /\d/.test(this.city) === false &&
+        this.city.length >= 3 &&
+        isNaN(this.city)
+      ) {
         this.cityIsValid = true;
       } else {
         this.cityIsValid = false;
       }
     },
     validateCountry() {
-      if (this.country) {
+      if (
+        /\d/.test(this.country) === false &&
+        this.country.length >= 3 &&
+        isNaN(this.country)
+      ) {
         this.countryIsValid = true;
       } else {
         this.countryIsValid = false;
@@ -221,6 +238,10 @@ export default {
           company_id: this.selectedCompany,
         });
       }
+      this.address = "";
+      this.city = "";
+      this.country = "";
+      this.selectedCompany = "";
     },
   },
   created() {

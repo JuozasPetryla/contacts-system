@@ -1,25 +1,25 @@
 import Vuex from "vuex";
 import Vue from "vue";
 
-import contacts from "./contacts";
-import companies from "./companies";
-import divisions from "./divisions";
-import departaments from "./departaments";
-import groups from "./groups";
-import offices from "./offices";
-import login from "./login";
-import infoModal from "./infoModal";
-import contactActions from "./contactsActions";
-import companiesActions from "./companiesActions";
-import structureModal from "./structureModal";
-import structureChooseModal from "./structureChooseModal";
-import officesActions from "./officesActions";
-import divisionsActions from "./divisionsActions";
-import departmentsActions from "./departmentsActions";
-import groupsActions from "./groupsActions";
-import users from "./users";
-import userActions from "./userActions";
-import drop from "./drop";
+import contacts from "./contacts/contacts";
+import companies from "./companies/companies";
+import divisions from "./divisions/divisions";
+import departaments from "./departments/departaments";
+import groups from "./groups/groups";
+import offices from "./offices/offices";
+import login from "./general/login";
+import infoModal from "./general/infoModal";
+import contactActions from "./contacts/contactsActions";
+import companiesActions from "./companies/companiesActions";
+import structureModal from "./structure/structureModal";
+import structureChooseModal from "./structure/structureChooseModal";
+import officesActions from "./offices/officesActions";
+import divisionsActions from "./divisions/divisionsActions";
+import departmentsActions from "./departments/departmentsActions";
+import groupsActions from "./groups/groupsActions";
+import users from "./user/users";
+import userActions from "./user/userActions";
+import drop from "./general/drop";
 
 Vue.use(Vuex);
 

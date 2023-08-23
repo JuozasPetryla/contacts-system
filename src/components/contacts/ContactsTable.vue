@@ -1,5 +1,5 @@
 <template>
-  <md-table md-card class="h-full">
+  <md-table md-card class="h-96 overflow-y-scroll pb-0">
     <md-table-row>
       <md-table-head>Vardas Pavarde</md-table-head>
       <md-table-head>Pozicijos Pavadinimas</md-table-head>
@@ -17,7 +17,10 @@
       <md-table-cell>{{ contact.position }}</md-table-cell>
       <md-table-cell>{{ contact.phone_number }}</md-table-cell>
       <md-table-cell>{{ contact.email }}</md-table-cell>
-      <md-table-cell>{{ contact.office_id }}</md-table-cell>
+      <md-table-cell>{{
+        officesForDisplay.filter((office) => office.id === contact.office_id)[0]
+          ?.name
+      }}</md-table-cell>
     </md-table-row>
   </md-table>
 </template>
@@ -26,10 +29,10 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["contacts"]),
+    ...mapGetters(["contacts", "officesForDisplay"]),
   },
   methods: {
-    ...mapActions(["getContact"]),
+    ...mapActions(["getContact", "getOfficesForDisplay"]),
     getPostDetailId(id) {
       this.getContact(id);
       this.$router.push(`/contact-detail/${id}`);

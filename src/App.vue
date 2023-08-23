@@ -39,7 +39,7 @@ export default {
     this.lastChange = new Date();
     this.timer = setInterval(() => {
       const newVal = localStorage.getItem("user");
-      if (newVal !== curVal) {
+      if (newVal !== curVal || (newVal && !curVal)) {
         curVal = newVal;
         this.$router.go(0);
         this.lastChange = new Date();

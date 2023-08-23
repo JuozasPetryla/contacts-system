@@ -1,4 +1,4 @@
-import pb from '../plugins/pocketBaseAPI'
+import pb from '../../plugins/pocketBaseAPI'
 
 const state = {
     contactModalOpen: false,
@@ -45,6 +45,11 @@ const actions = {
                 ...contactCreateObj,
                 photo: rootState.drop.file
             }
+
+            const formData = new FormData()
+
+            formData.append('photo', rootState.drop.file)
+            formData.append('name', contactCreateObj.name)
             const contact = await pb.collection('employees').create(contactCreateObjAll)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setContactModalClosed')

@@ -1,4 +1,4 @@
-import pb from '../plugins/pocketBaseAPI'
+import pb from '../../plugins/pocketBaseAPI'
 
 const state = {
     departments: [],

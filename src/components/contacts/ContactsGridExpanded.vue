@@ -6,6 +6,9 @@
       @click="getPostDetailId(contact.id)"
       :info="contact"
     >
+      <template #account>
+        <img :src="contact.photo" v-if="contact.photo" />
+      </template>
       <template #name>{{ `${contact.name} ${contact.surname}` }}</template>
       <template #position>{{ contact.position }}</template>
       <template #contact-info>
@@ -43,6 +46,7 @@ export default {
   },
   created() {
     this.getOfficesForDisplay();
+    console.log(this.contacts);
   },
 };
 </script>

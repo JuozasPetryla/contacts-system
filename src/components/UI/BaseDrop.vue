@@ -42,6 +42,9 @@
               {{ file.name }}
             </p>
           </div>
+          <div class="h-fit w-64">
+            <img :src="url" class="h-48 w-48" />
+          </div>
           <div>
             <button class="ml-2" type="button" title="Remove file">
               <b>×</b>
@@ -76,11 +79,13 @@ export default {
       isDragging: false,
       files: [],
       hideAll: false,
+      url: null,
     };
   },
   methods: {
     onChange() {
       this.files.push(...this.$refs.file.files);
+      this.url = URL.createObjectURL(this.files[0]);
       this.hideAll = true;
       return;
     },

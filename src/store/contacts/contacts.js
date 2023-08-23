@@ -1,13 +1,13 @@
-import pb from '../plugins/pocketBaseAPI'
-import router from '../router/router'
+import pb from '../../plugins/pocketBaseAPI'
+import router from '../../router/router'
 
 const state = {
     contacts: [],
-    totalContacts: 0,
+    totalContacts: 1,
     filter: '',
     contact: {},
     page: 1,
-    totalPages: 0,
+    totalPages: 1,
     searchTerm: '',
     contactsNumber: 25,
 }
@@ -35,6 +35,7 @@ const mutations = {
             state.page--
         }
     },
+    setPage: (state, page) => state.page = page,
     setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
     setContactsNumber: (state, contactsNumber) => state.contactsNumber = contactsNumber
 }
@@ -49,12 +50,15 @@ const getters = {
 const actions = {
     async getContacts({ commit, state }) {
         try {
+            if (state.page * state.contactsNumber > state.totalContacts) {
+                const newPage = Math.ceil(state.totalContacts / state.contactsNumber)
+                commit('setPage', newPage)
+            }
             const contacts = await pb.collection('employees').getList(state.page, state.contactsNumber, {
                 filter: state.filter
             })
             commit('setContacts', contacts.items)
             commit('setTotalContacts', contacts.totalItems)
-
             commit('setTotalPages', contacts.totalPages)
         } catch (err) {
             commit('setErrorMessage', err.message)
@@ -104,11 +108,11 @@ const actions = {
         commit('setFilter', filter)
     },
     getContactsNumber({ commit, dispatch }, number) {
+
         if (number === 'all') {
             commit('setContactsNumber', state.totalContacts)
             dispatch('getContacts')
         } else {
-
             commit('setContactsNumber', number)
             dispatch('getContacts')
         }
