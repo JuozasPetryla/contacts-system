@@ -14,15 +14,17 @@
         <h4>{{ company.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton
+            v-if="currentUserPermissions.edit_companies"
             class="rounded-full"
             @click="
+              getCompanyModalMode('edit');
               getCompanyEditInfo(company);
               openCompanyModal();
-              getCompanyModalMode('edit');
             "
             >Redaguoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_companies"
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
             @click="
               getCompanyDeleteInfo(company);
@@ -53,7 +55,7 @@ export default {
     ]),
   },
   computed: {
-    ...mapGetters(["companies"]),
+    ...mapGetters(["companies", "currentUserPermissions"]),
   },
   created() {
     this.getCompanies();

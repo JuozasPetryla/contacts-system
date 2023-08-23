@@ -8,19 +8,39 @@
     <ul
       class="flex items-center text-lg text-white font-medium space-x-36 pl-8"
     >
-      <li>
-        <router-link class="link" to="/employee-manage">Kontaktai</router-link>
+      <li
+        v-if="
+          currentUserPermissions.edit_employees ||
+          currentUserPermissions.delete_employees
+        "
+      >
+        <router-link class="link" to="/">Kontaktai</router-link>
       </li>
-      <li>
+      <li
+        v-if="
+          currentUserPermissions.edit_companies ||
+          currentUserPermissions.delete_companies
+        "
+      >
         <router-link class="link" to="/company-manage">Kompanijos</router-link>
       </li>
-      <li>
+      <li
+        v-if="
+          currentUserPermissions.edit_structure ||
+          currentUserPermissions.delete_structure
+        "
+      >
         <router-link class="link" to="/structure-manage">Struktūra</router-link>
       </li>
-      <li>
+      <li
+        v-if="
+          currentUserPermissions.edit_offices ||
+          currentUserPermissions.delete_offices
+        "
+      >
         <router-link class="link" to="/office-manage">Ofisai</router-link>
       </li>
-      <li>
+      <li v-if="currentUserPermissions.id === adminPermissions">
         <router-link class="link" to="/admin-accounts">Paskyros</router-link>
       </li>
     </ul>
@@ -45,10 +65,19 @@
 </template>
   
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      componentKey: 0,
+      adminPermissions: "4y2zp4n8ehzyzi0",
+    };
+  },
   methods: {
     ...mapActions(["logout"]),
+  },
+  computed: {
+    ...mapGetters(["currentUserPermissions"]),
   },
 };
 </script>
@@ -67,3 +96,4 @@ export default {
   color: #adadad !important;
 }
 </style>
+

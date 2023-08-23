@@ -199,7 +199,7 @@ export default {
       if (this.officeModalMode === "create") {
         this.createOffice({
           officeCreateObj: {
-            name: this.address,
+            name: `${this.address}, ${this.city}, ${this.country}`,
             street: this.address.match(/\D/g).join(""),
             street_number: this.address.match(/\d+/)[0],
             city: this.city,
@@ -207,16 +207,12 @@ export default {
           },
           company_id: this.selectedCompany,
         });
-        this.address = "";
-        this.city = "";
-        this.country = "";
-        this.selectedCompany = "";
       }
       if (this.officeModalMode === "edit") {
         this.editOffice({
           officeEditObj: {
             id: this.officeEditInfo.id,
-            name: this.address,
+            name: `${this.address}, ${this.city}, ${this.country}`,
             street: this.address.match(/\D/g).join(""),
             street_number: this.address.match(/\d+/)[0],
             city: this.city,
@@ -224,22 +220,21 @@ export default {
           },
           company_id: this.selectedCompany,
         });
-        this.address = "";
-        this.city = "";
-        this.country = "";
-        this.selectedCompany = "";
       }
     },
   },
   created() {
     this.getCompanies();
   },
-  updated() {
-    if (this.officeModalMode === "edit") {
-      this.address = `${this.officeEditInfo.street} ${this.officeEditInfo.street_number}`;
-      this.city = this.officeEditInfo.city;
-      this.country = this.officeEditInfo.country;
-    }
+  watch: {
+    "$store.state.officesActions.officeEditInfo": {
+      deep: true,
+      handler(value) {
+        this.address = value.street + value.street_number;
+        this.city = value.city;
+        this.country = value.country;
+      },
+    },
   },
 };
 </script>

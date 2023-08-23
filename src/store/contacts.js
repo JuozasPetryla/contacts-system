@@ -9,6 +9,7 @@ const state = {
     page: 1,
     totalPages: 0,
     searchTerm: '',
+    contactsNumber: 25,
 }
 const mutations = {
     setContacts: (state, contacts) => state.contacts = contacts,
@@ -35,6 +36,7 @@ const mutations = {
         }
     },
     setSearchTerm: (state, searchTerm) => state.searchTerm = searchTerm,
+    setContactsNumber: (state, contactsNumber) => state.contactsNumber = contactsNumber
 }
 const getters = {
     contacts: state => state.contacts,
@@ -47,7 +49,7 @@ const getters = {
 const actions = {
     async getContacts({ commit, state }) {
         try {
-            const contacts = await pb.collection('employees').getList(state.page, 5, {
+            const contacts = await pb.collection('employees').getList(state.page, state.contactsNumber, {
                 filter: state.filter
             })
             commit('setContacts', contacts.items)
@@ -100,6 +102,16 @@ const actions = {
     },
     getFilter({ commit }, filter) {
         commit('setFilter', filter)
+    },
+    getContactsNumber({ commit, dispatch }, number) {
+        if (number === 'all') {
+            commit('setContactsNumber', state.totalContacts)
+            dispatch('getContacts')
+        } else {
+
+            commit('setContactsNumber', number)
+            dispatch('getContacts')
+        }
     }
 }
 

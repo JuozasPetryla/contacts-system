@@ -26,8 +26,11 @@ const actions = {
     },
     closeOfficeModal({ commit }) {
         commit('setOfficeModalClosed')
+        commit('setOfficeEditInfo', {
+            street_number: '',
+            street: '',
+        })
     },
-
     getOfficeModalMode({ commit }, officeModalMode) {
         commit('setOfficeModalMode', officeModalMode)
     },

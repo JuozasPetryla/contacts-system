@@ -58,7 +58,7 @@ const actions = {
             dispatch('openInfoModal', { root: true })
         }
     },
-    async editContact({ commit, dispatch }, contactEditObj) {
+    async editContact({ commit, dispatch, rootState }, contactEditObj) {
         try {
             const contactEditObjAll = {
                 ...contactEditObj,

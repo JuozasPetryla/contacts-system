@@ -11,12 +11,16 @@
         :key="user.id"
         class="text-xl px-14 flex justify-between space-x-36"
       >
-        <div class="flex justify-between w-full">
+        <div
+          class="flex justify-between w-full"
+          v-if="currentUserPermissions.read_permissions"
+        >
           <h4>{{ user.name }}</h4>
           <h4 class="">{{ user.email }}</h4>
         </div>
         <div class="flex space-x-4 pl-12">
           <BaseButton
+            v-if="currentUserPermissions.edit_permissions"
             class="rounded-full"
             @click="
               openUserModal();
@@ -27,15 +31,17 @@
             >Keisti leidimus</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.edit_permissions"
             class="rounded-full"
             @click="
               openUserModal();
-              getUserModalMode('edit');
               getUserEditInfo(user);
+              getUserModalMode('edit');
             "
             >Modifikuoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_permissions"
             class="rounded-full w-24 bg-light-red hover:bg-dark-red"
             @click="
               openInfoModal();
@@ -67,7 +73,7 @@ export default {
     ]),
   },
   computed: {
-    ...mapGetters(["users"]),
+    ...mapGetters(["users", "currentUserPermissions"]),
   },
   created() {
     this.getUsers();

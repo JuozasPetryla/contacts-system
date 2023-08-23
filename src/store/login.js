@@ -3,15 +3,18 @@ import router from '../router/router'
 
 
 const state = {
-    forgotPassword: false
+    forgotPassword: false,
+    currentUser: {}
 }
 
 const mutations = {
+    setCurrentUser: (state, user) => state.currentUser = user,
     setForgotPasswordOpen: state => state.forgotPassword = true,
     setForgotPasswordClosed: state => state.forgotPassword = false
 }
 
 const getters = {
+    currentUser: state => state.currentUser,
     forgotPassword: state => state.forgotPassword
 }
 
@@ -22,18 +25,19 @@ const actions = {
                 `${email}`,
                 `${password}`
             )
-
+            commit('setCurrentUser', user)
             localStorage.setItem('user', user.token)
-            router.push('/employee-manage')
+            router.push('/')
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
             dispatch('openInfoModal', { root: true })
         }
     },
-    logout() {
+    logout({ commit }) {
         localStorage.removeItem('user')
         router.push('/login')
+        commit('setCurrentUser', {})
     },
     openForgotPassword({ commit }) {
         commit('setForgotPasswordOpen')

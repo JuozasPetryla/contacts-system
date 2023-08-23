@@ -28,8 +28,8 @@ const actions = {
     },
     closeUserModal({ commit, dispatch }) {
         commit('setUserModalClosed')
+        commit('setUserEditInfo', {})
         dispatch('getFile', {})
-
     },
     getUserModalMode({ commit }, userModalMode) {
         commit('setUserModalMode', userModalMode)

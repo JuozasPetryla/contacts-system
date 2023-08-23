@@ -88,10 +88,13 @@ export default {
       this.name = "";
     },
   },
-  updated() {
-    if (this.companyModalMode === "edit") {
-      this.name = this.companyEditInfo.name;
-    }
+  watch: {
+    "$store.state.companiesActions.companyEditInfo": {
+      deep: true,
+      handler(value) {
+        this.name = value.name;
+      },
+    },
   },
 };
 </script>

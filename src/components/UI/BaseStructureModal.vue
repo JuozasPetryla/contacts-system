@@ -8,6 +8,7 @@
       @submit.prevent="
         validateForm();
         formSubmit();
+        setFormIsValid();
       "
     >
       <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
@@ -215,6 +216,12 @@ export default {
       "editGroup",
     ]),
     setFormIsValid() {
+      this.divisionIsValid = true;
+      this.departmentIsValid = true;
+      this.groupIsValid = true;
+      this.selectedOfficeIsValid = true;
+      this.selectedDivisionIsValid = true;
+      this.selectedDepartmentIsValid = true;
       this.formIsValid = true;
     },
     validateForm() {
@@ -311,6 +318,7 @@ export default {
           office_id: this.selectedOffice,
         });
         this.division = "";
+        this.selectedOffice = "";
       }
       if (
         this.structureModalFormMode === "division" &&
@@ -324,6 +332,7 @@ export default {
           office_id: this.selectedOffice,
         });
         this.division = "";
+        this.selectedOffice = "";
       }
 
       if (
@@ -337,6 +346,7 @@ export default {
           division_id: this.selectedDivision,
         });
         this.department = "";
+        this.selectedDivision = "";
       }
       if (
         this.structureModalFormMode === "department" &&
@@ -350,6 +360,7 @@ export default {
           division_id: this.selectedDivision,
         });
         this.department = "";
+        this.selectedDivision = "";
       }
 
       if (
@@ -363,6 +374,7 @@ export default {
           department_id: this.selectedDepartment,
         });
         this.group = "";
+        this.selectedDepartment = "";
       }
       if (
         this.structureModalFormMode === "group" &&
@@ -376,6 +388,7 @@ export default {
           department_id: this.selectedDepartment,
         });
         this.group = "";
+        this.selectedDepartment = "";
       }
     },
   },
@@ -386,25 +399,25 @@ export default {
     this.getGroupsForDisplay();
     this.getOfficesForDisplay();
   },
-  updated() {
-    if (
-      this.structureModalFormMode === "division" &&
-      this.structureModalMode === "edit"
-    ) {
-      this.division = this.divisionEditInfo.name;
-    }
-    if (
-      this.structureModalFormMode === "department" &&
-      this.structureModalMode === "edit"
-    ) {
-      this.department = this.departmentEditInfo.name;
-    }
-    if (
-      this.structureModalFormMode === "group" &&
-      this.structureModalMode === "edit"
-    ) {
-      this.group = this.groupEditInfo.name;
-    }
+  watch: {
+    "$store.state.divisionsActions.divisionEditInfo": {
+      deep: true,
+      handler(value) {
+        this.division = value.name;
+      },
+    },
+    "$store.state.departmentsActions.departmentEditInfo": {
+      deep: true,
+      handler(value) {
+        this.department = value.name;
+      },
+    },
+    "$store.state.groupsActions.groupEditInfo": {
+      deep: true,
+      handler(value) {
+        this.group = value.name;
+      },
+    },
   },
 };
 </script>

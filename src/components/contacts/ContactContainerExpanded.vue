@@ -19,6 +19,7 @@
       </div>
       <div class="flex space-x-4 pl-4 pb-8">
         <BaseIconButton
+          v-if="currentUserPermissions.edit_employees"
           @click="
             openContactModal();
             getContactModalMode('edit');
@@ -31,6 +32,7 @@
           />
         </BaseIconButton>
         <BaseIconButton
+          v-if="currentUserPermissions.delete_employees"
           class="bg-light-red hover:bg-dark-red"
           @click="
             getInfoModalMode('delete');
@@ -47,7 +49,7 @@
 </template>
   
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["info"],
   methods: {
@@ -59,6 +61,9 @@ export default {
       "getDeleteInfo",
       "getEditInfo",
     ]),
+  },
+  computed: {
+    ...mapGetters(["currentUserPermissions"]),
   },
 };
 </script>

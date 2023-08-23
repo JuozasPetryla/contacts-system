@@ -1,14 +1,69 @@
 <template>
-  <div class="px-16 my-8 w-screen grid">
+  <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Kontaktų sistema</h3>
     <div class="flex space-x-6">
       <TheSearchBar class="mb-4 mx-2"></TheSearchBar>
-      <BaseIconButton class="h-12 w-16">
-        <img src="../assets/FilterIcon.svg" />
-      </BaseIconButton>
+      <div class="flex">
+        <BaseIconButton
+          @click="showContactNumbers"
+          class="h-12 w-16"
+          :class="{ 'rounded-e-none': contactNumbers }"
+        >
+          <img src="../assets/FilterIcon.svg" />
+        </BaseIconButton>
+
+        <div v-if="contactNumbers" class="flex">
+          <BaseIconButton
+            @click="onGetContactsNumber(5)"
+            class="h-12 w-16 font-medium text-lg text-white rounded-none"
+          >
+            5
+          </BaseIconButton>
+          <BaseIconButton
+            @click="onGetContactsNumber(10)"
+            class="h-12 w-16 font-medium text-lg text-white rounded-none"
+          >
+            10
+          </BaseIconButton>
+          <BaseIconButton
+            @click="onGetContactsNumber(25)"
+            class="h-12 w-16 font-medium text-lg text-white rounded-none"
+          >
+            25</BaseIconButton
+          >
+          <BaseIconButton
+            @click="onGetContactsNumber(50)"
+            class="h-12 w-16 font-medium text-lg text-white rounded-none"
+          >
+            50
+          </BaseIconButton>
+          <BaseIconButton
+            @click="onGetContactsNumber(100)"
+            class="h-12 w-16 font-medium text-lg text-white rounded-none"
+          >
+            100
+          </BaseIconButton>
+          <BaseIconButton
+            @click="onGetContactsNumber('all')"
+            class="h-12 w-16 font-medium text-lg text-white rounded-s-none"
+          >
+            All
+          </BaseIconButton>
+        </div>
+      </div>
       <BaseIconButton class="h-12 w-16" @click="toggleMode">
         <img src="../assets/BulletList.svg" v-if="mode === 'grid'" />
         <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
+      </BaseIconButton>
+      <BaseIconButton
+        v-if="checkUser"
+        class="h-12 w-12"
+        @click="
+          openContactModal();
+          getContactModalMode('create');
+        "
+      >
+        <img src="../assets/Plus Math.svg" />
       </BaseIconButton>
     </div>
     <p class="mb-4 px-2" v-if="totalContacts">
@@ -19,37 +74,89 @@
     </p>
     <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
-    <component :is="currentContacts"></component>
-    <ThePagination class="absolute bottom-10 left-1/3"></ThePagination>
+    <component class="pb-36" :is="currentContacts"></component>
+    <ThePagination class="absolute bottom-5 left-1/3"></ThePagination>
+    <BaseContactModal v-if="contactModalOpen">
+      <template #header>
+        <h2
+          v-if="contactModalMode === 'edit'"
+          class="text-4xl font-normal text-center"
+        >
+          Redaguoti kontaktą:
+        </h2>
+        <h2
+          v-if="contactModalMode === 'create'"
+          class="text-4xl font-normal text-center"
+        >
+          Kurti kontaktą:
+        </h2>
+      </template>
+      <template #action>
+        <span v-if="contactModalMode === 'edit'">REDAGUOTI</span>
+        <span v-if="contactModalMode === 'create'">KURTI NAUJĄ</span>
+      </template>
+    </BaseContactModal>
+    <BaseInfoDialog>
+      <template #header> {{ infoModalHeader }} </template>
+      <template #content>
+        {{ infoModalText }}
+      </template>
+      <template #actions>
+        <div v-if="infoModalMode === 'delete'">
+          <md-button @click="closeInfoModal" class="md-primary">NE</md-button>
+          <md-button
+            @click="
+              closeInfoModal();
+              deleteContact(deleteInfo.id);
+            "
+            class="md-primary"
+            >TAIP</md-button
+          >
+        </div>
+        <md-button v-else @click="closeInfoModal" class="md-primary"
+          >UŽDARYTI</md-button
+        >
+      </template>
+    </BaseInfoDialog>
+    <BaseDrop></BaseDrop>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import TheSearchBar from "../components/layout/TheSearchBar.vue";
 import ThePagination from "../components/layout/ThePagination.vue";
 import TheFilters from "../components/layout/TheFilters.vue";
+import ContactsGridExpanded from "../components/contacts/ContactsGridExpanded.vue";
 import ContactsGrid from "../components/contacts/ContactsGrid.vue";
 import ContactsTable from "../components/contacts/ContactsTable.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
       mode: "grid",
+      contactNumbers: false,
     };
   },
   components: {
     TheSearchBar,
     ThePagination,
+    ContactsGridExpanded,
     ContactsGrid,
     ContactsTable,
     TheFilters,
   },
   computed: {
+    checkUser() {
+      return localStorage.getItem("user");
+    },
     currentContacts() {
       if (this.mode === "table") {
         return ContactsTable;
       }
-      if (this.mode === "grid") {
+      if (this.mode === "grid" && localStorage.getItem("user")) {
+        return ContactsGridExpanded;
+      }
+      if (this.mode === "grid" && !localStorage.getItem("user")) {
         return ContactsGrid;
       }
     },
@@ -64,17 +171,76 @@ export default {
         return this.totalContacts + " kontaktų";
       }
     },
-    ...mapGetters(["totalContacts", "page"]),
+    infoModalText() {
+      if (this.infoModalMode === "error") {
+        return this.infoModalError;
+      }
+      if (this.infoModalMode === "delete") {
+        return `Vardas ir pavardė: ${this.deleteInfo.name} ${this.deleteInfo.surname} Pozicija: ${this.deleteInfo.position}`;
+      }
+      if (
+        this.contactModalMode === "create" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai sukurtas";
+      }
+      if (
+        this.contactModalMode === "edit" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai redaguotas";
+      }
+      if (
+        this.contactModalMode === "delete" &&
+        this.infoModalMode === "success"
+      ) {
+        return "Kontaktas sėkmingai ištrintas";
+      }
+    },
+
+    infoModalHeader() {
+      if (this.infoModalMode === "success") {
+        return "Pavyko";
+      }
+      if (this.infoModalMode === "error") {
+        return "Klaida";
+      }
+      if (this.infoModalMode === "delete") {
+        return "Ar tikrai norite ištrinti kontaktą?";
+      }
+    },
+    ...mapGetters([
+      "contactModalMode",
+      "infoModalError",
+      "totalContacts",
+      "contactModalOpen",
+      "infoModalMode",
+      "deleteInfo",
+      "page",
+    ]),
   },
   methods: {
+    onGetContactsNumber(num) {
+      this.getContactsNumber(num);
+    },
+    showContactNumbers() {
+      this.contactNumbers = !this.contactNumbers;
+    },
     toggleMode() {
       this.mode === "grid" ? (this.mode = "table") : (this.mode = "grid");
     },
-    ...mapActions(["getContacts"]),
+    ...mapActions([
+      "getContacts",
+      "openContactModal",
+      "getContactModalMode",
+      "closeInfoModal",
+      "deleteContact",
+      "getContactsNumber",
+    ]),
   },
   created() {
     this.getContacts();
   },
 };
 </script>
-
+  

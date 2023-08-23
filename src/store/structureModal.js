@@ -23,6 +23,9 @@ const actions = {
     },
     closeStructureModal({ commit }) {
         commit('setStructureModalClosed')
+        commit('setDepartmentEditInfo', {})
+        commit('setDivisionEditInfo', {})
+        commit('setGroupEditInfo', {})
     },
     getStructureModalMode({ commit }, structureModalMode) {
         commit('setStructureModalMode', structureModalMode)

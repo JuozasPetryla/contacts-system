@@ -171,28 +171,19 @@ export default {
       }
     },
     validateEmail() {
-      if (this.email.includes("@")) {
+      if (this.email.includes("@") || !this.email) {
         this.emailIsValid = true;
       } else {
         this.emailIsValid = false;
       }
     },
     validateForm() {
-      if (this.userModalMode === "create") {
-        this.validateName();
-        this.validateEmail();
-        if (this.nameIsValid && this.emailIsValid) {
-          this.formIsValid = true;
-        } else {
-          this.formIsValid = false;
-        }
-      } else if (this.userModalMode === "edit") {
-        this.validateName();
-        if (this.nameIsValid) {
-          this.formIsValid = true;
-        } else {
-          this.formIsValid = false;
-        }
+      this.validateName();
+      this.validateEmail();
+      if (this.nameIsValid && this.emailIsValid) {
+        this.formIsValid = true;
+      } else {
+        this.formIsValid = false;
       }
     },
     generatePass() {
@@ -242,6 +233,14 @@ export default {
     },
     setFormValid() {
       this.formIsValid = true;
+    },
+  },
+  watch: {
+    "$store.state.userActions.userEditInfo": {
+      deep: true,
+      handler(value) {
+        this.name = value.name;
+      },
     },
   },
 };

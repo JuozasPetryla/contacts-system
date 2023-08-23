@@ -14,15 +14,18 @@ const state = {
         read_permissions: false,
         edit_companies: false,
         delete_companies: false,
-    }
+    },
+    currentUserPermissions: {}
 }
 const mutations = {
+    setCurrentUserPermissions: (state, perm) => state.currentUserPermissions = perm,
     setUsers: (state, users) => state.users = users,
     setUserPermissions: (state, userPermissions) => state.userPermissions = userPermissions,
 }
 const getters = {
     users: state => state.users,
     userPermissions: state => state.userPermissions,
+    currentUserPermissions: state => state.currentUserPermissions
 }
 const actions = {
     async getUsers({ commit }) {
@@ -40,7 +43,16 @@ const actions = {
         } catch (err) {
             console.log(err)
         }
+    },
+    async getCurrentUserPermissions({ commit }, userPermissionsId) {
+        try {
+            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${userPermissionsId}"`)
+            commit('setCurrentUserPermissions', userPermissions)
+        } catch (err) {
+            console.log(err)
+        }
     }
+
 }
 
 export default {

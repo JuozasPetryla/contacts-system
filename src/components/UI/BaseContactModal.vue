@@ -432,6 +432,15 @@ export default {
   created() {
     this.getCompanies();
   },
+  beforeMount() {
+    if (this.contactModalMode === "edit") {
+      this.name = this.editInfo.name;
+      this.surname = this.editInfo.surname;
+      this.position = this.editInfo.position;
+      this.email = this.editInfo.email;
+      this.phone = this.editInfo.phone_number;
+    }
+  },
 };
 </script>
 

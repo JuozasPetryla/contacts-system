@@ -16,6 +16,7 @@
         <h4>{{ division.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton
+            v-if="currentUserPermissions.edit_structure"
             class="rounded-full"
             @click="
               getDivisionEditInfo(division);
@@ -27,6 +28,7 @@
             >Redaguoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_structure"
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
             @click="
               getDivisionDeleteInfo(division);
@@ -53,6 +55,7 @@
         <h4>{{ department.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton
+            v-if="currentUserPermissions.edit_structure"
             class="rounded-full"
             @click="
               getDepartmentEditInfo(department);
@@ -63,6 +66,7 @@
             >Redaguoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_structure"
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
             @click="
               getDepartmentDeleteInfo(department);
@@ -87,6 +91,7 @@
         <h4>{{ group.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton
+            v-if="currentUserPermissions.edit_structure"
             class="rounded-full"
             @click="
               getGroupEditInfo(group);
@@ -97,6 +102,7 @@
             >Redaguoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_structure"
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
             @click="
               getGroupDeleteInfo(group);
@@ -141,6 +147,7 @@ export default {
       "divisionsForDisplay",
       "departmentsForDisplay",
       "groupsForDisplay",
+      "currentUserPermissions",
     ]),
   },
   created() {

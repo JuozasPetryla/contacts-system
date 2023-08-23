@@ -13,6 +13,7 @@
         <h4>{{ office.name }}</h4>
         <div class="flex space-x-4">
           <BaseButton
+            v-if="currentUserPermissions.edit_offices"
             class="rounded-full"
             @click="
               getOfficeEditInfo(office);
@@ -22,6 +23,7 @@
             >Redaguoti</BaseButton
           >
           <BaseButton
+            v-if="currentUserPermissions.delete_offices"
             class="w-36 rounded-full bg-light-red hover:bg-dark-red"
             @click="
               getOfficeDeleteInfo(office);
@@ -52,7 +54,7 @@ export default {
     ]),
   },
   computed: {
-    ...mapGetters(["officesForDisplay"]),
+    ...mapGetters(["officesForDisplay", "currentUserPermissions"]),
   },
   created() {
     this.getOfficesForDisplay();

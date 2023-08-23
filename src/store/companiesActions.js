@@ -25,6 +25,7 @@ const actions = {
     },
     closeCompanyModal({ commit }) {
         commit('setCompanyModalClosed')
+        commit('setCompanyEditInfo', {})
     },
     getCompanyModalMode({ commit }, companyModalMode) {
         commit('setCompanyModalMode', companyModalMode)
