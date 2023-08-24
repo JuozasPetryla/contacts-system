@@ -5,6 +5,9 @@
       :key="contact.id"
       @click="getPostDetailId(contact.id)"
     >
+      <template #account>
+        <img :src="contact.photo" v-if="contact.photo" class="h-12 w-12" />
+      </template>
       <template #name>{{ `${contact.name} ${contact.surname}` }}</template>
       <template #position>{{ contact.position }}</template>
       <template #contact-info>

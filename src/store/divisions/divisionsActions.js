@@ -16,8 +16,15 @@ const actions = {
     getDivisionDeleteInfo({ commit }, info) {
         commit('setDivisionDeleteInfo', info)
     },
-    getDivisionEditInfo({ commit }, info) {
-        commit('setDivisionEditInfo', info)
+    async getDivisionEditInfo({ commit }, info) {
+        const divisionOffice = await pb.collection('offices_divisions').getFullList({
+            filter: `division_id="${info.id}"`,
+            expand: 'office_id'
+        })
+        const infoObj = {
+            ...info, office_id: divisionOffice[0].expand.office_id.id
+        }
+        commit('setDivisionEditInfo', infoObj)
     },
     async createDivision({ commit, dispatch }, { divisionCreateObj, office_id }) {
         try {

@@ -16,8 +16,15 @@ const actions = {
     getGroupDeleteInfo({ commit }, info) {
         commit('setGroupDeleteInfo', info)
     },
-    getGroupEditInfo({ commit }, info) {
-        commit('setGroupEditInfo', info)
+    async getGroupEditInfo({ commit }, info) {
+        const groupDepartment = await pb.collection('departments_groups').getFullList({
+            filter: `group_id="${info.id}"`,
+            expand: 'department_id'
+        })
+        const infoObj = {
+            ...info, department_id: groupDepartment[0].expand.department_id.id
+        }
+        commit('setGroupEditInfo', infoObj)
     },
     async createGroup({ commit, dispatch }, { groupCreateObj, department_id }) {
         try {

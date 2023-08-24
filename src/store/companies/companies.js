@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     companies: [],
     companyFilterId: '',
@@ -15,26 +13,18 @@ const getters = {
     totalCompanies: state => state.totalCompanies,
 }
 const actions = {
-    async getCompanies({ commit, dispatch }) {
-        try {
-            let companyList
-
-            const companies = await pb.collection('companies').getFullList({
-            })
-            companyList = companies
-            const companiesAndOffices = await pb.collection('companies_offices').getFullList({
-                filter: `company_id="${state.companyFilterId}"`,
-                expand: `office_id`
-            })
-            commit('setCompanies', companies)
-            const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
-            dispatch('getOffices', officesFiltered, { root: true })
-
-            commit('setTotalCompanies', companies.length)
-
-        } catch (err) {
-            console.log(err)
-        }
+    async getCompanies({ commit, state, dispatch }) {
+        let companyList
+        const companies = await this.getFullList('companies', [])
+        companyList = companies
+        const companiesAndOffices = await this.getFullList('companies_offices', {
+            filter: `company_id="${state.companyFilterId}"`,
+            expand: `office_id`
+        })
+        commit('setCompanies', companies)
+        const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
+        dispatch('getOffices', officesFiltered, { root: true })
+        commit('setTotalCompanies', companies.length)
     },
     getCompanyFilterId({ commit, dispatch, rootState }, companyFilterId) {
         if (!companyFilterId) {

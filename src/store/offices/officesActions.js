@@ -34,12 +34,18 @@ const actions = {
     getOfficeModalMode({ commit }, officeModalMode) {
         commit('setOfficeModalMode', officeModalMode)
     },
-
     getOfficeDeleteInfo({ commit }, info) {
         commit('setOfficeDeleteInfo', info)
     },
-    getOfficeEditInfo({ commit }, info) {
-        commit('setOfficeEditInfo', info)
+    async getOfficeEditInfo({ commit }, info) {
+        const officeCompany = await pb.collection('companies_offices').getFullList({
+            filter: `office_id="${info.id}"`,
+            expand: 'company_id'
+        })
+        const infoObj = {
+            ...info, company_id: officeCompany[0].expand.company_id.id
+        }
+        commit('setOfficeEditInfo', infoObj)
     },
     async createOffice({ commit, dispatch }, { officeCreateObj, company_id }) {
         try {

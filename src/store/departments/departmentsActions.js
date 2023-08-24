@@ -16,8 +16,15 @@ const actions = {
     getDepartmentDeleteInfo({ commit }, info) {
         commit('setDepartmentDeleteInfo', info)
     },
-    getDepartmentEditInfo({ commit }, info) {
-        commit('setDepartmentEditInfo', info)
+    async getDepartmentEditInfo({ commit }, info) {
+        const departmentDivision = await pb.collection('divisions_departments').getFullList({
+            filter: `department_id="${info.id}"`,
+            expand: 'division_id'
+        })
+        const infoObj = {
+            ...info, division_id: departmentDivision[0].expand.division_id.id
+        }
+        commit('setDepartmentEditInfo', infoObj)
     },
     async createDepartment({ commit, dispatch }, { departmentCreateObj, division_id }) {
         try {

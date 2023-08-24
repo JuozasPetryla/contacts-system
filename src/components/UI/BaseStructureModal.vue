@@ -404,18 +404,21 @@ export default {
       deep: true,
       handler(value) {
         this.division = value.name;
+        this.selectedOffice = this.divisionEditInfo.office_id;
       },
     },
     "$store.state.departmentsActions.departmentEditInfo": {
       deep: true,
       handler(value) {
         this.department = value.name;
+        this.selectedDivision = this.departmentEditInfo.division_id;
       },
     },
     "$store.state.groupsActions.groupEditInfo": {
       deep: true,
       handler(value) {
         this.group = value.name;
+        this.selectedDepartment = this.groupEditInfo.department_id;
       },
     },
   },

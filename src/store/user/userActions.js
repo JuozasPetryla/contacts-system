@@ -42,14 +42,26 @@ const actions = {
     },
     async createUser({ commit, dispatch, rootState }, { userPermissionsObj, userCreateObj }) {
         try {
-            const userPermissions = await pb.collection('user_permissions').create(userPermissionsObj)
-            const userObj = {
-                ...userCreateObj,
-                avatar: rootState.drop.file,
-                permissions_id: userPermissions.id
+            const userPermissions = await pb.collection('user_permissions').create({
+                ...userPermissionsObj,
+                read_permissions: true,
+                edit_permissions: false,
+                delete_permissions: false,
+            })
+            const formData = new FormData()
+            if (rootState.drop.imageSelected) {
+                formData.append('avatar', rootState.drop.file)
+            } else {
+                formData.append('avatar', '')
             }
 
-            const user = await pb.collection('users').create(userObj)
+            formData.append('permissions_id', userPermissions.id)
+
+            for (const [key, value] of Object.entries(userCreateObj)) {
+                formData.append(`${key}`, value)
+            }
+            const user = await pb.collection('users').create(formData)
+            console.log(user)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
@@ -65,11 +77,18 @@ const actions = {
     },
     async editUser({ commit, dispatch, rootState }, userEditObj) {
         try {
-            const userObj = {
-                ...userEditObj,
-                avatar: rootState.drop.file,
+            const formData = new FormData()
+            if (rootState.drop.imageSelected) {
+                formData.append('avatar', rootState.drop.file)
+            } else {
+                formData.append('avatar', '')
             }
-            const userEdited = await pb.collection('users').update(userEditObj.id, userObj)
+
+
+            for (const [key, value] of Object.entries(userEditObj)) {
+                formData.append(`${key}`, value)
+            }
+            const userEdited = await pb.collection('users').update(userEditObj.id, formData)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })

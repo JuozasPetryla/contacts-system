@@ -42,8 +42,8 @@
               {{ file.name }}
             </p>
           </div>
-          <div class="h-fit w-64">
-            <img :src="url" class="h-48 w-48" />
+          <div class="h-64 w-64 overflow-y-hidden">
+            <img :src="url" class="max-h-full w-48" />
           </div>
           <div>
             <button class="ml-2" type="button" title="Remove file">

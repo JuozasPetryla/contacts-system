@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     groups: [],
     groupsForDisplay: [],
@@ -15,17 +13,13 @@ const getters = {
     groupsForDisplay: state => state.groupsForDisplay
 }
 const actions = {
-    async getGroups({ commit }, groupsFiltered) {
-        try {
-            if (groupsFiltered) {
-                commit('setGroups', groupsFiltered)
-            }
-        } catch (err) {
-            console.log(err)
+    getGroups({ commit }, groupsFiltered) {
+        if (groupsFiltered) {
+            commit('setGroups', groupsFiltered)
         }
     },
     async getGroupsForDisplay({ commit }) {
-        const groups = await pb.collection('groups').getFullList()
+        const groups = await this.getFullList('groups')
         commit('setGroupsForDisplay', groups)
     },
     getGroupFilterId({ commit, dispatch, rootState }, groupFilterId) {

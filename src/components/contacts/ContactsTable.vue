@@ -1,5 +1,5 @@
 <template>
-  <md-table md-card class="h-96 overflow-y-scroll pb-0">
+  <md-table md-card class="h-96 overflow-y-scroll remove-pb">
     <md-table-row>
       <md-table-head>Vardas Pavarde</md-table-head>
       <md-table-head>Pozicijos Pavadinimas</md-table-head>
@@ -41,3 +41,8 @@ export default {
 };
 </script>
   
+<style scoped>
+.remove-pb {
+  padding-bottom: 1rem !important;
+}
+</style>

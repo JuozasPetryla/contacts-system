@@ -16,9 +16,9 @@
             v-if="currentUserPermissions.edit_offices"
             class="rounded-full"
             @click="
-              getOfficeEditInfo(office);
               openOfficeModal();
               getOfficeModalMode('edit');
+              getOfficeEditInfo(office);
             "
             >Redaguoti</BaseButton
           >
@@ -51,6 +51,7 @@ export default {
       "getOfficeModalMode",
       "openInfoModal",
       "getInfoModalMode",
+      "getOfficeCompany",
     ]),
   },
   computed: {

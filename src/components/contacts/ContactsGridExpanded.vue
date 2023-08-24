@@ -7,7 +7,7 @@
       :info="contact"
     >
       <template #account>
-        <img :src="contact.photo" v-if="contact.photo" />
+        <img :src="contact.photo" v-if="contact.photo" class="h-12 w-12" />
       </template>
       <template #name>{{ `${contact.name} ${contact.surname}` }}</template>
       <template #position>{{ contact.position }}</template>
@@ -46,7 +46,6 @@ export default {
   },
   created() {
     this.getOfficesForDisplay();
-    console.log(this.contacts);
   },
 };
 </script>

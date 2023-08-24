@@ -30,8 +30,18 @@ const getters = {
 const actions = {
     async getUsers({ commit }) {
         try {
-            const users = await pb.collection('users').getList(1, 25)
-            commit('setUsers', users.items)
+            let arrayWithAvatars = []
+            const users = await pb.collection('users').getFullList()
+            for (const user of users) {
+                const avatar = user.avatar
+                let url
+                if (avatar) {
+                    url = pb.files.getUrl(user, avatar, { 'thumb': '100x100' })
+                }
+                user.avatar = url ? url : avatar
+                arrayWithAvatars.push(user)
+            }
+            commit('setUsers', arrayWithAvatars)
         } catch (err) {
             console.log(err)
         }
@@ -39,14 +49,18 @@ const actions = {
     async getUserPermissions({ commit }, user) {
         try {
             const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${user.permissions_id}"`)
-            commit('setUserPermissions', userPermissions)
+            const permissions = {
+                ...userPermissions,
+                read_permissions: true
+            }
+            commit('setUserPermissions', { ...userPermissions, read_permissions: true })
         } catch (err) {
             console.log(err)
         }
     },
     async getCurrentUserPermissions({ commit }, userPermissionsId) {
         try {
-            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${userPermissionsId}"`)
+            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${userPermissionsId}"`);
             commit('setCurrentUserPermissions', userPermissions)
         } catch (err) {
             console.log(err)

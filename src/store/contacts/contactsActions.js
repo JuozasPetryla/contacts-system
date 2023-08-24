@@ -41,21 +41,25 @@ const actions = {
     },
     async createContact({ commit, dispatch, rootState }, contactCreateObj) {
         try {
-            const contactCreateObjAll = {
-                ...contactCreateObj,
-                photo: rootState.drop.file
+            const formData = new FormData()
+            if (rootState.drop.imageSelected) {
+                formData.append('photo', rootState.drop.file)
+            } else {
+                formData.append('photo', '')
             }
 
-            const formData = new FormData()
+            for (const [key, value] of Object.entries(contactCreateObj)) {
+                formData.append(`${key}`, value)
+            }
 
-            formData.append('photo', rootState.drop.file)
-            formData.append('name', contactCreateObj.name)
-            const contact = await pb.collection('employees').create(contactCreateObjAll)
+
+            const contact = await pb.collection('employees').create(formData)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})
+            console.log(contact)
         } catch (err) {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', err.message, { root: true })
@@ -65,12 +69,20 @@ const actions = {
     },
     async editContact({ commit, dispatch, rootState }, contactEditObj) {
         try {
-            const contactEditObjAll = {
-                ...contactEditObj,
-                photo: rootState.drop.file
+            const formData = new FormData()
+
+            if (rootState.drop.imageSelected) {
+                formData.append('photo', rootState.drop.file)
+            } else {
+                formData.append('photo', '')
             }
 
-            const contact = await pb.collection('employees').update(contactEditObj.id, contactEditObjAll)
+
+            for (const [key, value] of Object.entries(contactEditObj)) {
+                formData.append(`${key}`, value)
+            }
+
+            const contact = await pb.collection('employees').update(contactEditObj.id, formData)
             commit('setInfoModalMode', 'success', { root: true })
             commit('setContactModalClosed')
             dispatch('getContacts', { root: true })

@@ -135,6 +135,7 @@ export default {
       "companies",
       "officeModalMode",
       "officeEditInfo",
+      "officeCompany",
     ]),
   },
   methods: {
@@ -143,6 +144,7 @@ export default {
       "getCompanies",
       "createOffice",
       "editOffice",
+      "getOfficeCompany",
     ]),
     setFormIsValid() {
       this.formIsValid = true;
@@ -251,9 +253,10 @@ export default {
     "$store.state.officesActions.officeEditInfo": {
       deep: true,
       handler(value) {
-        this.address = value.street + value.street_number;
-        this.city = value.city;
-        this.country = value.country;
+        this.address = value.street + value?.street_number;
+        this.city = value?.city;
+        this.country = value?.country;
+        this.selectedCompany = this.officeEditInfo?.company_id;
       },
     },
   },

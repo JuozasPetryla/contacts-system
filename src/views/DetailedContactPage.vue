@@ -4,7 +4,12 @@
       Detalesnė kontakto informacija:
     </h3>
     <div class="pl-6 flex items-center space-x-8">
-      <img src="../assets/Test Account.svg" class="h-16 w-16" />
+      <img
+        src="../assets/Test Account.svg"
+        class="h-16 w-16"
+        v-if="!contact.photo"
+      />
+      <img :src="contact.photo" class="h-16 w-16" v-else />
       <div>
         <h3 class="text-4xl font-normal">
           {{ `${contact.name} ${contact.surname}` }}

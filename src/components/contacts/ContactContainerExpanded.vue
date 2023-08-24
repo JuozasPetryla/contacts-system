@@ -3,7 +3,9 @@
     <md-card class="w-11/12 hover-card">
       <div class="flex space-x-4 items-center px-2 py-8">
         <slot name="account">
-          <img src="../../assets/Test Account.svg" alt="Blank account icon" />
+          <div class="h-12 w-12">
+            <img src="../../assets/Test Account.svg" alt="Blank account icon" />
+          </div>
         </slot>
         <div>
           <h3 class="font-medium">

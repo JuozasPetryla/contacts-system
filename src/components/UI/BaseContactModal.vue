@@ -99,6 +99,7 @@
                 id="imone"
                 class="pl-4"
                 v-model="selectedCompany"
+                ref="company_select"
                 :class="{ invalidSelect: !companyIsValid }"
                 @md-selected="
                   validateCompany();
@@ -124,6 +125,7 @@
                 id="ofisas"
                 class="w-80 pl-4"
                 v-model="selectedOffice"
+                ref="office_select"
                 :class="{ invalidSelect: !officeIsValid }"
                 @md-selected="
                   validateOffice();
@@ -150,6 +152,7 @@
                 name="padalinys"
                 id="padalinys"
                 class="pl-4"
+                ref="division_select"
                 v-model="selectedDivision"
                 :class="{ invalidSelect: !divisionIsValid }"
                 @md-selected="
@@ -177,6 +180,7 @@
                 name="skyrius"
                 id="skyrius"
                 class="pl-4"
+                ref="department_select"
                 v-model="selectedDepartment"
                 @md-selected="getDepartmentFilterId(selectedDepartment)"
               >
@@ -197,6 +201,7 @@
                 name="grupe"
                 id="grupe"
                 class="w-80 pl-4"
+                ref="group_select"
                 @md-selected="getGroupFilterId(selectedGroup)"
                 v-model="selectedGroup"
               >
@@ -227,7 +232,7 @@
       </div>
       <div class="absolute top-2/4 right-20">
         <p v-if="file" class="mt-6">{{ file.name }}</p>
-        <img :src="fileUrl" class="h-48-w-48"/>
+        <img :src="fileUrl" class="h-48-w-48" />
       </div>
     </form>
 
@@ -281,6 +286,10 @@ export default {
       "editInfo",
       "file",
       "fileUrl",
+      "officeFilterId",
+      "groupFilterId",
+      "divisionFilterId",
+      "departmentFilterId",
     ]),
   },
   methods: {
@@ -436,22 +445,23 @@ export default {
   created() {
     this.getCompanies();
   },
-  beforeMount() {
+  mounted() {
     if (this.contactModalMode === "edit") {
       this.name = this.editInfo.name;
       this.surname = this.editInfo.surname;
       this.position = this.editInfo.position;
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
-      // this.selectedCompany = this.editInfo.company_id;
-      // this.getCompanyFilterId(this.editInfo.company_id);
-      // this.selectedOffice = this.editInfo.office_id;
-      // this.getOfficeFilterId(this.editInfo.office_id);
-      // this.selectedDivision = this.editInfo.division_id;
-      // this.getDivisionFilterId(this.editInfo.division_id);
-      // this.selectedDepartment = this.editInfo.department_id;
-      // this.getDepartmentFilterId(this.editInfo.department_id);
-      // this.selectedGroup = this.editInfo.group_id;
+      this.$refs.company_select.setValue(this.editInfo.company_id);
+      this.$refs.company_select.$listeners["md-selected"]();
+      this.$refs.office_select.setValue(this.editInfo.office_id);
+      this.$refs.office_select.$listeners["md-selected"]();
+      this.$refs.division_select.setValue(this.editInfo.division_id);
+      this.$refs.division_select.$listeners["md-selected"]();
+      this.$refs.department_select.setValue(this.editInfo.department_id);
+      this.$refs.department_select.$listeners["md-selected"]();
+      this.$refs.group_select.setValue(this.editInfo.group_id);
+      this.$refs.group_select.$listeners["md-selected"]();
     }
   },
 };

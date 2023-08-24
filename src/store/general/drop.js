@@ -1,13 +1,15 @@
 const state = {
     imageDropOpen: false,
     file: {},
-    fileUrl: ''
+    fileUrl: '',
+    imageSelected: false,
 }
 const mutations = {
     setFile: (state, file) => state.file = file,
     setFileUrl: (state, fileUrl) => state.fileUrl = fileUrl[0],
     setImageDropOpen: (state) => state.imageDropOpen = true,
     setImageDropClosed: (state) => state.imageDropOpen = false,
+    setImageSelected: (state, imageSelected) => state.imageSelected = imageSelected,
 }
 const getters = {
     file: state => state.file,
@@ -23,11 +25,13 @@ const actions = {
     },
     getFile({ commit }, file) {
         if (file.length === 1) {
+            commit('setImageSelected', true)
             commit('setFile', file[0])
             const url = URL.createObjectURL(file[0])
             commit('setFileUrl', url)
-            console.log(url)
+
         } else if (Object.values(file).length === 0) {
+            commit('setImageSelected', false)
             commit('setFile', {})
             commit('setFileUrl', '')
         }

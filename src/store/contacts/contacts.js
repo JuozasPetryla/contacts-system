@@ -1,6 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-import router from '../../router/router'
-
 const state = {
     contacts: [],
     totalContacts: 1,
@@ -49,31 +46,38 @@ const getters = {
 }
 const actions = {
     async getContacts({ commit, state }) {
-        try {
-            if (state.page * state.contactsNumber > state.totalContacts) {
-                const newPage = Math.ceil(state.totalContacts / state.contactsNumber)
-                commit('setPage', newPage)
-            }
-            const contacts = await pb.collection('employees').getList(state.page, state.contactsNumber, {
-                filter: state.filter
-            })
-            commit('setContacts', contacts.items)
-            commit('setTotalContacts', contacts.totalItems)
-            commit('setTotalPages', contacts.totalPages)
-        } catch (err) {
-            commit('setErrorMessage', err.message)
-            router.push({ name: 'error' })
+
+        let arrayWithPhotos = []
+        if (state.page * state.contactsNumber > state.totalContacts) {
+            const newPage = Math.ceil(state.totalContacts / state.contactsNumber)
+            commit('setPage', newPage ? newPage : 1)
         }
+
+        const contacts = await this.getList('employees', [state.page, state.contactsNumber, { filter: state.filter }])
+
+        for (const contact of contacts.items) {
+            const photo = contact.photo
+            let url
+            if (photo) {
+                url = await this.getFiles(contact, photo, { 'thumb': '100x100' })
+            }
+            contact.photo = url ? url : photo
+            arrayWithPhotos.push(contact)
+        }
+        commit('setContacts', arrayWithPhotos)
+        commit('setTotalContacts', contacts.totalItems)
+        commit('setTotalPages', contacts.totalPages)
+
     },
     async getContact({ commit }, id) {
-        try {
-            const contact = await pb.collection('employees').getFirstListItem(`id="${id}"`)
-            commit('setContact', contact)
-
-        } catch (err) {
-            commit('setErrorMessage', err.message)
-            router.push({ name: 'error' })
+        const contact = await this.getListItem('employees', [`id="${id}"`])
+        const photo = contact.photo
+        let url
+        if (photo) {
+            url = this.getFiles(contact, photo, { 'thumb': '100x100' })
         }
+        contact.photo = url ? url : photo
+        commit('setContact', contact)
     },
     goToNextPage({ commit }) {
         commit('setNextPage')
@@ -81,7 +85,6 @@ const actions = {
     goToPrevPage({ commit }) {
         commit('setPrevPage')
     },
-
     getSearchTerm({ commit, dispatch }, searchTerm) {
         let oldFilter = ''
         if (state.filter.includes('&&') && state.filter.startsWith('(')) {

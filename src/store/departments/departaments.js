@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     departments: [],
     departmentsForDisplay: [],
@@ -14,36 +12,35 @@ const mutations = {
 }
 const getters = {
     departments: state => state.departments,
+    departmentFilterId: state => state.departmentFilterId,
+
     departmentsForDisplay: state => state.departmentsForDisplay
 }
 const actions = {
     async getDepartments({ commit, state, dispatch }, departmentsFiltered) {
-        try {
-            let groupsList = []
-            if (state.departmentFilterId) {
-                const departmentsAndGroups = await pb.collection('departments_groups').getFullList({
-                    filter: `department_id="${state.departmentFilterId}"`,
-                    expand: 'group_id'
-                })
-                const groupsFiltered = departmentsAndGroups.map(group => group.expand.group_id)
-                groupsList.push(...groupsFiltered)
-            }
-            else if (departmentsFiltered) {
-                commit('setDepartments', departmentsFiltered)
 
-            } else {
-                const departments = await pb.collection('departments').getFullList()
-                commit('setDepartments', departments)
-                dispatch('getGroups', null)
-            }
-            groupsList = groupsList.filter((groupFirst, index, self) => self.findIndex(group => (groupFirst.id === group.id)) === index)
-            dispatch('getGroups', groupsList)
-        } catch (err) {
-            console.log(err)
+        let groupsList = []
+        if (state.departmentFilterId) {
+            const departmentsAndGroups = await this.getFullList('departments_groups', {
+                filter: `department_id="${state.departmentFilterId}"`,
+                expand: 'group_id'
+            })
+            const groupsFiltered = departmentsAndGroups.map(group => group.expand.group_id)
+            groupsList.push(...groupsFiltered)
         }
+        else if (departmentsFiltered) {
+            commit('setDepartments', departmentsFiltered)
+
+        } else {
+            const departments = await this.getFullList('departments')
+            commit('setDepartments', departments)
+            dispatch('getGroups', null)
+        }
+        groupsList = groupsList.filter((groupFirst, index, self) => self.findIndex(group => (groupFirst.id === group.id)) === index)
+        dispatch('getGroups', groupsList)
     },
     async getDepartmentsForDisplay({ commit }) {
-        const departments = await pb.collection('departments').getFullList()
+        const departments = await this.getFullList('departments')
         commit('setDepartmentsForDisplay', departments)
     },
     getDepartmentFilterId({ commit, dispatch, rootState }, departmentFilterId) {

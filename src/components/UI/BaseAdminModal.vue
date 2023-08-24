@@ -33,21 +33,29 @@
             <div class="w-6 bg-light-gray"></div>
           </template>
         </BaseInputField>
-        <BaseInputField
-          v-if="userModalMode === 'create'"
-          :inputPlaceHolder="'Įveskite el.paštą...'"
-          :inputId="'email'"
-          :inputType="'email'"
-          @blur="validateEmail"
-          @input="validateEmail"
-          class="relative"
-          :class="{ invalid: !emailIsValid }"
-          v-model="email"
-          ><template #label>Elektroninis paštas:</template>
-          <template #image-left>
-            <img src="../../assets/Mail.svg" alt="Mail icon" />
-          </template>
-        </BaseInputField>
+        <div class="relative">
+          <BaseInputField
+            v-if="userModalMode === 'create'"
+            :inputPlaceHolder="'Įveskite el.paštą...'"
+            :inputId="'email'"
+            :inputType="'email'"
+            @blur="validateEmail"
+            @input="validateEmail"
+            class="relative"
+            :class="{ invalid: !emailIsValid }"
+            v-model="email"
+            ><template #label>Elektroninis paštas:</template>
+            <template #image-left>
+              <img src="../../assets/Mail.svg" alt="Mail icon" />
+            </template>
+          </BaseInputField>
+          <p
+            v-if="emailInUseWarn && !emailIsValid"
+            class="text-light-red absolute top-100"
+          >
+            El. pašto adresas jau yra naudojamas
+          </p>
+        </div>
       </div>
       <div
         class="space-y-6 flex flex-col"
@@ -83,21 +91,6 @@
           class="md-primary"
           v-model="permissionsObj.delete_structure"
           >Trinti struktūras</md-checkbox
-        >
-        <md-checkbox
-          class="md-primary"
-          v-model="permissionsObj.read_permissions"
-          >Skaityti admin paskyras</md-checkbox
-        >
-        <md-checkbox
-          class="md-primary"
-          v-model="permissionsObj.edit_permissions"
-          >Redaguoti ir kurti administracines teises</md-checkbox
-        >
-        <md-checkbox
-          class="md-primary"
-          v-model="permissionsObj.delete_permissions"
-          >Trinti admin paskyras</md-checkbox
         >
       </div>
       <div class="self-end">
@@ -135,6 +128,7 @@ export default {
       email: "",
       emailIsValid: true,
       formIsValid: true,
+      emailInUseWarn: "",
     };
   },
   computed: {
@@ -144,6 +138,7 @@ export default {
       "userModalMode",
       "userEditInfo",
       "file",
+      "users",
     ]),
     permissionsObj: {
       get() {
@@ -171,8 +166,14 @@ export default {
       }
     },
     validateEmail() {
-      if (this.email.includes("@") || !this.email) {
+      const emailInUse = this.users.find((user) => {
+        return user.email === this.email;
+      });
+      if ((this.email.includes("@") && !emailInUse) || !this.email) {
         this.emailIsValid = true;
+      } else if (emailInUse) {
+        this.emailInUseWarn = "Email is already in use";
+        this.emailIsValid = false;
       } else {
         this.emailIsValid = false;
       }
@@ -206,6 +207,7 @@ export default {
       }
       if (!this.formIsValid) return;
       const password = this.generatePass();
+      console.log(password);
       if (this.userModalMode === "create") {
         this.createUser({
           userPermissionsObj: this.userPermissions,

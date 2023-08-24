@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 import Vue from "vue";
+import contactAPI from "../plugins/pocketBaseAPI";
 
 import contacts from "./contacts/contacts";
 import companies from "./companies/companies";
@@ -55,5 +56,7 @@ const store = new Vuex.Store({
         drop
     }
 })
+
+contactAPI(store)
 
 export default store;
