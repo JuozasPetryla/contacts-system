@@ -20,18 +20,15 @@ const getters = {
 
 const actions = {
     async loginWithPassword({ commit, dispatch }, { email, password }) {
-        try {
-            const user = await pb.collection('users').authWithPassword(
-                `${email}`,
-                `${password}`
-            )
+        const user = await this.authWithPassword([`${email}`, `${password}`])
+        if (user.status === 400) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', user.message, { root: true })
+            dispatch('openInfoModal', { root: true })
+        } else {
             commit('setCurrentUser', user)
             localStorage.setItem('user', user.token)
             router.push('/')
-        } catch (err) {
-            commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
-            dispatch('openInfoModal', { root: true })
         }
     },
     logout({ commit }) {

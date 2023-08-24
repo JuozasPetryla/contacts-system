@@ -34,8 +34,45 @@ const contactAPI = store => {
 
     store.getFiles = async function (collection, file) {
         try {
-            const response = store.pb.files.getUrl(collection, file, { 'thumb': '100x100' })
+            const response = await store.pb.files.getUrl(collection, file, { 'thumb': '100x100' })
             return response
+        } catch (err) {
+            return err
+        }
+    }
+
+    store.authWithPassword = async function (credentials) {
+        try {
+            const response = await store.pb.collection('users').authWithPassword(...credentials)
+            return response
+        } catch (err) {
+            return err
+        }
+    }
+
+    store.postItem = async function (collection, postObj) {
+        try {
+            const response = await store.pb.collection(collection).create(postObj)
+            return { status: 200, data: response }
+        } catch (err) {
+            return err
+        }
+    }
+
+    store.editItem = async function (collection, editId, editObj) {
+        try {
+            console.log(editId)
+            const response = await store.pb.collection(collection).update(editId, editObj)
+            return { status: 200, data: response }
+        } catch (err) {
+            return err
+        }
+    }
+
+    store.deleteItem = async function (collection, deleteId) {
+        try {
+            const response = await store.pb.collection(collection).delete(deleteId)
+            return { status: 200, data: response }
         } catch (err) {
             return err
         }

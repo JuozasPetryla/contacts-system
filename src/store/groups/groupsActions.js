@@ -17,7 +17,7 @@ const actions = {
         commit('setGroupDeleteInfo', info)
     },
     async getGroupEditInfo({ commit }, info) {
-        const groupDepartment = await pb.collection('departments_groups').getFullList({
+        const groupDepartment = await this.getFullList('departments_groups', {
             filter: `group_id="${info.id}"`,
             expand: 'department_id'
         })
@@ -27,58 +27,58 @@ const actions = {
         commit('setGroupEditInfo', infoObj)
     },
     async createGroup({ commit, dispatch }, { groupCreateObj, department_id }) {
-        try {
-            const group = await pb.collection('groups').create(groupCreateObj)
+        const group = await this.postItem('groups', groupCreateObj)
 
-            const groupCompaniesObj = {
-                department_id,
-                group_id: group.id
-            }
-            const groupsCompanies = await pb.collection('departments_groups').create(groupCompaniesObj)
+        const groupCompaniesObj = {
+            department_id,
+            group_id: group.id
+        }
+        const groupsCompanies = await this.postItem('departments_groups', groupCompaniesObj)
+        if (group.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', group.message, { root: true })
             commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async editGroup({ commit, dispatch }, { groupEditObj, department_id }) {
-        try {
-            const group = await pb.collection('groups').update(groupEditObj.id, groupEditObj)
-            const groupCompaniesObj = {
-                department_id,
-                group_id: groupEditObj.id
-            }
-            const groupsCompanies = await pb.collection('departments_groups').getFirstListItem(
-                `group_id="${group.id}"`
-            )
-            const groupsCompaniesEdit = await pb.collection('departments_groups').update(`${groupsCompanies.id}`, groupCompaniesObj)
+        const group = await this.editItem('groups', groupEditObj.id, groupEditObj)
+        const groupCompaniesObj = {
+            department_id,
+            group_id: groupEditObj.id
+        }
+        const groupsCompanies = await this.editItem('departments_groups',
+            `group_id="${group.id}"`
+        )
+        const groupsCompaniesEdit = await this.editItem('departments_groups', `${groupsCompanies.id}`, groupCompaniesObj)
+        if (group.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', group.message, { root: true })
             commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async deleteGroup({ commit, dispatch }, groupDeleteInfo) {
-        try {
-            const group = await pb.collection('groups').delete(groupDeleteInfo)
+        const group = await this.deleteItem('groups', groupDeleteInfo)
+        if (group.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', group.message, { root: true })
             commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }

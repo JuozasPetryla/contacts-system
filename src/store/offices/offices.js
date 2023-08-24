@@ -45,12 +45,10 @@ const actions = {
 
     },
     async getOfficesForDisplay({ commit }) {
-        try {
-            const offices = await this.getFullList('offices')
-            commit('setOfficesForDisplay', offices)
-        } catch (err) {
-            console.log(err)
-        }
+
+        const offices = await this.getFullList('offices')
+        commit('setOfficesForDisplay', offices)
+
     },
 
 

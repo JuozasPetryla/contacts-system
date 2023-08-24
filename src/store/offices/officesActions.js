@@ -38,7 +38,7 @@ const actions = {
         commit('setOfficeDeleteInfo', info)
     },
     async getOfficeEditInfo({ commit }, info) {
-        const officeCompany = await pb.collection('companies_offices').getFullList({
+        const officeCompany = await this.getFullList('companies_offices', {
             filter: `office_id="${info.id}"`,
             expand: 'company_id'
         })
@@ -48,65 +48,65 @@ const actions = {
         commit('setOfficeEditInfo', infoObj)
     },
     async createOffice({ commit, dispatch }, { officeCreateObj, company_id }) {
-        try {
-            const office = await pb.collection('offices').create(officeCreateObj)
+        const office = await this.postItem('offices', officeCreateObj)
 
-            const officeCompaniesObj = {
-                company_id,
-                office_id: office.id
-            }
-            const officesCompanies = await pb.collection('companies_offices').create(officeCompaniesObj)
+        const officeCompaniesObj = {
+            company_id,
+            office_id: office.id
+        }
+        const officesCompanies = await this.postItem('companies_offices', officeCompaniesObj)
+        if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setOfficeModalClosed')
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', office.message, { root: true })
             commit('setOfficeModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async editOffice({ commit, dispatch }, { officeEditObj, company_id }) {
-        try {
-            const office = await pb.collection('offices').update(officeEditObj.id, officeEditObj)
-            const officeCompaniesObj = {
-                company_id,
-                office_id: officeEditObj.id
-            }
-            const officesCompanies = await pb.collection('companies_offices').getFirstListItem(
-                `office_id="${office.id}"`
-            )
-            const officesCompaniesEdit = await pb.collection('companies_offices').update(`${officesCompanies.id}`, officeCompaniesObj)
+        const office = await this.editItem('offices', officeEditObj.id, officeEditObj)
+        const officeCompaniesObj = {
+            company_id,
+            office_id: officeEditObj.id
+        }
+        const officesCompanies = await this.getListItem('companies_offices',
+            `office_id="${office.id}"`
+        )
+        const officesCompaniesEdit = await this.editItem('companies_offices', `${officesCompanies.id}`, officeCompaniesObj)
+        if (office.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
             commit('setOfficeModalClosed')
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', office.message, { root: true })
             commit('setOfficeModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async deleteOffice({ commit, dispatch }, officeDeleteInfo) {
-        try {
-            const officesDivisions = await pb.collection('offices_divisions').getFullList({
-                filter: `office_id="${officeDeleteInfo}"`,
-                expand: 'division_id'
-            })
-            officesDivisions.forEach(division => {
-                dispatch('deleteDivision', division.expand.division_id.id)
-            })
-            const office = await pb.collection('offices').delete(officeDeleteInfo)
+        const officesDivisions = await this.getFullList('offices_divisions', {
+            filter: `office_id="${officeDeleteInfo}"`,
+            expand: 'division_id'
+        })
+        officesDivisions.forEach(division => {
+            dispatch('deleteDivision', division.expand.division_id.id)
+        })
+        const office = await this.deleteItem('offices', officeDeleteInfo)
+        if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setOfficeModalClosed')
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', office.message, { root: true })
             commit('setOfficeModalClosed')
             dispatch('openInfoModal', { root: true })
         }

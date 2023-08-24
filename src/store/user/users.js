@@ -9,9 +9,6 @@ const state = {
         delete_offices: false,
         edit_structure: false,
         delete_structure: false,
-        edit_permissions: false,
-        delete_permissions: false,
-        read_permissions: false,
         edit_companies: false,
         delete_companies: false,
     },
@@ -29,42 +26,32 @@ const getters = {
 }
 const actions = {
     async getUsers({ commit }) {
-        try {
-            let arrayWithAvatars = []
-            const users = await pb.collection('users').getFullList()
-            for (const user of users) {
-                const avatar = user.avatar
-                let url
-                if (avatar) {
-                    url = pb.files.getUrl(user, avatar, { 'thumb': '100x100' })
-                }
-                user.avatar = url ? url : avatar
-                arrayWithAvatars.push(user)
+        let arrayWithAvatars = []
+        const users = await this.getFullList('users')
+        for (const user of users) {
+            const avatar = user.avatar
+            let url
+            if (avatar) {
+                url = this.getFiles(user, avatar, { 'thumb': '100x100' })
             }
-            commit('setUsers', arrayWithAvatars)
-        } catch (err) {
-            console.log(err)
+            user.avatar = url ? url : avatar
+            arrayWithAvatars.push(user)
         }
+        commit('setUsers', arrayWithAvatars)
+
     },
     async getUserPermissions({ commit }, user) {
-        try {
-            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${user.permissions_id}"`)
-            const permissions = {
-                ...userPermissions,
-                read_permissions: true
-            }
-            commit('setUserPermissions', { ...userPermissions, read_permissions: true })
-        } catch (err) {
-            console.log(err)
+        const userPermissions = await this.getListItem('user_permissions', [`id="${user.permissions_id}"`])
+        const permissions = {
+            ...userPermissions,
+            read_permissions: true
         }
+        commit('setUserPermissions', { ...userPermissions, read_permissions: true })
     },
     async getCurrentUserPermissions({ commit }, userPermissionsId) {
-        try {
-            const userPermissions = await pb.collection('user_permissions').getFirstListItem(`id="${userPermissionsId}"`);
-            commit('setCurrentUserPermissions', userPermissions)
-        } catch (err) {
-            console.log(err)
-        }
+        const userPermissions = await this.getListItem('user_permissions', [`id="${userPermissionsId}"`]);
+        console.log(userPermissions)
+        commit('setCurrentUserPermissions', userPermissions)
     }
 
 }

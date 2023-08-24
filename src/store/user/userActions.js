@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     userModalOpen: false,
     userModalMode: '',
@@ -41,94 +39,97 @@ const actions = {
         commit('setUserEditInfo', info)
     },
     async createUser({ commit, dispatch, rootState }, { userPermissionsObj, userCreateObj }) {
-        try {
-            const userPermissions = await pb.collection('user_permissions').create({
-                ...userPermissionsObj,
-                read_permissions: true,
-                edit_permissions: false,
-                delete_permissions: false,
-            })
-            const formData = new FormData()
-            if (rootState.drop.imageSelected) {
-                formData.append('avatar', rootState.drop.file)
-            } else {
-                formData.append('avatar', '')
-            }
+        const userPermissions = await this.postItem('user_permissions', {
+            ...userPermissionsObj,
+            read_permissions: true,
+            edit_permissions: false,
+            delete_permissions: false,
+        })
+        const formData = new FormData()
+        if (rootState.drop.imageSelected) {
+            formData.append('avatar', rootState.drop.file)
+        } else {
+            formData.append('avatar', '')
+        }
 
-            formData.append('permissions_id', userPermissions.id)
+        formData.append('permissions_id', userPermissions.data.id)
 
-            for (const [key, value] of Object.entries(userCreateObj)) {
-                formData.append(`${key}`, value)
-            }
-            const user = await pb.collection('users').create(formData)
-            console.log(user)
+        for (const [key, value] of Object.entries(userCreateObj)) {
+            formData.append(`${key}`, value)
+        }
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value)
+        }
+        const user = await this.postItem('users', formData)
+
+        if (user.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})
 
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', user.message, { root: true })
             commit('setUserModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async editUser({ commit, dispatch, rootState }, userEditObj) {
-        try {
-            const formData = new FormData()
-            if (rootState.drop.imageSelected) {
-                formData.append('avatar', rootState.drop.file)
-            } else {
-                formData.append('avatar', '')
-            }
+        const formData = new FormData()
+        if (rootState.drop.imageSelected) {
+            formData.append('avatar', rootState.drop.file)
+        } else {
+            formData.append('avatar', '')
+        }
 
 
-            for (const [key, value] of Object.entries(userEditObj)) {
-                formData.append(`${key}`, value)
-            }
-            const userEdited = await pb.collection('users').update(userEditObj.id, formData)
+        for (const [key, value] of Object.entries(userEditObj)) {
+            formData.append(`${key}`, value)
+        }
+        const userEdited = await this.editItem('users', userEditObj.id, formData)
+        if (userEdited.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})
 
-        } catch (err) {
+        } else {
             console.log(err)
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', userEdited.message, { root: true })
             commit('setUserModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async editUserPermissions({ commit, dispatch }, userPermissionsObj) {
-        try {
-            const userPermissions = await pb.collection('user_permissions').update(userPermissionsObj.id, userPermissionsObj)
+        const userPermissions = await this.editItem('user_permissions', userPermissionsObj.id, userPermissionsObj)
+        if (userPermissions.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', userPermissions.message, { root: true })
             commit('setUserModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
     async deleteUser({ commit, dispatch }, userId) {
-        try {
-            const user = await pb.collection('users').getFirstListItem(`id="${userId}"`)
-            const userDelete = await pb.collection('users').delete(userId)
-            const userPermissions = await pb.collection('user_permissions').delete(user.permissions_id)
+        const user = await this.getListItem('users', [`id="${userId}"`])
+        const userDelete = await this.deleteItem('users', userId)
+        const userPermissions = await this.deleteItem('user_permissions', user.permissions_id)
+        if (userPermissions.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setUserModalClosed')
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
-        } catch (err) {
+        } else {
             commit('setInfoModalMode', 'error', { root: true })
-            commit('setInfoModalError', err.message, { root: true })
+            commit('setInfoModalError', userPermissions.message, { root: true })
             commit('setUserModalClosed')
             dispatch('openInfoModal', { root: true })
         }
