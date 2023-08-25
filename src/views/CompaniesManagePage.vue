@@ -5,8 +5,9 @@
       <BaseIconButton
         class="h-12 w-12"
         @click="
-          openCompanyModal();
-          getCompanyModalMode('create');
+          openModal();
+          getModalMode('create');
+          getModalType('company');
         "
       >
         <img src="../assets/Plus Math.svg" />
@@ -20,20 +21,16 @@
       <strong>Nerasta įmonių</strong>
     </p>
     <CompaniesTable class="overflow-y-auto h-96 mb-24"></CompaniesTable>
-    <BaseCompanyModal>
+    <BaseModal>
       <template #header>
-        <h2 v-if="companyModalMode === 'edit'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
           Redaguoti įmonę:
         </h2>
-        <h2 v-if="companyModalMode === 'create'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'create'" class="text-4xl font-normal">
           Kurti naują įmonę:
         </h2>
       </template>
-      <template #actionName>
-        <span v-if="companyModalMode === 'edit'">REDAGUOTI</span>
-        <span v-if="companyModalMode === 'create'">KURTI NAUJĄ</span>
-      </template>
-    </BaseCompanyModal>
+    </BaseModal>
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -72,7 +69,7 @@ export default {
       "infoModalMode",
       "companies",
       "totalCompanies",
-      "companyModalMode",
+      "modalMode",
       "companyDeleteInfo",
     ]),
     totalCompaniesText() {
@@ -130,8 +127,9 @@ export default {
     ...mapActions([
       "closeInfoModal",
       "getCompanies",
-      "openCompanyModal",
-      "getCompanyModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "deleteCompany",
     ]),
   },

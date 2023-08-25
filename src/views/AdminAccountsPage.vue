@@ -5,8 +5,9 @@
       <BaseIconButton
         class="h-12 w-12"
         @click="
-          getUserModalMode('create');
-          openUserModal();
+          getModalMode('create');
+          getModalType('user');
+          openModal();
         "
       >
         <img src="../assets/Plus Math.svg" />
@@ -14,13 +15,7 @@
       <p class="text-lg">Sukūrti naują administratorių</p>
     </div>
     <AdminsTable class="overflow-y-auto h-96 mb-24"></AdminsTable>
-    <BaseAdminModal>
-      <template #actions>
-        <span v-if="userModalMode === 'create'">PRIDĖTI</span>
-        <span v-if="userModalMode === 'editPermissions'">KEISTI LEIDIMUS</span>
-        <span v-if="userModalMode === 'edit'">REDAGUOTI</span>
-      </template>
-    </BaseAdminModal>
+    <BaseModal> </BaseModal>
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -33,7 +28,7 @@
             @click="
               closeInfoModal();
               deleteUser(userDeleteInfo.id);
-              getUserModalMode('delete');
+              getModalMode('delete');
             "
             class="md-primary"
             >TAIP</md-button
@@ -105,9 +100,10 @@ export default {
     ...mapActions([
       "closeInfoModal",
       "getUsers",
-      "openUserModal",
-      "getUserModalMode",
+      "openModal",
+      "getModalMode",
       "deleteUser",
+      "getModalType",
     ]),
   },
   created() {

@@ -50,7 +50,6 @@ const actions = {
     },
     async getCurrentUserPermissions({ commit }, userPermissionsId) {
         const userPermissions = await this.getListItem('user_permissions', [`id="${userPermissionsId}"`]);
-        console.log(userPermissions)
         commit('setCurrentUserPermissions', userPermissions)
     }
 

@@ -25,8 +25,9 @@
         <BaseIconButton
           v-if="currentUserPermissions.edit_employees"
           @click="
-            openContactModal();
-            getContactModalMode('edit');
+            openModal();
+            getModalMode('edit');
+            getModalType('contact');
             getEditInfo(info);
           "
         >
@@ -39,9 +40,10 @@
           v-if="currentUserPermissions.delete_employees"
           class="bg-light-red hover:bg-dark-red"
           @click="
+            getModalType('contact');
             getInfoModalMode('delete');
             openInfoModal();
-            getContactModalMode('delete');
+            getModalMode('delete');
             getDeleteInfo(info);
           "
         >
@@ -58,12 +60,13 @@ export default {
   props: ["info"],
   methods: {
     ...mapActions([
-      "openContactModal",
+      "openModal",
       "getInfoModalMode",
       "openInfoModal",
-      "getContactModalMode",
+      "getModalMode",
       "getDeleteInfo",
       "getEditInfo",
+      "getModalType",
     ]),
   },
   computed: {

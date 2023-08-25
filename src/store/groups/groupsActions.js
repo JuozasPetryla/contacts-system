@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     groupDeleteInfo: {},
     groupEditInfo: {},
@@ -31,7 +29,7 @@ const actions = {
 
         const groupCompaniesObj = {
             department_id,
-            group_id: group.id
+            group_id: group.data.id
         }
         const groupsCompanies = await this.postItem('departments_groups', groupCompaniesObj)
         if (group.status === 200) {
@@ -52,8 +50,8 @@ const actions = {
             department_id,
             group_id: groupEditObj.id
         }
-        const groupsCompanies = await this.editItem('departments_groups',
-            `group_id="${group.id}"`
+        const groupsCompanies = await this.getListItem('departments_groups',
+            [`group_id="${group.data.id}"`]
         )
         const groupsCompaniesEdit = await this.editItem('departments_groups', `${groupsCompanies.id}`, groupCompaniesObj)
         if (group.status === 200) {

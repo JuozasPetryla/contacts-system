@@ -57,9 +57,7 @@ const actions = {
         for (const [key, value] of Object.entries(userCreateObj)) {
             formData.append(`${key}`, value)
         }
-        for (const [key, value] of formData.entries()) {
-            console.log(key, value)
-        }
+
         const user = await this.postItem('users', formData)
 
         if (user.status === 200) {
@@ -97,7 +95,6 @@ const actions = {
             dispatch('getFile', {})
 
         } else {
-            console.log(err)
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', userEdited.message, { root: true })
             commit('setUserModalClosed')

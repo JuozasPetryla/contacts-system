@@ -52,7 +52,7 @@ const actions = {
 
         const officeCompaniesObj = {
             company_id,
-            office_id: office.id
+            office_id: office.data.id
         }
         const officesCompanies = await this.postItem('companies_offices', officeCompaniesObj)
         if (office.status === 200) {
@@ -74,7 +74,7 @@ const actions = {
             office_id: officeEditObj.id
         }
         const officesCompanies = await this.getListItem('companies_offices',
-            `office_id="${office.id}"`
+            [`office_id="${office.data.id}"`]
         )
         const officesCompaniesEdit = await this.editItem('companies_offices', `${officesCompanies.id}`, officeCompaniesObj)
         if (office.status === 200) {

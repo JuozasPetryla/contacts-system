@@ -12,8 +12,9 @@
         <BaseButton
           @click="
             closeStructureChooseModal();
-            openStructureModal();
-            getStructureModalMode('create');
+            openModal();
+            getModalMode('create');
+            getModalType('structure');
             getStructureModalFormMode('division');
           "
           >Padalinys</BaseButton
@@ -21,8 +22,9 @@
         <BaseButton
           @click="
             closeStructureChooseModal();
-            openStructureModal();
-            getStructureModalMode('create');
+            openModal();
+            getModalMode('create');
+            getModalType('structure');
             getStructureModalFormMode('department');
           "
           >Skyrius</BaseButton
@@ -30,8 +32,9 @@
         <BaseButton
           @click="
             closeStructureChooseModal();
-            openStructureModal();
-            getStructureModalMode('create');
+            openModal();
+            getModalMode('create');
+            getModalType('structure');
             getStructureModalFormMode('group');
           "
           >Grupė</BaseButton
@@ -56,8 +59,9 @@ export default {
   methods: {
     ...mapActions([
       "closeStructureChooseModal",
-      "openStructureModal",
-      "getStructureModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "getStructureModalFormMode",
     ]),
   },

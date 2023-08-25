@@ -5,8 +5,9 @@
       <BaseIconButton
         class="h-12 w-12"
         @click="
-          openOfficeModal();
-          getOfficeModalMode('create');
+          openModal();
+          getModalMode('create');
+          getModalType('office');
         "
       >
         <img src="../assets/Plus Math.svg" />
@@ -14,20 +15,16 @@
       <p class="text-lg">Pridėti naują ofisą</p>
     </div>
     <OfficesTable class="overflow-y-auto h-96 mb-24"></OfficesTable>
-    <BaseOfficeModal>
+    <BaseModal>
       <template #header>
-        <h2 v-if="officeModalMode === 'edit'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
           Redaguoti ofisą:
         </h2>
-        <h2 v-if="officeModalMode === 'create'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'create'" class="text-4xl font-normal">
           Kurti naują ofisą:
         </h2>
       </template>
-      <template #action>
-        <span v-if="officeModalMode === 'edit'">REDAGUOTI</span>
-        <span v-if="officeModalMode === 'create'">KURTI NAUJĄ</span>
-      </template>
-    </BaseOfficeModal>
+    </BaseModal>
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -64,7 +61,7 @@ export default {
     ...mapGetters([
       "infoModalMode",
       "offices",
-      "officeModalMode",
+      "modalMode",
       "officeDeleteInfo",
     ]),
     infoModalText() {
@@ -74,19 +71,13 @@ export default {
       if (this.infoModalMode === "delete") {
         return `Pavadinimas: ${this.officeDeleteInfo.name}`;
       }
-      if (
-        this.officeModalMode === "create" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "create" && this.infoModalMode === "success") {
         return "Ofisas sėkmingai sukurtas";
       }
-      if (this.officeModalMode === "edit" && this.infoModalMode === "success") {
+      if (this.modalMode === "edit" && this.infoModalMode === "success") {
         return "Ofisas sėkmingai redaguotas";
       }
-      if (
-        this.officeModalMode === "delete" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "delete" && this.infoModalMode === "success") {
         return "Ofisas sėkmingai ištrintas";
       }
     },
@@ -108,8 +99,9 @@ export default {
     ...mapActions([
       "closeInfoModal",
       "getOffices",
-      "openOfficeModal",
-      "getOfficeModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "deleteOffice",
     ]),
   },

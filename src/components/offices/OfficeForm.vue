@@ -1,119 +1,99 @@
 <template>
-  <md-dialog
-    :md-active="officeModalOpen"
-    @md-clicked-outside="closeOfficeModal"
-    class="h-fit w-mxa mx-auto my-auto"
+  <form
+    @submit.prevent="
+      validateForm();
+      formSubmit();
+    "
   >
-    <form
-      @submit.prevent="
-        validateForm();
-        formSubmit();
-        setFormIsValid();
-      "
-    >
-      <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
-        <div class="flex flex-col space-y-6">
-          <header class="font-medium text-lg">
-            <slot name="header"> </slot>
-          </header>
-
-          <BaseInputField
-            :inputPlaceHolder="'Įvekite adresą...'"
-            :inputId="'address'"
-            :inputType="'text'"
-            v-model="address"
-            class="relative"
-            @blur="validateAdress"
-            @input="validateAdress"
-            :class="{ invalid: !addressIsValid }"
-            ><template #label>Adresas:</template>
-            <template #image-right>
-              <div class="w-6 bg-light-gray"></div>
-            </template>
-          </BaseInputField>
-          <BaseInputField
-            :inputPlaceHolder="'Įveskite miestą...'"
-            :inputId="'city'"
-            :inputType="'text'"
-            v-model="city"
-            class="relative"
-            @blur="validateCity"
-            @input="validateCity"
-            :class="{ invalid: !cityIsValid }"
-            ><template #label>Miestas:</template>
-            <template #image-right>
-              <div class="w-6 bg-light-gray"></div>
-            </template>
-          </BaseInputField>
-          <BaseInputField
-            :inputPlaceHolder="'Įveskite šalį...'"
-            :inputId="'country'"
-            :inputType="'text'"
-            v-model="country"
-            class="relative"
-            @blur="validateCountry"
-            @input="validateCountry"
-            :class="{ invalid: !countryIsValid }"
-            ><template #label>Šalis:</template>
-            <template #image-right>
-              <div class="w-6 bg-light-gray"></div>
-            </template>
-          </BaseInputField>
-        </div>
-        <div class="space-y-6 pt-16">
-          <div>
-            <label for="imone">Įmonė:</label>
-            <md-field class="md-elevation-4">
-              <label for="imone" class="pl-4">Pasirinkite įmonę...</label>
-              <md-select
-                name="imone"
-                id="imone"
-                class="pl-4"
-                v-model="selectedCompany"
-                :class="{ invalidSelect: !selectedCompanyIsValid }"
-                @md-selected="validateSelectedCompany"
-                @blur="validateSelectedCompany"
-              >
-                <md-option
-                  v-for="company in companies"
-                  :key="company.id"
-                  :value="company.id"
-                  >{{ company.name }}</md-option
-                >
-              </md-select>
-            </md-field>
-          </div>
-
-          <div class="relative">
-            <p
-              v-if="!formIsValid"
-              class="text-light-red text-lg absolute top-12 left-8"
+    <div class="flex px-20 pt-20 pb-36 items-start space-x-12">
+      <div class="flex flex-col space-y-6 mt-16 mr-24">
+        <BaseInputField
+          :inputPlaceHolder="'Įvekite adresą...'"
+          :inputId="'address'"
+          :inputType="'text'"
+          v-model="address"
+          class="relative"
+          @blur="validateAdress"
+          @input="validateAdress"
+          :class="{ invalid: !addressIsValid }"
+          ><template #label>Adresas:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
+        </BaseInputField>
+        <BaseInputField
+          :inputPlaceHolder="'Įveskite miestą...'"
+          :inputId="'city'"
+          :inputType="'text'"
+          v-model="city"
+          class="relative"
+          @blur="validateCity"
+          @input="validateCity"
+          :class="{ invalid: !cityIsValid }"
+          ><template #label>Miestas:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
+        </BaseInputField>
+        <BaseInputField
+          :inputPlaceHolder="'Įveskite šalį...'"
+          :inputId="'country'"
+          :inputType="'text'"
+          v-model="country"
+          class="relative"
+          @blur="validateCountry"
+          @input="validateCountry"
+          :class="{ invalid: !countryIsValid }"
+          ><template #label>Šalis:</template>
+          <template #image-right>
+            <div class="w-6 bg-light-gray"></div>
+          </template>
+        </BaseInputField>
+      </div>
+      <div class="space-y-6 pt-16">
+        <div>
+          <label for="imone">Įmonė:</label>
+          <md-field class="md-elevation-4">
+            <label for="imone" class="pl-4">Pasirinkite įmonę...</label>
+            <md-select
+              name="imone"
+              id="imone"
+              class="pl-4"
+              v-model="selectedCompany"
+              :class="{ invalidSelect: !selectedCompanyIsValid }"
+              @md-selected="validateSelectedCompany"
+              @blur="validateSelectedCompany"
             >
-              Užpildykite reikiamus laukus
-            </p>
-          </div>
+              <md-option
+                v-for="company in companies"
+                :key="company.id"
+                :value="company.id"
+                >{{ company.name }}</md-option
+              >
+            </md-select>
+          </md-field>
         </div>
-        <div class="self-end">
-          <BaseButton :type="'submit'">
-            <slot name="action"></slot>
-          </BaseButton>
+
+        <div class="relative">
+          <p
+            v-if="!formIsValid"
+            class="text-light-red text-md absolute top-0 left-8"
+          >
+            Užpildykite reikiamus laukus
+          </p>
         </div>
       </div>
-    </form>
-
-    <BaseIconButton
-      @click="
-        closeOfficeModal();
-        setFormIsValid();
-      "
-      class="absolute top-10 right-10"
-    >
-      <img src="../../assets/Plus Math.svg" class="rotate-45" />
-    </BaseIconButton>
-  </md-dialog>
+      <div class="absolute bottom-28 right-16">
+        <BaseButton :type="'submit'">
+          {{ modalMode === "edit" ? "REDAGUOTI" : "KURTI NAUJĄ" }}
+        </BaseButton>
+      </div>
+    </div>
+  </form>
 </template>
-      
-    <script>
+
+
+<script>
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -131,20 +111,20 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "officeModalOpen",
+      "modalOpen",
       "companies",
-      "officeModalMode",
+      "modalMode",
       "officeEditInfo",
       "officeCompany",
     ]),
   },
   methods: {
     ...mapActions([
-      "closeOfficeModal",
       "getCompanies",
       "createOffice",
       "editOffice",
       "getOfficeCompany",
+      "closeModal",
     ]),
     setFormIsValid() {
       this.formIsValid = true;
@@ -215,7 +195,7 @@ export default {
     formSubmit() {
       if (!this.formIsValid) return;
 
-      if (this.officeModalMode === "create") {
+      if (this.modalMode === "create") {
         this.createOffice({
           officeCreateObj: {
             name: `${this.address}, ${this.city}, ${this.country}`,
@@ -227,7 +207,7 @@ export default {
           company_id: this.selectedCompany,
         });
       }
-      if (this.officeModalMode === "edit") {
+      if (this.modalMode === "edit") {
         this.editOffice({
           officeEditObj: {
             id: this.officeEditInfo.id,
@@ -244,6 +224,7 @@ export default {
       this.city = "";
       this.country = "";
       this.selectedCompany = "";
+      this.closeModal();
     },
   },
   created() {

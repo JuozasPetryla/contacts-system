@@ -16,8 +16,9 @@
             v-if="currentUserPermissions.edit_offices"
             class="rounded-full"
             @click="
-              openOfficeModal();
-              getOfficeModalMode('edit');
+              openModal();
+              getModalMode('edit');
+              getModalType('office');
               getOfficeEditInfo(office);
             "
             >Redaguoti</BaseButton
@@ -29,7 +30,8 @@
               getOfficeDeleteInfo(office);
               openInfoModal();
               getInfoModalMode('delete');
-              getOfficeModalMode('delete');
+              getModalType('office');
+              getModalMode('delete');
             "
             >Ištrinti</BaseButton
           >
@@ -47,8 +49,9 @@ export default {
       "getOfficesForDisplay",
       "getOfficeEditInfo",
       "getOfficeDeleteInfo",
-      "openOfficeModal",
-      "getOfficeModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "openInfoModal",
       "getInfoModalMode",
       "getOfficeCompany",

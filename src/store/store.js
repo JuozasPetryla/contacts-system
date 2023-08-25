@@ -21,6 +21,7 @@ import groupsActions from "./groups/groupsActions";
 import users from "./user/users";
 import userActions from "./user/userActions";
 import drop from "./general/drop";
+import modal from "./general/modal";
 
 Vue.use(Vuex);
 
@@ -53,7 +54,8 @@ const store = new Vuex.Store({
         groupsActions,
         users,
         userActions,
-        drop
+        drop,
+        modal
     }
 })
 

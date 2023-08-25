@@ -17,9 +17,10 @@
             v-if="currentUserPermissions.edit_companies"
             class="rounded-full"
             @click="
-              getCompanyModalMode('edit');
               getCompanyEditInfo(company);
-              openCompanyModal();
+              getModalType('company');
+              getModalMode('edit');
+              openModal();
             "
             >Redaguoti</BaseButton
           >
@@ -30,7 +31,8 @@
               getCompanyDeleteInfo(company);
               openInfoModal();
               getInfoModalMode('delete');
-              getCompanyModalMode('delete');
+              getModalType('company');
+              getModalMode('delete');
             "
             >Ištrinti</BaseButton
           >
@@ -48,8 +50,9 @@ export default {
       "getCompanies",
       "getCompanyEditInfo",
       "getCompanyDeleteInfo",
-      "openCompanyModal",
-      "getCompanyModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "openInfoModal",
       "getInfoModalMode",
     ]),

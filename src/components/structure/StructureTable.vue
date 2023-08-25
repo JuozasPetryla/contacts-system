@@ -20,10 +20,10 @@
             class="rounded-full"
             @click="
               getDivisionEditInfo(division);
-              openStructureModal();
+              openModal();
               getStructureModalFormMode('division');
-
-              getStructureModalMode('edit');
+              getModalType('structure');
+              getModalMode('edit');
             "
             >Redaguoti</BaseButton
           >
@@ -34,8 +34,9 @@
               getDivisionDeleteInfo(division);
               openInfoModal();
               getStructureModalFormMode('division');
-              getStructureModalMode('delete');
+              getModalMode('delete');
               getInfoModalMode('delete');
+              getModalType('structure');
             "
             >Ištrinti</BaseButton
           >
@@ -59,9 +60,10 @@
             class="rounded-full"
             @click="
               getDepartmentEditInfo(department);
-              openStructureModal();
+              openModal();
               getStructureModalFormMode('department');
-              getStructureModalMode('edit');
+              getModalMode('edit');
+              getModalType('structure');
             "
             >Redaguoti</BaseButton
           >
@@ -72,8 +74,9 @@
               getDepartmentDeleteInfo(department);
               openInfoModal();
               getStructureModalFormMode('department');
-              getStructureModalMode('delete');
+              getModalMode('delete');
               getInfoModalMode('delete');
+              getModalType('structure');
             "
             >Ištrinti</BaseButton
           >
@@ -95,9 +98,10 @@
             class="rounded-full"
             @click="
               getGroupEditInfo(group);
-              openStructureModal();
+              openModal();
               getStructureModalFormMode('group');
-              getStructureModalMode('edit');
+              getModalMode('edit');
+              getModalType('structure');
             "
             >Redaguoti</BaseButton
           >
@@ -108,7 +112,8 @@
               getGroupDeleteInfo(group);
               openInfoModal();
               getStructureModalFormMode('group');
-              getStructureModalMode('delete');
+              getModalMode('delete');
+              getModalType('structure');
               getInfoModalMode('delete');
             "
             >Ištrinti</BaseButton
@@ -129,8 +134,9 @@ export default {
       "getDepartmentEditInfo",
       "getGroupEditInfo",
       "getStructureModalFormMode",
-      "openStructureModal",
-      "getStructureModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "openInfoModal",
       "getInfoModalMode",
       "getOfficeDeleteInfo",

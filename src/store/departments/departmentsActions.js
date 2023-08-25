@@ -31,10 +31,10 @@ const actions = {
 
         const departmentCompaniesObj = {
             division_id,
-            department_id: department.id
+            department_id: department.data.id
         }
         const departmentsCompanies = await this.postItem('divisions_departments', departmentCompaniesObj)
-        if (department.status === 200 && departmentsCompanies.status === 200) {
+        if (department.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
             commit('setStructureModalClosed')
             dispatch('getDepartmentsForDisplay', { root: true })
@@ -53,7 +53,7 @@ const actions = {
             department_id: departmentEditObj.id
         }
         const departmentsCompanies = await this.getListItem('divisions_departments',
-            `department_id="${department.id}"`
+            [`department_id="${department.data.id}"`]
         )
         const departmentsCompaniesEdit = await this.editItem('divisions_departments', `${departmentsCompanies.id}`, departmentCompaniesObj)
         if (department.status === 200) {

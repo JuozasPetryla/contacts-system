@@ -59,8 +59,9 @@
         v-if="checkUser"
         class="h-12 w-12"
         @click="
-          openContactModal();
-          getContactModalMode('create');
+          openModal();
+          getModalType('contact');
+          getModalMode('create');
         "
       >
         <img src="../assets/Plus Math.svg" />
@@ -76,26 +77,16 @@
     <TheFilters></TheFilters>
     <component class="pb-36" :is="currentContacts"></component>
     <ThePagination class="absolute bottom-5 left-1/3"></ThePagination>
-    <BaseContactModal v-if="contactModalOpen">
+    <BaseModal v-if="modalOpen">
       <template #header>
-        <h2
-          v-if="contactModalMode === 'edit'"
-          class="text-4xl font-normal text-center"
-        >
-          Redaguoti kontaktą:
+        <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
+          Redaguoti kontaką:
         </h2>
-        <h2
-          v-if="contactModalMode === 'create'"
-          class="text-4xl font-normal text-center"
-        >
-          Kurti kontaktą:
+        <h2 v-if="modalMode === 'create'" class="text-4xl font-normal">
+          Kurti naują kontaką:
         </h2>
       </template>
-      <template #action>
-        <span v-if="contactModalMode === 'edit'">REDAGUOTI</span>
-        <span v-if="contactModalMode === 'create'">KURTI NAUJĄ</span>
-      </template>
-    </BaseContactModal>
+    </BaseModal>
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -210,10 +201,10 @@ export default {
       }
     },
     ...mapGetters([
-      "contactModalMode",
+      "modalMode",
       "infoModalError",
       "totalContacts",
-      "contactModalOpen",
+      "modalOpen",
       "infoModalMode",
       "deleteInfo",
       "page",
@@ -231,8 +222,9 @@ export default {
     },
     ...mapActions([
       "getContacts",
-      "openContactModal",
-      "getContactModalMode",
+      "openModal",
+      "getModalMode",
+      "getModalType",
       "closeInfoModal",
       "deleteContact",
       "getContactsNumber",

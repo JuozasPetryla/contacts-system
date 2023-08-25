@@ -8,20 +8,16 @@
       <p class="text-lg">Pridėti naują struktūrą</p>
     </div>
     <StructureTable class="overflow-y-auto h-96"></StructureTable>
-    <BaseStructureModal>
+    <BaseModal>
       <template #header>
-        <h2 v-if="structureModalMode === 'edit'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
           Redaguoti struktūrą:
         </h2>
-        <h2 v-if="structureModalMode === 'create'" class="text-4xl font-normal">
+        <h2 v-if="modalMode === 'create'" class="text-4xl font-normal">
           Kurti naują struktūrą:
         </h2>
       </template>
-      <template #action>
-        <span v-if="structureModalMode === 'edit'">REDAGUOTI</span>
-        <span v-if="structureModalMode === 'create'">KURTI NAUJĄ</span>
-      </template>
-    </BaseStructureModal>
+    </BaseModal>
     <BaseStructureChooseModal>
       <template #header> Pasirinkite struktūrą </template>
     </BaseStructureChooseModal>
@@ -79,11 +75,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      "openStructureModal",
+      "openModal",
       "openStructureChooseModal",
-      "getStructureModalMode",
+      "getModalMode",
       "closeInfoModal",
-
       "deleteDivision",
       "deleteDepartment",
       "deleteGroup",
@@ -91,7 +86,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "structureModalMode",
+      "modalMode",
       "infoModalMode",
       "infoModalError",
       "divisionDeleteInfo",
@@ -124,21 +119,21 @@ export default {
       }
 
       if (
-        this.structureModalMode === "create" &&
+        this.modalMode === "create" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "division"
       ) {
         return "Padalinys sėkmingai sukurtas";
       }
       if (
-        this.structureModalMode === "edit" &&
+        this.modalMode === "edit" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "division"
       ) {
         return "Padalinys sėkmingai redaguotas";
       }
       if (
-        this.structureModalMode === "delete" &&
+        this.modalMode === "delete" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "division"
       ) {
@@ -146,21 +141,21 @@ export default {
       }
 
       if (
-        this.structureModalMode === "create" &&
+        this.modalMode === "create" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "department"
       ) {
         return "Skyrius sėkmingai sukurtas";
       }
       if (
-        this.structureModalMode === "edit" &&
+        this.modalMode === "edit" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "department"
       ) {
         return "Skyrius sėkmingai redaguotas";
       }
       if (
-        this.structureModalMode === "delete" &&
+        this.modalMode === "delete" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "department"
       ) {
@@ -168,21 +163,21 @@ export default {
       }
 
       if (
-        this.structureModalMode === "create" &&
+        this.modalMode === "create" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "group"
       ) {
         return "Grupė sėkmingai sukurta";
       }
       if (
-        this.structureModalMode === "edit" &&
+        this.modalMode === "edit" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "group"
       ) {
         return "Grupė sėkmingai redaguota";
       }
       if (
-        this.structureModalMode === "delete" &&
+        this.modalMode === "delete" &&
         this.infoModalMode === "success" &&
         this.structureModalFormMode === "group"
       ) {

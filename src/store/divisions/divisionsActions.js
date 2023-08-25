@@ -53,7 +53,7 @@ const actions = {
             division_id: divisionEditObj.id
         }
         const divisionsCompanies = await this.getListItem('offices_divisions',
-            `division_id="${division.id}"`
+            [`division_id="${division.data.id}"`]
         )
         const divisionsCompaniesEdit = await this.editItem('offices_divisions', `${divisionsCompanies.id}`, divisionCompaniesObj)
         if (division.status === 200) {

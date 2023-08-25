@@ -23,9 +23,10 @@
             v-if="currentUserPermissions.edit_permissions"
             class="rounded-full"
             @click="
-              openUserModal();
-              getUserModalMode('editPermissions');
+              openModal();
+              getModalMode('editPermissions');
               getUserEditInfo(user);
+              getModalType('user');
               getUserPermissions(user);
             "
             >Keisti leidimus</BaseButton
@@ -34,9 +35,10 @@
             v-if="currentUserPermissions.edit_permissions"
             class="rounded-full"
             @click="
-              openUserModal();
+              openModal();
               getUserEditInfo(user);
-              getUserModalMode('edit');
+              getModalMode('edit');
+              getModalType('user');
             "
             >Modifikuoti</BaseButton
           >
@@ -46,8 +48,9 @@
             @click="
               openInfoModal();
               getInfoModalMode('delete');
-              getUserModalMode('editPermissions');
+              getModalMode('editPermissions');
               getUserDeleteInfo(user);
+              getModalType('user');
             "
             >Ištrinti</BaseButton
           >
@@ -63,12 +66,13 @@ export default {
   methods: {
     ...mapActions([
       "getUsers",
-      "getUserModalMode",
+      "getModalMode",
+      "getModalType",
       "getUserEditInfo",
       "getUserDeleteInfo",
       "openInfoModal",
       "getInfoModalMode",
-      "openUserModal",
+      "openModal",
       "getUserPermissions",
     ]),
   },
