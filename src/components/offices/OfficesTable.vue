@@ -54,7 +54,6 @@ export default {
       "getModalType",
       "openInfoModal",
       "getInfoModalMode",
-      "getOfficeCompany",
     ]),
   },
   computed: {

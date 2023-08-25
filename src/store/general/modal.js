@@ -38,6 +38,7 @@ const actions = {
         dispatch('getFile', {})
         commit('setImageDropClosed')
         dispatch('getFilter', '')
+        dispatch('getContacts')
     },
     getModalMode({ commit }, modalMode) {
         commit('setModalMode', modalMode)

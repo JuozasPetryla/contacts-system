@@ -12,14 +12,25 @@ const getters = {
     editInfo: state => state.editInfo,
 }
 const actions = {
-
     getContactModalMode({ commit }, contactModalMode) {
         commit('setContactModalMode', contactModalMode)
     },
     getDeleteInfo({ commit }, info) {
         commit('setDeleteInfo', info)
     },
-    getEditInfo({ commit }, info) {
+    async getEditInfo({ commit }, info) {
+        // const companiesAndOffices = await this.getFullList('companies_offices', {
+        //     filter: `company_id="${info.company_id}"`,
+        //     expand: `office_id`
+        // })
+        // const officesFiltered = companiesAndOffices.map(office => office.expand.office_id)
+        // commit('setOffices', officesFiltered)
+
+        // const officesAndDivisions = await this.getFullList('offices_divisions', {
+        //     filter: `office_id="${info.office_id}"`,
+        //     expand: 'division_id'
+        // })
+
         commit('setEditInfo', info)
     },
     async createContact({ commit, dispatch, rootState }, contactCreateObj) {

@@ -47,8 +47,7 @@ const actions = {
         if (!departmentFilterId) {
             const oldFilter = rootState.contacts.filter.includes('&&') ? ` && department_id="${state.departmentFilterId}"` : `department_id="${state.departmentFilterId}"`
             commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
-            commit('setDepartmentFilterId', departmentFilterId)
-            dispatch('getContacts', { root: true })
+            
             dispatch('getDivisions')
             commit('setGroups', [])
         }

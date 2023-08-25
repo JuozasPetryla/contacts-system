@@ -428,6 +428,11 @@ export default {
       this.position = this.editInfo.position;
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
+      this.selectedCompany = this.editInfo.company_id;
+      this.getCompanyFilterId(this.editInfo.company_id);
+      this.selectedOffice = this.editInfo.office_id;
+      this.getOfficeFilterId(this.editInfo.office_id);
+      this.selectedDivision = this.editInfo.division_id;
     }
   },
 };

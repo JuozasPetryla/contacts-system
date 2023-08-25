@@ -27,21 +27,20 @@ const actions = {
             const oldFilter = rootState.contacts.filter.includes('&&') ? ` && group_id="${state.groupFilterId}"` : `group_id="${state.groupFilterId}"`
             commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
             commit('setGroupFilterId', groupFilterId)
-            dispatch('getContacts', { root: true })
+
             dispatch('getDepartments')
         } else if (rootState.contacts.filter && state.groupFilterId) {
             commit('resetFilter', { oldFilter: state.groupFilterId, newFilter: groupFilterId }, { root: true })
-            dispatch('getContacts', { root: true })
+
             commit('setGroupFilterId', groupFilterId)
             dispatch('getDepartments')
         } else if (!rootState.contacts.filter) {
             commit('setFilter', `group_id="${groupFilterId}"`, { root: true })
-            dispatch('getContacts', { root: true })
+
             commit('setGroupFilterId', groupFilterId)
             dispatch('getGroups')
         } else if (rootState.contacts.filter && !state.groupFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && group_id="${groupFilterId}"`, { root: true })
-            dispatch('getContacts', { root: true })
             commit('setGroupFilterId', groupFilterId)
             dispatch('getGroups')
         }

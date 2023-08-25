@@ -115,7 +115,6 @@ export default {
       "companies",
       "modalMode",
       "officeEditInfo",
-      "officeCompany",
     ]),
   },
   methods: {
@@ -123,7 +122,6 @@ export default {
       "getCompanies",
       "createOffice",
       "editOffice",
-      "getOfficeCompany",
       "closeModal",
     ]),
     setFormIsValid() {
