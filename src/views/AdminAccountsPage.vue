@@ -55,7 +55,7 @@ export default {
       "infoModalMode",
       "companies",
       "totalUsers",
-      "userModalMode",
+      "modalMode",
       "userDeleteInfo",
       "infoModalError",
     ]),
@@ -66,19 +66,19 @@ export default {
       if (this.infoModalMode === "delete") {
         return `Vardas: ${this.userDeleteInfo.name}`;
       }
-      if (this.userModalMode === "create" && this.infoModalMode === "success") {
+      if (this.modalMode === "create" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai sukurtas";
       }
-      if (this.userModalMode === "edit" && this.infoModalMode === "success") {
+      if (this.modalMode === "edit" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai redaguotas";
       }
       if (
-        this.userModalMode === "editPermissions" &&
+        this.modalMode === "editPermissions" &&
         this.infoModalMode === "success"
       ) {
         return "Vartotojo leidimai sėkmingai redaguoti";
       }
-      if (this.userModalMode === "delete" && this.infoModalMode === "success") {
+      if (this.modalMode === "delete" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai ištrintas";
       }
     },

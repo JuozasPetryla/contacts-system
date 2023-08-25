@@ -30,7 +30,9 @@
           currentUserPermissions.delete_structure
         "
       >
-        <router-link class="link" to="/structure-manage">Struktūra</router-link>
+        <router-link class="link" to="/structure-manage/divisions"
+          >Struktūra</router-link
+        >
       </li>
       <li
         v-if="

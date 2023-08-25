@@ -192,7 +192,6 @@ export default {
       }
       if (!this.formIsValid) return;
       const password = this.generatePass();
-      console.log(password);
       if (this.modalMode === "create") {
         this.createUser({
           userPermissionsObj: this.userPermissions,
@@ -223,14 +222,10 @@ export default {
       this.formIsValid = true;
     },
   },
-  watch: {
-    "$store.state.userActions.userEditInfo": {
-      deep: true,
-      handler(value) {
-        console.log(value);
-        this.name = value.name;
-      },
-    },
+  mounted() {
+    if (this.modalMode === "edit") {
+      this.name = this.userEditInfo.name;
+    }
   },
 };
 </script>

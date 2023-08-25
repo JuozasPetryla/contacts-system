@@ -2,12 +2,39 @@
   <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Struktūra</h3>
     <div class="flex space-x-6 items-center">
-      <BaseIconButton class="h-12 w-12" @click="openStructureChooseModal()">
+      <BaseIconButton
+        class="h-12 w-12"
+        @click="
+          openModal();
+          getModalMode('create');
+          getModalType('structure');
+        "
+      >
         <img src="../assets/Plus Math.svg" />
       </BaseIconButton>
       <p class="text-lg">Pridėti naują struktūrą</p>
     </div>
-    <StructureTable class="overflow-y-auto h-96"></StructureTable>
+    <div class="px-2 mt-8 flex items-center space-x-8">
+      <div @click="getStructureModalFormMode('division')">
+        <router-link
+          @click="getStructureModalFormMode('division')"
+          to="/structure-manage/divisions"
+          >Padalinys</router-link
+        >
+      </div>
+
+      <div @click="getStructureModalFormMode('department')">
+        <router-link to="/structure-manage/departments">Skyrius</router-link>
+      </div>
+      <div @click="getStructureModalFormMode('group')">
+        <router-link
+          @click="getStructureModalFormMode('group')"
+          to="/structure-manage/groups"
+          >Grupė</router-link
+        >
+      </div>
+    </div>
+    <router-view class="overflow-y-auto h-96"></router-view>
     <BaseModal>
       <template #header>
         <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
@@ -68,11 +95,7 @@
   
   <script>
 import { mapActions, mapGetters } from "vuex";
-import StructureTable from "../components/structure/StructureTable.vue";
 export default {
-  components: {
-    StructureTable,
-  },
   methods: {
     ...mapActions([
       "openModal",
@@ -82,6 +105,8 @@ export default {
       "deleteDivision",
       "deleteDepartment",
       "deleteGroup",
+      "getStructureModalFormMode",
+      "getModalType",
     ]),
   },
   computed: {
@@ -221,3 +246,20 @@ export default {
 };
 </script>
   
+<style scoped>
+a {
+  display: grid;
+  place-items: center;
+  color: white !important;
+  background: #0054a6;
+  width: 7rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  border-radius: 12px;
+}
+
+a:hover {
+  text-decoration: none;
+  background: #1f3f77;
+}
+</style>

@@ -285,7 +285,7 @@ export default {
       "editContact",
       "getContacts",
       "getFilter",
-      'closeModal'
+      "closeModal",
     ]),
     validateForm() {
       this.validateEmail();
@@ -415,7 +415,7 @@ export default {
       this.getCompanyFilterId("");
       this.getFilter("");
       this.getContacts();
-      this.closeModal()
+      this.closeModal();
     },
   },
   created() {
@@ -428,8 +428,6 @@ export default {
       this.position = this.editInfo.position;
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
-      this.selectedCompany = this.editInfo.company_id;
-      this.getCompanyFilterId(this.editInfo.company_id);
     }
   },
 };

@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     divisionDeleteInfo: {},
     divisionEditInfo: {},
@@ -36,7 +34,6 @@ const actions = {
         const divisionsCompanies = await this.postItem('offices_divisions', divisionCompaniesObj)
         if (division.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getDivisionsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
@@ -59,13 +56,11 @@ const actions = {
         if (division.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getDivisionsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', division.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -80,13 +75,11 @@ const actions = {
         const division = await this.deleteItem('divisions', divisionDeleteInfo)
         if (division.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getDivisionsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', division.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     }

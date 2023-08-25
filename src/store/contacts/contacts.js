@@ -74,7 +74,7 @@ const actions = {
         const photo = contact.photo
         let url
         if (photo) {
-            url = this.getFiles(contact, photo, { 'thumb': '100x100' })
+            url = await this.getFiles(contact, photo, { 'thumb': '100x100' })
         }
         contact.photo = url ? url : photo
         commit('setContact', contact)

@@ -1,36 +1,18 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     officeDeleteInfo: {},
     officeEditInfo: {},
-    officeModalMode: '',
-    officeModalOpen: false,
+
 }
 const mutations = {
     setOfficeDeleteInfo: (state, info) => state.officeDeleteInfo = info,
     setOfficeEditInfo: (state, info) => state.officeEditInfo = info,
-    setOfficeModalOpen: state => state.officeModalOpen = true,
-    setOfficeModalClosed: state => state.officeModalOpen = false,
-    setOfficeModalMode: (state, officeModalMode) => state.officeModalMode = officeModalMode,
-
 }
 const getters = {
     officeDeleteInfo: state => state.officeDeleteInfo,
     officeEditInfo: state => state.officeEditInfo,
-    officeModalOpen: state => state.officeModalOpen,
-    officeModalMode: state => state.officeModalMode,
 }
 const actions = {
-    openOfficeModal({ commit }) {
-        commit('setOfficeModalOpen')
-    },
-    closeOfficeModal({ commit }) {
-        commit('setOfficeModalClosed')
-        commit('setOfficeEditInfo', {
-            street_number: '',
-            street: '',
-        })
-    },
+    
     getOfficeModalMode({ commit }, officeModalMode) {
         commit('setOfficeModalMode', officeModalMode)
     },
@@ -57,13 +39,13 @@ const actions = {
         const officesCompanies = await this.postItem('companies_offices', officeCompaniesObj)
         if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -80,13 +62,13 @@ const actions = {
         if (office.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -101,13 +83,13 @@ const actions = {
         const office = await this.deleteItem('offices', officeDeleteInfo)
         if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            commit('setOfficeModalClosed')
+            
             dispatch('openInfoModal', { root: true })
         }
     }

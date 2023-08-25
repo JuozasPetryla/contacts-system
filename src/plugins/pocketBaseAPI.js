@@ -61,7 +61,6 @@ const contactAPI = store => {
 
     store.editItem = async function (collection, editId, editObj) {
         try {
-            console.log(editObj)
             const response = await store.pb.collection(collection).update(editId, editObj)
             return { status: 200, data: response }
         } catch (err) {

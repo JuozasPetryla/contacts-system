@@ -68,7 +68,6 @@ export default {
         });
       }
       if (this.modalMode === "edit") {
-        console.log(this.companyEditInfo);
         this.editCompany({
           id: this.companyEditInfo.id,
           name: this.name,
@@ -78,13 +77,10 @@ export default {
       this.closeModal();
     },
   },
-  watch: {
-    "$store.state.companiesActions.companyEditInfo": {
-      deep: true,
-      handler(value) {
-        this.name = value.name;
-      },
-    },
+  mounted() {
+    if (this.modalMode === "edit") {
+      this.name = this.companyEditInfo.name;
+    }
   },
 };
 </script>

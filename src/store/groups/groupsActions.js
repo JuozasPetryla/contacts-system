@@ -34,13 +34,11 @@ const actions = {
         const groupsCompanies = await this.postItem('departments_groups', groupCompaniesObj)
         if (group.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', group.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -57,13 +55,11 @@ const actions = {
         if (group.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', group.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -71,13 +67,11 @@ const actions = {
         const group = await this.deleteItem('groups', groupDeleteInfo)
         if (group.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
             dispatch('getGroupsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', group.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     }

@@ -91,19 +91,19 @@ export default {
         return `Pavadinimas: ${this.companyDeleteInfo.name}`;
       }
       if (
-        this.companyModalMode === "create" &&
+        this.modalMode === "create" &&
         this.infoModalMode === "success"
       ) {
         return "Įmonė sėkmingai sukurta";
       }
       if (
-        this.companyModalMode === "edit" &&
+        this.modalMode === "edit" &&
         this.infoModalMode === "success"
       ) {
         return "Įmonė sėkmingai redaguota";
       }
       if (
-        this.companyModalMode === "delete" &&
+        this.modalMode === "delete" &&
         this.infoModalMode === "success"
       ) {
         return "Įmonė sėkmingai ištrinta";

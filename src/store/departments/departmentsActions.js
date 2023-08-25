@@ -1,5 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
-
 const state = {
     departmentDeleteInfo: {},
     departmentEditInfo: {},
@@ -36,13 +34,13 @@ const actions = {
         const departmentsCompanies = await this.postItem('divisions_departments', departmentCompaniesObj)
         if (department.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', department.message, { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -59,13 +57,13 @@ const actions = {
         if (department.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', department.message, { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -80,13 +78,13 @@ const actions = {
         const department = await this.deleteItem('departments', departmentDeleteInfo)
         if (department.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('getDepartmentsForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', department.message, { root: true })
-            commit('setStructureModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     }

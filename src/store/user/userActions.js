@@ -1,34 +1,16 @@
 const state = {
-    userModalOpen: false,
-    userModalMode: '',
     userDeleteInfo: {},
     userEditInfo: {},
 }
 const mutations = {
-    setUserModalOpen: state => state.userModalOpen = true,
-    setUserModalClosed: state => state.userModalOpen = false,
-    setUserModalMode: (state, userModalMode) => state.userModalMode = userModalMode,
     setUserDeleteInfo: (state, info) => state.userDeleteInfo = info,
     setUserEditInfo: (state, info) => state.userEditInfo = info
 }
 const getters = {
-    userModalOpen: state => state.userModalOpen,
-    userModalMode: state => state.userModalMode,
     userDeleteInfo: state => state.userDeleteInfo,
     userEditInfo: state => state.userEditInfo,
 }
 const actions = {
-    openUserModal({ commit }) {
-        if (state.userModalMode === 'create') {
-            commit('setUserPermissions', {})
-        }
-        commit('setUserModalOpen')
-    },
-    closeUserModal({ commit, dispatch }) {
-        commit('setUserModalClosed')
-        commit('setUserEditInfo', {})
-        dispatch('getFile', {})
-    },
     getUserModalMode({ commit }, userModalMode) {
         commit('setUserModalMode', userModalMode)
     },
@@ -62,7 +44,7 @@ const actions = {
 
         if (user.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setUserModalClosed')
+
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})
@@ -70,7 +52,7 @@ const actions = {
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', user.message, { root: true })
-            commit('setUserModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -89,7 +71,7 @@ const actions = {
         const userEdited = await this.editItem('users', userEditObj.id, formData)
         if (userEdited.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setUserModalClosed')
+
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})
@@ -97,7 +79,7 @@ const actions = {
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', userEdited.message, { root: true })
-            commit('setUserModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -105,13 +87,13 @@ const actions = {
         const userPermissions = await this.editItem('user_permissions', userPermissionsObj.id, userPermissionsObj)
         if (userPermissions.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setUserModalClosed')
+
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', userPermissions.message, { root: true })
-            commit('setUserModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -121,13 +103,13 @@ const actions = {
         const userPermissions = await this.deleteItem('user_permissions', user.permissions_id)
         if (userPermissions.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setUserModalClosed')
+
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', userPermissions.message, { root: true })
-            commit('setUserModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     }

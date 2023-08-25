@@ -21,14 +21,14 @@ const actions = {
         const company = await this.postItem('companies', companyCreateObj)
         if (company.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setModalClosed')
+
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         }
         else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', company.message, { root: true })
-            commit('setModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -36,13 +36,13 @@ const actions = {
         const company = await this.editItem('companies', companyEditObj.id, companyEditObj)
         if (company.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setModalClosed')
+
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', company.message, { root: true })
-            commit('setModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -57,13 +57,13 @@ const actions = {
         const company = await this.deleteItem('companies', companyId)
         if (company.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            commit('setModalClosed')
+
             dispatch('getCompanies', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', company.message, { root: true })
-            commit('setModalClosed')
+
             dispatch('openInfoModal', { root: true })
         }
     }

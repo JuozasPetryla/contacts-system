@@ -170,19 +170,19 @@ export default {
         return `Vardas ir pavardė: ${this.deleteInfo.name} ${this.deleteInfo.surname} Pozicija: ${this.deleteInfo.position}`;
       }
       if (
-        this.contactModalMode === "create" &&
+        this.modalMode === "create" &&
         this.infoModalMode === "success"
       ) {
         return "Kontaktas sėkmingai sukurtas";
       }
       if (
-        this.contactModalMode === "edit" &&
+        this.modalMode === "edit" &&
         this.infoModalMode === "success"
       ) {
         return "Kontaktas sėkmingai redaguotas";
       }
       if (
-        this.contactModalMode === "delete" &&
+        this.modalMode === "delete" &&
         this.infoModalMode === "success"
       ) {
         return "Kontaktas sėkmingai ištrintas";
