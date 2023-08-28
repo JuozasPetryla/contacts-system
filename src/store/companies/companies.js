@@ -21,8 +21,7 @@ const actions = {
     },
     getCompanyFilterId({ commit, dispatch, rootState }, companyFilterId) {
         if (!companyFilterId) {
-            const oldFilter = rootState.contacts.filter.includes('&&') ? ` && company_id="${state.companyFilterId}"` : `company_id="${state.companyFilterId}"`
-            commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
+            commit('setFilter', '', { root: true })
         } else if (rootState.contacts.filter && state.companyFilterId) {
             commit('resetFilter', { oldFilter: state.companyFilterId, newFilter: companyFilterId }, { root: true })
         } else if (!rootState.contacts.filter) {
@@ -30,6 +29,7 @@ const actions = {
         } else if (rootState.contacts.filter && !state.companyFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && company_id="${companyFilterId}"`, { root: true })
         }
+
         dispatch('getContacts', { root: true })
         commit('setCompanyFilterId', companyFilterId)
         dispatch('getCompanies')

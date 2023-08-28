@@ -1,7 +1,10 @@
 <template>
   <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Įmonės</h3>
-    <div class="flex space-x-6 items-center">
+    <div
+      class="flex space-x-6 items-center"
+      v-if="currentUserPermissions.edit_companies"
+    >
       <BaseIconButton
         class="h-12 w-12"
         @click="
@@ -71,6 +74,7 @@ export default {
       "totalCompanies",
       "modalMode",
       "companyDeleteInfo",
+      "currentUserPermissions",
     ]),
     totalCompaniesText() {
       if (this.totalCompanies === 1) {
@@ -90,22 +94,13 @@ export default {
       if (this.infoModalMode === "delete") {
         return `Pavadinimas: ${this.companyDeleteInfo.name}`;
       }
-      if (
-        this.modalMode === "create" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "create" && this.infoModalMode === "success") {
         return "Įmonė sėkmingai sukurta";
       }
-      if (
-        this.modalMode === "edit" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "edit" && this.infoModalMode === "success") {
         return "Įmonė sėkmingai redaguota";
       }
-      if (
-        this.modalMode === "delete" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "delete" && this.infoModalMode === "success") {
         return "Įmonė sėkmingai ištrinta";
       }
     },

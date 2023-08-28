@@ -6,12 +6,11 @@ const state = {
 const mutations = {
     setDivisionsForDisplay: (state, divisionsForDisplay) => state.divisionsForDisplay = divisionsForDisplay,
     setDivisions: (state, divisions) => state.divisions = divisions,
-    setDivisionFilterId: (state, divisionFilterId) => state.divisionFilterId = divisionFilterId
+    setDivisionFilterId: (state, divisionFilterId) => state.divisionFilterId = divisionFilterId,
 }
 const getters = {
     divisions: state => state.divisions,
     divisionFilterId: state => state.divisionFilterId,
-
     divisionsForDisplay: state => state.divisionsForDisplay
 }
 const actions = {
@@ -25,6 +24,16 @@ const actions = {
         for (const division of divisionsList) {
             divisions.push(division.expand.division_id)
         }
+        const divisionsExists = divisionsList.some(division => {
+            return division.division_id === state.divisionFilterId
+        })
+        if (state.divisionFilterId && !divisionsExists) {
+            commit('setGroupFilterId', '')
+            commit('setDepartmentFilterId', '')
+            commit('setFilter', `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}"`)
+            dispatch('getDivisionFilterId', '')
+
+        }
         commit('setDivisions', rootState.offices.officeFilterId ? divisions : []);
         dispatch('getDepartments')
     },
@@ -34,8 +43,10 @@ const actions = {
     },
     getDivisionFilterId({ commit, dispatch, rootState }, divisionFilterId) {
         if (!divisionFilterId) {
-            const oldFilter = rootState.contacts.filter.includes('&&') ? ` && division_id="${state.divisionFilterId}"` : `division_id="${state.divisionFilterId}"`
-            commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
+            const oldFilter = `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}"`
+            commit('setFilter', oldFilter, { root: true })
+            commit('setGroupFilterId', '')
+            commit('setDepartmentFilterId', '')
         } else if (rootState.contacts.filter && state.divisionFilterId) {
             commit('resetFilter', { oldFilter: state.divisionFilterId, newFilter: divisionFilterId }, { root: true })
         } else if (rootState.contacts.filter && !state.divisionFilterId) {

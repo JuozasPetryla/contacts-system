@@ -43,7 +43,7 @@
             <img
               @click="changeInputType"
               src="../../assets/Trailing Icon.svg"
-              class="Mail icon hover:cursor-pointer"
+              class="hover:cursor-pointer"
             />
           </template>
           <template #image-left>

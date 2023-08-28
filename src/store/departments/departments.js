@@ -27,6 +27,14 @@ const actions = {
         for (const department of departmentsList) {
             departments.push(department.expand.department_id)
         }
+        const departmentsExists = departmentsList.some(department => {
+            return department.department_id === state.departmentFilterId
+        })
+        if (state.departmentFilterId && !departmentsExists) {
+            commit('setFilter', `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}"`)
+            commit('setGroupFilterId', '')
+            dispatch('getDepartmentFilterId', '')
+        }
         commit('setDepartments', rootState.divisions.divisionFilterId ? departments : []);
         dispatch('getGroups')
     },
@@ -36,8 +44,9 @@ const actions = {
     },
     getDepartmentFilterId({ commit, dispatch, rootState }, departmentFilterId) {
         if (!departmentFilterId) {
-            const oldFilter = rootState.contacts.filter.includes('&&') ? ` && department_id="${state.departmentFilterId}"` : `department_id="${state.departmentFilterId}"`
-            commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
+            const oldFilter = `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}"`
+            commit('setFilter', oldFilter, { root: true })
+            commit('setGroupFilterId', '')
         } else if (rootState.contacts.filter && state.departmentFilterId) {
             commit('resetFilter', { oldFilter: state.departmentFilterId, newFilter: departmentFilterId }, { root: true })
         } else if (rootState.contacts.filter && !state.departmentFilterId) {

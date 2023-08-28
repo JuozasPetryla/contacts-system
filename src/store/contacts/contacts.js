@@ -64,6 +64,7 @@ const actions = {
             contact.photo = url ? url : photo
             arrayWithPhotos.push(contact)
         }
+        console.log(state.filter)
         commit('setContacts', arrayWithPhotos)
         commit('setTotalContacts', contacts.totalItems)
         commit('setTotalPages', contacts.totalPages)

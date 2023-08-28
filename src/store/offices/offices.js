@@ -3,7 +3,6 @@ const state = {
     offices: [],
     officesForDisplay: [],
     officeFilterId: '',
-
 }
 const mutations = {
     setOffices: (state, offices) => state.offices = offices,
@@ -26,8 +25,19 @@ const actions = {
         for (const office of officesList) {
             offices.push(office.expand.office_id)
         }
+        const officesExists = officesList.some(office => {
+            return office.office_id === state.officeFilterId
+        })
+        if (state.officeFilterId && !officesExists) {
+            commit('setGroupFilterId', '')
+            commit('setDepartmentFilterId', '')
+            commit('setDivisionFilterId', '')
+            commit('setFilter', `company_id="${rootState.companies.companyFilterId}"`)
+            dispatch('getOfficeFilterId', '')
+        }
         commit('setOffices', rootState.companies.companyFilterId ? offices : []);
         dispatch('getDivisions', state.officeFilterId)
+
     },
     async getOfficesForDisplay({ commit }) {
         const offices = await this.getFullList('offices')
@@ -37,16 +47,19 @@ const actions = {
 
     getOfficeFilterId({ commit, dispatch, rootState }, officeFilterId) {
         if (!officeFilterId) {
-            const oldFilter = rootState.contacts.filter.includes('&&') ? ` && office_id="${state.officeFilterId}"` : `office_id="${state.officeFilterId}"`
-            commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
+            const oldFilter = `company_id="${rootState.companies.companyFilterId}"`
+            commit('setFilter', oldFilter, { root: true })
+            commit('setGroupFilterId', '')
+            commit('setDepartmentFilterId', '')
+            commit('setDivisionFilterId', '')
         } else if (rootState.contacts.filter && state.officeFilterId) {
             commit('resetFilter', { oldFilter: state.officeFilterId, newFilter: officeFilterId }, { root: true })
         } else if (rootState.contacts.filter && !state.officeFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && office_id="${officeFilterId}"`, { root: true })
         }
-        dispatch('getContacts', { root: true })
-        commit('setOfficeFilterId', officeFilterId)
         dispatch('getOffices')
+        commit('setOfficeFilterId', officeFilterId)
+        dispatch('getContacts', { root: true })
     }
 }
 

@@ -12,7 +12,7 @@ const getters = {
     officeEditInfo: state => state.officeEditInfo,
 }
 const actions = {
-    
+
     getOfficeModalMode({ commit }, officeModalMode) {
         commit('setOfficeModalMode', officeModalMode)
     },
@@ -39,13 +39,13 @@ const actions = {
         const officesCompanies = await this.postItem('companies_offices', officeCompaniesObj)
         if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            
+
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            
+
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -62,17 +62,17 @@ const actions = {
         if (office.status === 200) {
 
             commit('setInfoModalMode', 'success', { root: true })
-            
+
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            
+
             dispatch('openInfoModal', { root: true })
         }
     },
-    async deleteOffice({ commit, dispatch }, officeDeleteInfo) {
+    async deleteOffice({ commit, dispatch, rootState }, officeDeleteInfo) {
         const officesDivisions = await this.getFullList('offices_divisions', {
             filter: `office_id="${officeDeleteInfo}"`,
             expand: 'division_id'
@@ -83,13 +83,11 @@ const actions = {
         const office = await this.deleteItem('offices', officeDeleteInfo)
         if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-            
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', office.message, { root: true })
-            
             dispatch('openInfoModal', { root: true })
         }
     }

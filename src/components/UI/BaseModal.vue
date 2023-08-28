@@ -36,6 +36,7 @@ import CompanyForm from "../companies/CompanyForm.vue";
 import OfficeForm from "../offices/OfficeForm.vue";
 import StructureForm from "../structure/StructureForm.vue";
 import AdminForm from "../admins/AdminForm.vue";
+import ChangePasswordForm from "../password/ChangePasswordForm.vue";
 export default {
   components: {
     ContactForm,
@@ -43,6 +44,7 @@ export default {
     OfficeForm,
     StructureForm,
     AdminForm,
+    ChangePasswordForm,
   },
   methods: {
     ...mapActions(["closeModal", "openImageDrop"]),
@@ -50,6 +52,9 @@ export default {
   computed: {
     ...mapGetters(["modalOpen", "modalType", "modalMode"]),
     formComponent() {
+      if (this.modalType === "pass" && this.modalMode === "pass") {
+        return ChangePasswordForm;
+      }
       if (this.modalType === "contact") {
         return ContactForm;
       }
@@ -73,7 +78,7 @@ export default {
 <style scoped>
 .userPhotos {
   position: absolute;
-  top: -2rem;
+  top: 1rem;
   right: 6rem;
 }
 </style>

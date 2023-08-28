@@ -1,4 +1,3 @@
-import pb from '../../plugins/pocketBaseAPI'
 
 const state = {
     users: [],

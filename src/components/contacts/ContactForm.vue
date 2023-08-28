@@ -94,8 +94,7 @@
               :class="{ invalidSelect: !companyIsValid }"
               @md-selected="
                 validateCompany();
-                $store.commit('setCompanyFilterId', selectedCompany);
-                getCompanies();
+                getCompanyFilterId(selectedCompany);
               "
               @blur="validateCompany"
             >
@@ -121,8 +120,7 @@
               :class="{ invalidSelect: !officeIsValid }"
               @md-selected="
                 validateOffice();
-                $store.commit('setOfficeFilterId', selectedOffice);
-                getOffices();
+                getOfficeFilterId(selectedOffice);
               "
               @blur="validateOffice"
             >
@@ -148,8 +146,7 @@
               :class="{ invalidSelect: !divisionIsValid }"
               @md-selected="
                 validateDivision();
-                $store.commit('setDivisionFilterId', selectedDivision);
-                getDivisions();
+                getDivisionFilterId(selectedDivision);
               "
               @blur="validateDivision"
             >
@@ -174,10 +171,7 @@
               class="pl-4"
               ref="department_select"
               v-model="selectedDepartment"
-              @md-selected="
-                $store.commit('setDepartmentFilterId', selectedDepartment);
-                getDepartments();
-              "
+              @md-selected="getDepartmentFilterId(selectedDepartment)"
             >
               <md-option
                 v-for="department in departments"
@@ -197,10 +191,7 @@
               id="grupe"
               class="w-80 pl-4"
               ref="group_select"
-              @md-selected="
-                $store.commit('setGroupFilterId', selectedGroup);
-                getGroups();
-              "
+              @md-selected="getGroupFilterId(selectedGroup)"
               v-model="selectedGroup"
             >
               <md-option
@@ -276,7 +267,51 @@ export default {
       "groupFilterId",
       "divisionFilterId",
       "departmentFilterId",
+      "officeHasCompanies",
     ]),
+  },
+  watch: {
+    "$store.state.offices.officeFilterId": {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue && oldValue) {
+          this.selectedOffice = newValue;
+          if (!newValue) {
+            this.getDivisionFilterId("");
+          }
+        }
+      },
+    },
+    "$store.state.divisions.divisionFilterId": {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue && oldValue) {
+          this.selectedDivision = newValue;
+          if (!newValue) {
+            this.getDepartmentFilterId("");
+          }
+        }
+      },
+    },
+    "$store.state.departments.departmentFilterId": {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue && oldValue) {
+          this.selectedDepartment = newValue;
+          if (!newValue) {
+            this.getGroupFilterId("");
+          }
+        }
+      },
+    },
+    "$store.state.groups.groupFilterId": {
+      deep: true,
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue && oldValue) {
+          this.selectedGroup = newValue;
+        }
+      },
+    },
   },
   methods: {
     ...mapActions([
@@ -430,6 +465,7 @@ export default {
   created() {
     this.getCompanies();
   },
+
   mounted() {
     if (this.modalMode === "edit") {
       this.name = this.editInfo.name;
@@ -438,19 +474,15 @@ export default {
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
       this.selectedCompany = this.editInfo.company_id;
-      this.$store.commit("setCompanyFilterId", this.editInfo.company_id);
-      this.getCompanies();
+      this.getCompanyFilterId(this.editInfo.company_id);
       this.selectedOffice = this.editInfo.office_id;
-      this.$store.commit("setOfficeFilterId", this.editInfo.office_id);
-      this.getOffices();
+      this.getOfficeFilterId(this.editInfo.office_id);
       this.selectedDivision = this.editInfo.division_id;
-      this.$store.commit("setDivisionFilterId", this.editInfo.division_id);
-      this.getDivisions();
+      this.getDivisionFilterId(this.editInfo.division_id);
       this.selectedDepartment = this.editInfo.department_id;
-      this.$store.commit("setDepartmentFilterId", this.editInfo.department_id);
-      this.getDepartments();
+      this.getDepartmentFilterId(this.editInfo.department_id);
       this.selectedGroup = this.editInfo.group_id;
-      this.$store.commit("setGroupFilterId", this.editInfo.group_id);
+      this.getGroupFilterId(this.editInfo.group_id);
     }
   },
 };

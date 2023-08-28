@@ -1,7 +1,10 @@
 <template>
   <div class="px-12 my-8 w-full grid">
     <h3 class="text-5xl font-light mb-10 px-2">Ofisai</h3>
-    <div class="flex space-x-6 items-center">
+    <div
+      class="flex space-x-6 items-center"
+      v-if="currentUserPermissions.edit_offices"
+    >
       <BaseIconButton
         class="h-12 w-12"
         @click="
@@ -62,7 +65,9 @@ export default {
       "infoModalMode",
       "offices",
       "modalMode",
+      "infoModalError",
       "officeDeleteInfo",
+      "currentUserPermissions",
     ]),
     infoModalText() {
       if (this.infoModalMode === "error") {

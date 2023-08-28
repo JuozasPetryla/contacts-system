@@ -27,7 +27,7 @@
       </BaseInputField>
       <div class="relative">
         <BaseInputField
-          v-if="modalMode === 'create'"
+          v-if="modalMode === 'create' || modalMode === 'edit'"
           :inputPlaceHolder="'Įveskite el.paštą...'"
           :inputId="'email'"
           :inputType="'email'"
@@ -153,7 +153,7 @@ export default {
       const emailInUse = this.users.find((user) => {
         return user.email === this.email;
       });
-      if ((this.email.includes("@") && !emailInUse) || !this.email) {
+      if (this.email.includes("@") && !emailInUse) {
         this.emailIsValid = true;
       } else if (emailInUse) {
         this.emailInUseWarn = "Email is already in use";
@@ -225,6 +225,7 @@ export default {
   mounted() {
     if (this.modalMode === "edit") {
       this.name = this.userEditInfo.name;
+      this.email = this.userEditInfo.email;
     }
   },
 };

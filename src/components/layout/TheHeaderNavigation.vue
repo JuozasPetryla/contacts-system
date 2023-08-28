@@ -54,7 +54,13 @@
         <img src="../../assets/Male User.svg" />
       </BaseIconButton>
       <md-menu-content class="mt-16">
-        <md-menu-item class="hover:bg-light-gray cursor-pointer"
+        <md-menu-item
+          @click="
+            getModalType('pass');
+            getModalMode('pass');
+            openModal();
+          "
+          class="hover:bg-light-gray cursor-pointer"
           ><p>Pakeisti slaptažodį</p>
           <img src="../../assets/Vector.svg" class="pl-2" />
         </md-menu-item>
@@ -76,7 +82,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "openModal", "getModalType", 'getModalMode']),
   },
   computed: {
     ...mapGetters(["currentUserPermissions"]),

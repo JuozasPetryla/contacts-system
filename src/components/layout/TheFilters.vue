@@ -119,6 +119,7 @@ export default {
       "departments",
       "groups",
       "offices",
+      "officeFilterId",
     ]),
   },
   methods: {
@@ -145,6 +146,44 @@ export default {
       handler(value) {
         if (value === "") {
           this.resetFilters();
+        }
+      },
+    },
+    "$store.state.offices.officeFilterId": {
+      deep: true,
+      handler(value) {
+        if (!value) {
+          this.selectedOffice = "";
+          this.selectedDivision = "";
+          this.selectedDepartment = "";
+          this.selectedGroup = "";
+        }
+      },
+    },
+    "$store.state.divisions.divisionFilterId": {
+      deep: true,
+      handler(value) {
+        if (!value) {
+          this.selectedDivision = "";
+          this.selectedDepartment = "";
+          this.selectedGroup = "";
+        }
+      },
+    },
+    "$store.state.departments.departmentFilterId": {
+      deep: true,
+      handler(value) {
+        if (!value) {
+          this.selectedDepartment = "";
+          this.selectedGroup = "";
+        }
+      },
+    },
+    "$store.state.groups.groupFilterId": {
+      deep: true,
+      handler(value) {
+        if (!value) {
+          this.selectedGroup = "";
         }
       },
     },

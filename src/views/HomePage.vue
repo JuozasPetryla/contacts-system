@@ -56,7 +56,7 @@
         <img src="../assets/UserIcon.svg" v-if="mode === 'table'" />
       </BaseIconButton>
       <BaseIconButton
-        v-if="checkUser"
+        v-if="checkUser && currentUserPermissions.edit_employees"
         class="h-12 w-12"
         @click="
           openModal();
@@ -77,7 +77,7 @@
     <TheFilters></TheFilters>
     <component class="pb-36" :is="currentContacts"></component>
     <ThePagination class="absolute bottom-5 left-1/3"></ThePagination>
-    <BaseModal v-if="modalOpen">
+    <BaseModal>
       <template #header>
         <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
           Redaguoti kontaką:
@@ -87,6 +87,7 @@
         </h2>
       </template>
     </BaseModal>
+
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -169,22 +170,13 @@ export default {
       if (this.infoModalMode === "delete") {
         return `Vardas ir pavardė: ${this.deleteInfo.name} ${this.deleteInfo.surname} Pozicija: ${this.deleteInfo.position}`;
       }
-      if (
-        this.modalMode === "create" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "create" && this.infoModalMode === "success") {
         return "Kontaktas sėkmingai sukurtas";
       }
-      if (
-        this.modalMode === "edit" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "edit" && this.infoModalMode === "success") {
         return "Kontaktas sėkmingai redaguotas";
       }
-      if (
-        this.modalMode === "delete" &&
-        this.infoModalMode === "success"
-      ) {
+      if (this.modalMode === "delete" && this.infoModalMode === "success") {
         return "Kontaktas sėkmingai ištrintas";
       }
     },
@@ -207,7 +199,9 @@ export default {
       "modalOpen",
       "infoModalMode",
       "deleteInfo",
+      "modalType",
       "page",
+      "currentUserPermissions",
     ]),
   },
   methods: {

@@ -1,12 +1,15 @@
 const state = {
     userDeleteInfo: {},
     userEditInfo: {},
+    userPassword: '',
 }
 const mutations = {
+    setUserPassword: (state, password) => state.userPassword = password,
     setUserDeleteInfo: (state, info) => state.userDeleteInfo = info,
     setUserEditInfo: (state, info) => state.userEditInfo = info
 }
 const getters = {
+    userPassword: state => state.userPassword,
     userDeleteInfo: state => state.userDeleteInfo,
     userEditInfo: state => state.userEditInfo,
 }
@@ -41,10 +44,9 @@ const actions = {
         }
 
         const user = await this.postItem('users', formData)
-
         if (user.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
-
+            commit('setUserPassword', userCreateObj.password)
             dispatch('getUsers', { root: true })
             dispatch('openInfoModal', { root: true })
             dispatch('getFile', {})

@@ -4,12 +4,12 @@
       :is="header"
       v-if="$router.currentRoute.path !== '/login'"
     ></component>
-    <router-view></router-view>
+    <router-view> </router-view>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TheHeader from "./components/layout/TheHeader.vue";
 import TheHeaderNavigation from "./components/layout/TheHeaderNavigation.vue";
 
@@ -26,6 +26,7 @@ export default {
         return TheHeader;
       }
     },
+    ...mapGetters(["modalType", "modalOpen", "modalMode"]),
   },
   methods: {
     ...mapActions(["getCurrentUserPermissions", "currentUser"]),

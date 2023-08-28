@@ -58,6 +58,7 @@ export default {
       "modalMode",
       "userDeleteInfo",
       "infoModalError",
+      "userPassword",
     ]),
     infoModalText() {
       if (this.infoModalMode === "error") {
@@ -67,7 +68,7 @@ export default {
         return `Vardas: ${this.userDeleteInfo.name}`;
       }
       if (this.modalMode === "create" && this.infoModalMode === "success") {
-        return "Vartotojas sėkmingai sukurtas";
+        return `Vartotojas sėkmingai sukurtas, Slaptažodis: ${this.userPassword}`;
       }
       if (this.modalMode === "edit" && this.infoModalMode === "success") {
         return "Vartotojas sėkmingai redaguotas";
