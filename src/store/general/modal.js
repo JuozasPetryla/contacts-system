@@ -26,15 +26,12 @@ const actions = {
     },
     closeModal({ commit, dispatch }) {
         commit('setModalClosed')
-        commit('setCompanyEditInfo', {})
         commit('setEditInfo', {})
-        commit('setDivisionEditInfo', {})
-        commit('setOfficeEditInfo', {
-            street_number: '',
-            street: '',
-        })
-        commit('setDepartmentEditInfo', {})
-        commit('setGroupEditInfo', {})
+        commit('setCompanyFilterId', '')
+        commit('setDivisionFilterId', '')
+        commit('setOfficeFilterId', '')
+        commit('setDepartmentFilterId', '')
+        commit('setGroupFilterId', '')
         dispatch('getFile', {})
         commit('setImageDropClosed')
         dispatch('getFilter', '')

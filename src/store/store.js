@@ -5,7 +5,7 @@ import contactAPI from "../plugins/pocketBaseAPI";
 import contacts from "./contacts/contacts";
 import companies from "./companies/companies";
 import divisions from "./divisions/divisions";
-import departaments from "./departments/departaments";
+import departments from "./departments/departments";
 import groups from "./groups/groups";
 import offices from "./offices/offices";
 import login from "./general/login";
@@ -38,7 +38,7 @@ const store = new Vuex.Store({
         contacts,
         companies,
         divisions,
-        departaments,
+        departments,
         groups,
         offices,
         login,

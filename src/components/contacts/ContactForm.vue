@@ -433,6 +433,10 @@ export default {
       this.selectedOffice = this.editInfo.office_id;
       this.getOfficeFilterId(this.editInfo.office_id);
       this.selectedDivision = this.editInfo.division_id;
+      this.getDivisionFilterId(this.editInfo.division_id);
+      this.selectedDepartment = this.editInfo.department_id;
+      this.getDepartmentFilterId(this.editInfo.department_id);
+      this.selectedGroup = this.editInfo.group_id;
     }
   },
 };

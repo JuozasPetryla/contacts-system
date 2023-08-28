@@ -13,10 +13,17 @@ const getters = {
     groupsForDisplay: state => state.groupsForDisplay
 }
 const actions = {
-    getGroups({ commit }, groupsFiltered) {
-        if (groupsFiltered) {
-            commit('setGroups', groupsFiltered)
+    async getGroups({ commit, rootState }) {
+        commit('setGroups', []);
+        let groups = [];
+        const groupsList = await this.getFullList('departments_groups', {
+            expand: 'group_id',
+            filter: rootState.departments.departmentFilterId ? `department_id="${rootState.departments.departmentFilterId}"` : ""
+        });
+        for (const group of groupsList) {
+            groups.push(group.expand.group_id)
         }
+        commit('setGroups', rootState.departments.departmentFilterId ? groups : []);
     },
     async getGroupsForDisplay({ commit }) {
         const groups = await this.getFullList('groups')
@@ -26,24 +33,15 @@ const actions = {
         if (!groupFilterId) {
             const oldFilter = rootState.contacts.filter.includes('&&') ? ` && group_id="${state.groupFilterId}"` : `group_id="${state.groupFilterId}"`
             commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
-            commit('setGroupFilterId', groupFilterId)
-
-            dispatch('getDepartments')
         } else if (rootState.contacts.filter && state.groupFilterId) {
             commit('resetFilter', { oldFilter: state.groupFilterId, newFilter: groupFilterId }, { root: true })
-
-            commit('setGroupFilterId', groupFilterId)
-            dispatch('getDepartments')
-        } else if (!rootState.contacts.filter) {
-            commit('setFilter', `group_id="${groupFilterId}"`, { root: true })
-
-            commit('setGroupFilterId', groupFilterId)
-            dispatch('getGroups')
         } else if (rootState.contacts.filter && !state.groupFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && group_id="${groupFilterId}"`, { root: true })
-            commit('setGroupFilterId', groupFilterId)
-            dispatch('getGroups')
+
         }
+        commit('setGroupFilterId', groupFilterId)
+        dispatch('getContacts')
+        dispatch('getGroups')
     }
 }
 

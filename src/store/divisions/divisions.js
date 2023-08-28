@@ -15,43 +15,19 @@ const getters = {
     divisionsForDisplay: state => state.divisionsForDisplay
 }
 const actions = {
-    async getDivisions({ commit, rootState }) {
+    async getDivisions({ commit, dispatch, rootState }) {
         commit('setDivisions', []);
         let divisions = [];
         const divisionsList = await this.getFullList('offices_divisions', {
             expand: 'division_id',
-            filter: rootState.officeFilterId ? `office_id="${office_id}"` : ""
+            filter: rootState.offices.officeFilterId ? `office_id="${rootState.offices.officeFilterId}"` : ""
         });
         for (const division of divisionsList) {
             divisions.push(division.expand.division_id)
         }
-        console.log(office_id)
-        commit('setDivisions', office_id ? divisions : []);
+        commit('setDivisions', rootState.offices.officeFilterId ? divisions : []);
+        dispatch('getDepartments')
     },
-    // async getDivisions({ commit, state, dispatch, }, divisionsFiltered) {
-
-    //     let departmentsList = []
-    //     if (state.divisionFilterId) {
-    //         const divisionsAndDepartments = await this.getFullList('divisions_departments', {
-    //             filter: `division_id="${state.divisionFilterId}"`,
-    //             expand: 'department_id'
-    //         })
-
-    //         const departmentsFiltered = divisionsAndDepartments.map(department => department.expand.department_id)
-    //         departmentsList.push(...departmentsFiltered)
-    //     } else if (divisionsFiltered) {
-    //         commit('setDivisions', divisionsFiltered)
-    //     }
-    //     else {
-    //         const divisions = await this.getFullList('divisions')
-    //         commit('setDivisions', divisions)
-    //         dispatch('getDepartments', null)
-
-    //     }
-    //     departmentsList = departmentsList.filter((departmentFirst, index, self) => self.findIndex(department => (departmentFirst.id === department.id)) === index)
-    //     dispatch('getDepartments', departmentsList)
-
-    // },
     async getDivisionsForDisplay({ commit }) {
         const divisions = await this.getFullList('divisions')
         commit('setDivisionsForDisplay', divisions)
@@ -60,26 +36,14 @@ const actions = {
         if (!divisionFilterId) {
             const oldFilter = rootState.contacts.filter.includes('&&') ? ` && division_id="${state.divisionFilterId}"` : `division_id="${state.divisionFilterId}"`
             commit('resetFilter', { oldFilter, newFilter: '' }, { root: true })
-
-            dispatch('getOffices')
-            commit('setDepartments', [])
         } else if (rootState.contacts.filter && state.divisionFilterId) {
             commit('resetFilter', { oldFilter: state.divisionFilterId, newFilter: divisionFilterId }, { root: true })
-            dispatch('getContacts', { root: true })
-            commit('setDivisionFilterId', divisionFilterId)
-            dispatch('getOffices')
-            commit('setDepartments', [])
-        } else if (!rootState.contacts.filter) {
-            commit('setFilter', `division_id="${divisionFilterId}"`, { root: true })
-            dispatch('getContacts', { root: true })
-            commit('setDivisionFilterId', divisionFilterId)
-            dispatch('getDivisions')
         } else if (rootState.contacts.filter && !state.divisionFilterId) {
             commit('setFilter', `${rootState.contacts.filter} && division_id="${divisionFilterId}"`, { root: true })
-            dispatch('getContacts', { root: true })
-            commit('setDivisionFilterId', divisionFilterId)
-            dispatch('getDivisions')
         }
+        dispatch('getContacts', { root: true })
+        commit('setDivisionFilterId', divisionFilterId)
+        dispatch('getDivisions')
     }
 }
 
