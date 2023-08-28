@@ -8,7 +8,7 @@
           name="company"
           v-model="selectedCompany"
           @change="getCompanyFilterId(selectedCompany)"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
         >
           <option value="">Filtruoti įmones...</option>
           <option
@@ -27,7 +27,7 @@
         ><select
           id="office"
           name="office"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
           v-model="selectedOffice"
           @change="getOfficeFilterId(selectedOffice)"
         >
@@ -44,7 +44,7 @@
         ><select
           id="division"
           name="division"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
           v-model="selectedDivision"
           @change="getDivisionFilterId(selectedDivision)"
         >
@@ -65,7 +65,7 @@
         ><select
           id="department"
           name="department"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
           v-model="selectedDepartment"
           @change="getDepartmentFilterId(selectedDepartment)"
         >
@@ -86,7 +86,7 @@
         ><select
           id="group"
           name="group"
-          class="border-2 rounded-md h-10 w-fit bg-inherit px-3 text-gray-500 pr-24 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
           v-model="selectedGroup"
           @change="getGroupFilterId(selectedGroup)"
         >
@@ -131,6 +131,23 @@ export default {
       "getOfficeFilterId",
       "getContacts",
     ]),
+    resetFilters() {
+      this.selectedCompany = "";
+      this.selectedOffice = "";
+      this.selectedDivision = "";
+      this.selectedDepartment = "";
+      this.selectedGroup = "";
+    },
+  },
+  watch: {
+    "$store.state.contacts.filter": {
+      deep: true,
+      handler(value) {
+        if (value === "") {
+          this.resetFilters();
+        }
+      },
+    },
   },
   created() {
     this.getCompanies();

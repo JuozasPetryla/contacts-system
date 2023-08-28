@@ -94,7 +94,8 @@
               :class="{ invalidSelect: !companyIsValid }"
               @md-selected="
                 validateCompany();
-                getCompanyFilterId(selectedCompany);
+                $store.commit('setCompanyFilterId', selectedCompany);
+                getCompanies();
               "
               @blur="validateCompany"
             >
@@ -120,7 +121,8 @@
               :class="{ invalidSelect: !officeIsValid }"
               @md-selected="
                 validateOffice();
-                getOfficeFilterId(selectedOffice);
+                $store.commit('setOfficeFilterId', selectedOffice);
+                getOffices();
               "
               @blur="validateOffice"
             >
@@ -146,7 +148,8 @@
               :class="{ invalidSelect: !divisionIsValid }"
               @md-selected="
                 validateDivision();
-                getDivisionFilterId(selectedDivision);
+                $store.commit('setDivisionFilterId', selectedDivision);
+                getDivisions();
               "
               @blur="validateDivision"
             >
@@ -171,7 +174,10 @@
               class="pl-4"
               ref="department_select"
               v-model="selectedDepartment"
-              @md-selected="getDepartmentFilterId(selectedDepartment)"
+              @md-selected="
+                $store.commit('setDepartmentFilterId', selectedDepartment);
+                getDepartments();
+              "
             >
               <md-option
                 v-for="department in departments"
@@ -191,7 +197,10 @@
               id="grupe"
               class="w-80 pl-4"
               ref="group_select"
-              @md-selected="getGroupFilterId(selectedGroup)"
+              @md-selected="
+                $store.commit('setGroupFilterId', selectedGroup);
+                getGroups();
+              "
               v-model="selectedGroup"
             >
               <md-option
@@ -429,14 +438,19 @@ export default {
       this.email = this.editInfo.email;
       this.phone = this.editInfo.phone_number;
       this.selectedCompany = this.editInfo.company_id;
-      this.getCompanyFilterId(this.editInfo.company_id);
+      this.$store.commit("setCompanyFilterId", this.editInfo.company_id);
+      this.getCompanies();
       this.selectedOffice = this.editInfo.office_id;
-      this.getOfficeFilterId(this.editInfo.office_id);
+      this.$store.commit("setOfficeFilterId", this.editInfo.office_id);
+      this.getOffices();
       this.selectedDivision = this.editInfo.division_id;
-      this.getDivisionFilterId(this.editInfo.division_id);
+      this.$store.commit("setDivisionFilterId", this.editInfo.division_id);
+      this.getDivisions();
       this.selectedDepartment = this.editInfo.department_id;
-      this.getDepartmentFilterId(this.editInfo.department_id);
+      this.$store.commit("setDepartmentFilterId", this.editInfo.department_id);
+      this.getDepartments();
       this.selectedGroup = this.editInfo.group_id;
+      this.$store.commit("setGroupFilterId", this.editInfo.group_id);
     }
   },
 };
