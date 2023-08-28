@@ -28,6 +28,16 @@ export default {
 
     ...mapActions(["getSearchTerm"]),
   },
+  watch: {
+    "$store.state.contacts.filter": {
+      deep: true,
+      handler(value) {
+        if (value === "") {
+          this.searchTerm = "";
+        }
+      },
+    },
+  },
 };
 </script>
 
