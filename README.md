@@ -13,6 +13,7 @@ This is a contact management system for the companies administrator. Build with 
 -Deletion, editing and creation of companies, offices, divisions, departments and groups.<br />
 -Creation of new admin accounts with specified editing rights.<br />
 -Editing admin account rights.<br />
+-Uploading profile images.<br />
 
 ## Getting started
 
@@ -30,5 +31,3 @@ Navigate to pocketbase server folder
 Inside the folder run:
 `./pocketbase serve`
 
-To access the database admin UI go to:
-http://127.0.0.1:8090/_/
