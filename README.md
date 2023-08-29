@@ -1,6 +1,7 @@
 # Teltonika contacts system
 
 This is a contact management system for the companies administrator. Build with Vite + Vue. Pocketbase is used for the database and styled with Tailwind + Vue-material.
+Link to site --> https://contacts-system.netlify.app/
 
 ## Functionalities:<br />
 
