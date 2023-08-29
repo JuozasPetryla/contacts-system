@@ -66,14 +66,14 @@
     </md-menu>
   </header>
 </template>
-  
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
       componentKey: 0,
-      adminPermissions: "4y2zp4n8ehzyzi0",
+      adminPermissions: "xnlm3734nii55tm",
     };
   },
   methods: {
@@ -82,10 +82,9 @@ export default {
   computed: {
     ...mapGetters(["currentUserPermissions"]),
   },
-
 };
 </script>
-  
+
 <style scoped>
 .link {
   color: white !important;
@@ -100,4 +99,3 @@ export default {
   color: #adadad !important;
 }
 </style>
-

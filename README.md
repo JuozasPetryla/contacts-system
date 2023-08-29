@@ -30,5 +30,3 @@ Navigate to pocketbase server folder
 Inside the folder run:
 `./pocketbase serve`
 
-To access the database admin UI go to:
-http://127.0.0.1:8090/_/

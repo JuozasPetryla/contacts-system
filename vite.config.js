@@ -1,14 +1,13 @@
 import { defineConfig } from "vitest/config";
-import vue from '@vitejs/plugin-vue2'
+import vue from "@vitejs/plugin-vue2";
 
 export default defineConfig({
   plugins: [vue()],
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: "jsdom",
   },
   define: {
-    SERVER_ADDR: JSON.stringify('http://127.0.0.1:8090')
-  }
-
-})
+    SERVER_ADDR: JSON.stringify("https://contact-system.pockethost.io"),
+  },
+});
