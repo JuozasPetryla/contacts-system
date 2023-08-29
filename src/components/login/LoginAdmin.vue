@@ -109,12 +109,13 @@ export default {
         this.passwordIsValid = false;
       }
     },
-    submitForm() {
+    async submitForm() {
       if (!this.formIsValid) return;
-      this.loginWithPassword({
+      await this.loginWithPassword({
         email: this.email,
         password: this.password,
       });
+      this.$router.go(0);
       this.email = "";
       this.password = "";
     },

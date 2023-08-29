@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     header() {
-      if (localStorage.getItem("user")) {
+      if (localStorage.getItem("pocketbase_auth")) {
         return TheHeaderNavigation;
       } else {
         return TheHeader;
@@ -31,15 +31,15 @@ export default {
   methods: {
     ...mapActions(["getCurrentUserPermissions", "currentUser"]),
   },
-  created() {
+  mounted() {
     if (this.currentUser !== {}) {
       const auth = JSON.parse(localStorage.getItem("pocketbase_auth"));
       this.getCurrentUserPermissions(auth.model.permissions_id);
     }
-    let curVal = localStorage.getItem("user");
+    let curVal = localStorage.getItem("pocketbase_auth").token;
     this.lastChange = new Date();
     this.timer = setInterval(() => {
-      const newVal = localStorage.getItem("user");
+      const newVal = localStorage.getItem("pocketbase_auth").token;
       if (newVal !== curVal || (newVal && !curVal)) {
         curVal = newVal;
         this.$router.go(0);

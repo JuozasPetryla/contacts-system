@@ -25,12 +25,11 @@ const actions = {
             dispatch('openInfoModal', { root: true })
         } else {
             commit('setCurrentUser', user)
-            localStorage.setItem('user', user.token)
             router.push('/')
         }
     },
     logout({ commit }) {
-        localStorage.removeItem('user')
+        localStorage.removeItem('pocketbase_auth')
         router.push('/login')
         commit('setCurrentUser', {})
     },

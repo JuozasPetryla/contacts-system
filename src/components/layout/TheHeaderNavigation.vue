@@ -82,6 +82,7 @@ export default {
   computed: {
     ...mapGetters(["currentUserPermissions"]),
   },
+
 };
 </script>
   

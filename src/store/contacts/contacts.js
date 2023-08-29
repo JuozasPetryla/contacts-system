@@ -49,7 +49,6 @@ const getters = {
 const actions = {
     async getContacts({ commit, state }) {
 
-        console.log(state.filter)
         let arrayWithPhotos = []
         if (state.page * state.contactsNumber > state.totalContacts) {
             const newPage = Math.ceil(state.totalContacts / state.contactsNumber)
@@ -57,7 +56,6 @@ const actions = {
         }
 
         const contacts = await this.getList('employees', [state.page, state.contactsNumber, { filter: state.filter }])
-        console.log(contacts)
         for (const contact of contacts.items) {
             const photo = contact.photo
             let url
