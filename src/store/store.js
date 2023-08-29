@@ -12,7 +12,6 @@ import login from "./general/login";
 import infoModal from "./general/infoModal";
 import contactActions from "./contacts/contactsActions";
 import companiesActions from "./companies/companiesActions";
-import structureChooseModal from "./structure/structureChooseModal";
 import officesActions from "./offices/officesActions";
 import divisionsActions from "./divisions/divisionsActions";
 import departmentsActions from "./departments/departmentsActions";
@@ -45,7 +44,6 @@ const store = new Vuex.Store({
         infoModal,
         contactActions,
         companiesActions,
-        structureChooseModal,
         officesActions,
         divisionsActions,
         departmentsActions,

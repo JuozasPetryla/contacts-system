@@ -75,6 +75,7 @@ export default {
       "modalMode",
       "companyDeleteInfo",
       "currentUserPermissions",
+      "infoModalError",
     ]),
     totalCompaniesText() {
       if (this.totalCompanies === 1) {

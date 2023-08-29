@@ -60,9 +60,7 @@ const actions = {
         )
         const officesCompaniesEdit = await this.editItem('companies_offices', `${officesCompanies.id}`, officeCompaniesObj)
         if (office.status === 200) {
-
             commit('setInfoModalMode', 'success', { root: true })
-
             dispatch('getOfficesForDisplay', { root: true })
             dispatch('openInfoModal', { root: true })
         } else {
@@ -72,14 +70,29 @@ const actions = {
             dispatch('openInfoModal', { root: true })
         }
     },
-    async deleteOffice({ commit, dispatch, rootState }, officeDeleteInfo) {
+    async deleteOffice({ commit, dispatch }, officeDeleteInfo) {
         const officesDivisions = await this.getFullList('offices_divisions', {
             filter: `office_id="${officeDeleteInfo}"`,
             expand: 'division_id'
         })
-        officesDivisions.forEach(division => {
-            dispatch('deleteDivision', division.expand.division_id.id)
+
+        const officeEmployees = await this.getFullList('employees', {
+            filter: `office_id="${officeDeleteInfo}"`
         })
+
+        if (officeEmployees.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Ofisas turi priskirtų darbuotojų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
+
+        if (officesDivisions.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Ofisas turi priskirtų padalinių', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
         const office = await this.deleteItem('offices', officeDeleteInfo)
         if (office.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })

@@ -51,9 +51,24 @@ const actions = {
             filter: `company_id="${companyId}"`,
             expand: 'office_id'
         })
-        companiesOffices.forEach(office => {
-            dispatch('deleteOffice', office.expand.office_id.id)
+        const companyEmployees = await this.getFullList('employees', {
+            filter: `company_id="${companyId}"`
         })
+
+        if (companyEmployees.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Kompanija turi priskirtų darbuotojų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
+
+        if (companiesOffices.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Kompanija turi priskirtų ofisų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
+
         const company = await this.deleteItem('companies', companyId)
         if (company.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
@@ -63,7 +78,6 @@ const actions = {
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', company.message, { root: true })
-
             dispatch('openInfoModal', { root: true })
         }
     }

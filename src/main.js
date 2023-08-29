@@ -16,7 +16,6 @@ import BaseInputField from './components/UI/BaseInputField.vue'
 import BaseFilter from './components/UI/BaseFilter.vue'
 import BaseInfoDialog from './components/UI/BaseInfoDialog.vue'
 import BaseModal from './components/UI/BaseModal.vue'
-import BaseStructureChooseModal from './components/UI/BaseStructureChooseModal.vue'
 import BaseDrop from './components/UI/BaseDrop.vue'
 
 Vue.use(MdCard)
@@ -35,7 +34,6 @@ Vue.component('BaseInputField', BaseInputField)
 Vue.component('BaseFilter', BaseFilter)
 Vue.component('BaseInfoDialog', BaseInfoDialog)
 Vue.component('BaseModal', BaseModal)
-Vue.component('BaseStructureChooseModal', BaseStructureChooseModal)
 Vue.component('BaseDrop', BaseDrop)
 
 

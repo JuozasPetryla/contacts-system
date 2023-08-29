@@ -7,5 +7,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
+  define: {
+    SERVER_ADDR: JSON.stringify('http://127.0.0.1:8090')
+  }
 
 })

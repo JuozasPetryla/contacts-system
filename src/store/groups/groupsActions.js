@@ -64,6 +64,16 @@ const actions = {
         }
     },
     async deleteGroup({ commit, dispatch }, groupDeleteInfo) {
+        const groupEmployees = await this.getFullList('employees', {
+            filter: `group_id="${groupDeleteInfo}"`
+        })
+
+        if (groupEmployees.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Grupė turi priskirtų darbuotojų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
         const group = await this.deleteItem('groups', groupDeleteInfo)
         if (group.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })

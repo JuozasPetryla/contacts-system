@@ -48,9 +48,6 @@
         </h2>
       </template>
     </BaseModal>
-    <BaseStructureChooseModal>
-      <template #header> Pasirinkite struktūrą </template>
-    </BaseStructureChooseModal>
     <BaseInfoDialog>
       <template #header> {{ infoModalHeader }} </template>
       <template #content>
@@ -124,7 +121,12 @@ export default {
       "structureModalFormMode",
     ]),
     infoModalText() {
-      if (this.infoModalMode === "error") {
+      if (
+        this.infoModalMode === "error" &&
+        (this.structureModalFormMode === "division" ||
+          this.structureModalFormMode === "department" ||
+          this.structureModalFormMode === "group")
+      ) {
         return this.infoModalError;
       }
 

@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase'
 
 const contactAPI = store => {
-    store.pb = new PocketBase('http://127.0.0.1:8090');
+    store.pb = new PocketBase(SERVER_ADDR);
 
     store.pb.autoCancellation(false)
 

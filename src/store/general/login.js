@@ -1,6 +1,4 @@
-import pb from '../../plugins/pocketBaseAPI'
 import router from '../../router/router'
-
 
 const state = {
     forgotPassword: false,

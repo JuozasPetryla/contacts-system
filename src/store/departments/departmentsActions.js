@@ -72,9 +72,22 @@ const actions = {
             filter: `department_id="${departmentDeleteInfo}"`,
             expand: 'group_id'
         })
-        departamentsGroups.forEach(group => {
-            dispatch('deleteGroup', group.expand.group_id.id)
+        const departmentEmployees = await this.getFullList('employees', {
+            filter: `department_id="${departmentDeleteInfo}"`
         })
+
+        if (departmentEmployees.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Skyrius turi priskirtų darbuotojų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
+        if (departamentsGroups.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Skyrius turi priskirtų grupių', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
         const department = await this.deleteItem('departments', departmentDeleteInfo)
         if (department.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })

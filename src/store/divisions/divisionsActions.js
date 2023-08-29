@@ -39,7 +39,6 @@ const actions = {
         } else {
             commit('setInfoModalMode', 'error', { root: true })
             commit('setInfoModalError', division.message, { root: true })
-            commit('setStructureModalClosed')
             dispatch('openInfoModal', { root: true })
         }
     },
@@ -69,9 +68,24 @@ const actions = {
             filter: `division_id="${divisionDeleteInfo}"`,
             expand: 'department_id'
         })
-        divisionsDepartments.forEach(department => {
-            dispatch('deleteDepartment', department.expand.department_id.id)
+
+        const divisionEmployees = await this.getFullList('employees', {
+            filter: `division_id="${divisionDeleteInfo}"`
         })
+
+        if (divisionEmployees.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Padalinys turi priskirtų darbuotojų', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
+
+        if (divisionsDepartments.length !== 0) {
+            commit('setInfoModalMode', 'error', { root: true })
+            commit('setInfoModalError', 'Padalinys turi priskirtų skyrių', { root: true })
+            dispatch('openInfoModal', { root: true })
+            return
+        }
         const division = await this.deleteItem('divisions', divisionDeleteInfo)
         if (division.status === 200) {
             commit('setInfoModalMode', 'success', { root: true })
