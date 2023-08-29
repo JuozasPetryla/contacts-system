@@ -8,12 +8,7 @@
     <ul
       class="flex items-center text-lg text-white font-medium space-x-36 pl-8"
     >
-      <li
-        v-if="
-          currentUserPermissions.edit_employees ||
-          currentUserPermissions.delete_employees
-        "
-      >
+      <li>
         <router-link class="link" to="/">Kontaktai</router-link>
       </li>
       <li
@@ -82,7 +77,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["logout", "openModal", "getModalType", 'getModalMode']),
+    ...mapActions(["logout", "openModal", "getModalType", "getModalMode"]),
   },
   computed: {
     ...mapGetters(["currentUserPermissions"]),

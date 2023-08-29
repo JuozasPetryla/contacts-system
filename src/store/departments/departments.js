@@ -44,7 +44,7 @@ const actions = {
     },
     getDepartmentFilterId({ commit, dispatch, rootState }, departmentFilterId) {
         if (!departmentFilterId) {
-            const oldFilter = `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}"`
+            const oldFilter = `${rootState.contacts.searchFilter} && company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}"`
             commit('setFilter', oldFilter, { root: true })
             commit('setGroupFilterId', '')
         } else if (rootState.contacts.filter && state.departmentFilterId) {

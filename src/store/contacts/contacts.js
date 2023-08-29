@@ -6,6 +6,7 @@ const state = {
     page: 1,
     totalPages: 1,
     searchTerm: '',
+    searchFilter: '',
     contactsNumber: 25,
 }
 const mutations = {
@@ -14,6 +15,7 @@ const mutations = {
     setTotalContacts: (state, totalContacts) => state.totalContacts = totalContacts,
     setTotalPages: (state, totalPages) => state.totalPages = totalPages,
     setFilter: (state, filter) => state.filter = filter,
+    setSearchFilter: (state, filter) => state.searchFilter = filter,
     resetFilter: (state, { oldFilter, newFilter }) => {
         const newString = state.filter.replace(oldFilter, newFilter)
         state.filter = newString
@@ -47,6 +49,7 @@ const getters = {
 const actions = {
     async getContacts({ commit, state }) {
 
+        console.log(state.filter)
         let arrayWithPhotos = []
         if (state.page * state.contactsNumber > state.totalContacts) {
             const newPage = Math.ceil(state.totalContacts / state.contactsNumber)
@@ -54,7 +57,7 @@ const actions = {
         }
 
         const contacts = await this.getList('employees', [state.page, state.contactsNumber, { filter: state.filter }])
-
+        console.log(contacts)
         for (const contact of contacts.items) {
             const photo = contact.photo
             let url
@@ -104,6 +107,7 @@ const actions = {
             commit('resetFilter', { oldFilter, newFilter: '' })
 
             commit('setFilter', state.filter + filter)
+            commit('setSearchFilter', filter)
             dispatch('getContacts')
         }
     },

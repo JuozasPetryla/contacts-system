@@ -39,7 +39,7 @@ const actions = {
     },
     getGroupFilterId({ commit, dispatch, rootState }, groupFilterId) {
         if (!groupFilterId) {
-            const oldFilter = `company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}" && group_id="${rootState.departments.departmentFilterId}"`
+            const oldFilter = `${rootState.contacts.searchFilter} && company_id="${rootState.companies.companyFilterId}" && office_id="${rootState.offices.officeFilterId}" && division_id="${rootState.divisions.divisionFilterId}" && group_id="${rootState.departments.departmentFilterId}"`
             commit('setFilter', oldFilter, { root: true })
         } else if (rootState.contacts.filter && state.groupFilterId) {
             commit('resetFilter', { oldFilter: state.groupFilterId, newFilter: groupFilterId }, { root: true })

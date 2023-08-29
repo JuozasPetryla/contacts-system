@@ -47,7 +47,7 @@ const actions = {
 
     getOfficeFilterId({ commit, dispatch, rootState }, officeFilterId) {
         if (!officeFilterId) {
-            const oldFilter = `company_id="${rootState.companies.companyFilterId}"`
+            const oldFilter = `${rootState.contacts.searchFilter} && company_id="${rootState.companies.companyFilterId}"`
             commit('setFilter', oldFilter, { root: true })
             commit('setGroupFilterId', '')
             commit('setDepartmentFilterId', '')

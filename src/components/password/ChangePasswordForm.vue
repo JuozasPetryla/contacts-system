@@ -13,7 +13,7 @@
       <BaseInputField
         :inputPlaceHolder="'Įveskite seną slaptažodį...'"
         :inputId="'senas-slaptažodis'"
-        :inputType="inputType"
+        :inputType="inputTypeOld"
         v-model="oldPass"
         @blur="validateOldPass"
         @input="validateOldPass"
@@ -22,7 +22,7 @@
         ><template #label>Senas slaptažodis:</template>
         <template #image-right>
           <img
-            @click="changeInputType"
+            @click="changeInputType('old')"
             src="../../assets/Trailing Icon.svg"
             class="Mail icon hover:cursor-pointer"
           />
@@ -32,7 +32,7 @@
         <BaseInputField
           :inputPlaceHolder="'Įveskite naują slaptažodį...'"
           :inputId="'naujas-slaptažodis'"
-          :inputType="inputType"
+          :inputType="inputTypeNew"
           v-model="newPass"
           @blur="validateNewPass"
           @input="validateNewPass"
@@ -41,7 +41,7 @@
           ><template #label>Naujas slaptažodis:</template>
           <template #image-right>
             <img
-              @click="changeInputType"
+              @click="changeInputType('new')"
               src="../../assets/Trailing Icon.svg"
               class="hover:cursor-pointer"
             />
@@ -58,7 +58,7 @@
         <BaseInputField
           :inputPlaceHolder="'Įveskite naują slaptažodį dar kartą...'"
           :inputId="'naujas-slaptažodis-kartoti'"
-          :inputType="inputType"
+          :inputType="inputTypeNewRepeat"
           v-model="newPassRepeat"
           @blur="validateNewPassRepeat"
           @input="validateNewPassRepeat"
@@ -67,7 +67,7 @@
           ><template #label>Pakartoti naują slaptažodį:</template>
           <template #image-right>
             <img
-              @click="changeInputType"
+              @click="changeInputType('newRepeat')"
               src="../../assets/Trailing Icon.svg"
               class="hover:cursor-pointer"
             />
@@ -99,18 +99,36 @@ export default {
       newPassRepeat: "",
       newPassRepeatIsValid: true,
       formIsValid: true,
-      inputType: "password",
+      inputTypeOld: "password",
+      inputTypeNew: "password",
+      inputTypeNewRepeat: "password",
     };
   },
   computed: {
     ...mapGetters(["modalMode"]),
   },
   methods: {
-    changeInputType() {
-      if (this.inputType === "password") {
-        this.inputType = "text";
-      } else {
-        this.inputType = "password";
+    changeInputType(passForm) {
+      if (passForm === "old") {
+        if (this.inputTypeOld === "password") {
+          this.inputTypeOld = "text";
+        } else {
+          this.inputTypeOld = "password";
+        }
+      }
+      if (passForm === "new") {
+        if (this.inputTypeNew === "password") {
+          this.inputTypeNew = "text";
+        } else {
+          this.inputTypeNew = "password";
+        }
+      }
+      if (passForm === "newRepeat") {
+        if (this.inputTypeNewRepeat === "password") {
+          this.inputTypeNewRepeat = "text";
+        } else {
+          this.inputTypeNewRepeat = "password";
+        }
       }
     },
     ...mapActions(["closeModal"]),

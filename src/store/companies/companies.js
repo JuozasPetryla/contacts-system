@@ -21,14 +21,19 @@ const actions = {
     },
     getCompanyFilterId({ commit, dispatch, rootState }, companyFilterId) {
         if (!companyFilterId) {
-            commit('setFilter', '', { root: true })
             commit('setGroupFilterId', '')
             commit('setDepartmentFilterId', '')
             commit('setDivisionFilterId', '')
             commit('setOfficeFilterId', '')
-        } else if (rootState.contacts.filter && state.companyFilterId) {
+            commit('setFilter', `${rootState.contacts.searchFilter}`, { root: true })
+        }
+        else if (rootState.contacts.filter && state.companyFilterId) {
             commit('resetFilter', { oldFilter: state.companyFilterId, newFilter: companyFilterId }, { root: true })
-        } else if (!rootState.contacts.filter) {
+        }
+        else if (rootState.contacts.filter && !state.companyFilterId) {
+            commit('resetFilter', { oldFilter: rootState.contacts.filter, newFilter: `${rootState.contacts.filter} && company_id="${companyFilterId}"` }, { root: true })
+        }
+        else if (!rootState.contacts.filter) {
             commit('setFilter', `company_id="${companyFilterId}"`, { root: true })
         }
 
