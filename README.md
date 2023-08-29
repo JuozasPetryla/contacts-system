@@ -31,3 +31,7 @@ Navigate to pocketbase server folder
 Inside the folder run:
 `./pocketbase serve`
 
+Login for the super admin:
+
+email: admin@gmail.com<br />
+password: adminadmin<br />
