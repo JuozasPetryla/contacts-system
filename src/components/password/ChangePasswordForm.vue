@@ -17,7 +17,7 @@
         v-model="oldPass"
         @blur="validateOldPass"
         @input="validateOldPass"
-        class="relative mt-24"
+        class="relative"
         :class="{ invalid: !oldPassIsValid }"
         ><template #label>Senas slaptažodis:</template>
         <template #image-right>
@@ -28,42 +28,58 @@
           />
         </template>
       </BaseInputField>
-      <BaseInputField
-        :inputPlaceHolder="'Įveskite naują slaptažodį...'"
-        :inputId="'naujas-slaptažodis'"
-        :inputType="inputType"
-        v-model="newPass"
-        @blur="validateNewPass"
-        @input="validateNewPass"
-        class="relative mt-24"
-        :class="{ invalid: !newPassIsValid }"
-        ><template #label>Naujas slaptažodis:</template>
-        <template #image-right>
-          <img
-            @click="changeInputType"
-            src="../../assets/Trailing Icon.svg"
-            class="hover:cursor-pointer"
-          />
-        </template>
-      </BaseInputField>
-      <BaseInputField
-        :inputPlaceHolder="'Įveskite naują slaptažodį dar kartą...'"
-        :inputId="'naujas-slaptažodis-kartoti'"
-        :inputType="inputType"
-        v-model="newPassRepeat"
-        @blur="validateNewPassRepeat"
-        @input="validateNewPassRepeat"
-        class="relative mt-24"
-        :class="{ invalid: !newPassRepeatIsValid }"
-        ><template #label>Pakartoti naują slaptažodį:</template>
-        <template #image-right>
-          <img
-            @click="changeInputType"
-            src="../../assets/Trailing Icon.svg"
-            class="hover:cursor-pointer"
-          />
-        </template>
-      </BaseInputField>
+      <div class="relative">
+        <BaseInputField
+          :inputPlaceHolder="'Įveskite naują slaptažodį...'"
+          :inputId="'naujas-slaptažodis'"
+          :inputType="inputType"
+          v-model="newPass"
+          @blur="validateNewPass"
+          @input="validateNewPass"
+          class="relative"
+          :class="{ invalid: !newPassIsValid }"
+          ><template #label>Naujas slaptažodis:</template>
+          <template #image-right>
+            <img
+              @click="changeInputType"
+              src="../../assets/Trailing Icon.svg"
+              class="hover:cursor-pointer"
+            />
+          </template>
+        </BaseInputField>
+        <p
+          v-if="!newPassIsValid && newPass === oldPass"
+          class="text-light-red text-sm absolute top-100"
+        >
+          Naujas slaptažodis negali būti toks pat kaip senas
+        </p>
+      </div>
+      <div class="relative">
+        <BaseInputField
+          :inputPlaceHolder="'Įveskite naują slaptažodį dar kartą...'"
+          :inputId="'naujas-slaptažodis-kartoti'"
+          :inputType="inputType"
+          v-model="newPassRepeat"
+          @blur="validateNewPassRepeat"
+          @input="validateNewPassRepeat"
+          class="relative"
+          :class="{ invalid: !newPassRepeatIsValid }"
+          ><template #label>Pakartoti naują slaptažodį:</template>
+          <template #image-right>
+            <img
+              @click="changeInputType"
+              src="../../assets/Trailing Icon.svg"
+              class="hover:cursor-pointer"
+            />
+          </template>
+        </BaseInputField>
+        <p
+          v-if="!newPassRepeatIsValid && newPass !== newPassRepeat"
+          class="text-light-red text-sm absolute top-100"
+        >
+          Neteisingai pakartojote slaptažodį
+        </p>
+      </div>
       <div class="absolute bottom-20 right-16">
         <BaseButton :type="'submit'"> KEISTI SLAPTAŽODĮ </BaseButton>
       </div>
@@ -106,14 +122,14 @@ export default {
       }
     },
     validateNewPass() {
-      if (this.newPass) {
+      if (this.newPass && this.newPass !== this.oldPass) {
         this.newPassIsValid = true;
       } else {
         this.newPassIsValid = false;
       }
     },
     validateNewPassRepeat() {
-      if (this.newPassRepeat && this.newPass === this.newPassRepeat) {
+      if (this.newPass === this.newPassRepeat) {
         this.newPassRepeatIsValid = true;
       } else {
         this.newPassRepeatIsValid = false;
@@ -122,7 +138,7 @@ export default {
     validateForm() {
       this.validateOldPass();
       this.validateNewPass();
-      this.validateNewPassRepeat;
+      this.validateNewPassRepeat();
       if (
         this.oldPassIsValid &&
         this.newPassIsValid &&
@@ -137,6 +153,7 @@ export default {
       if (!this.formIsValid) return;
       this.oldPass = "";
       this.newPass = "";
+      this.newPassRepeat = "";
       this.closeModal();
     },
   },
