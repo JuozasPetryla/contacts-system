@@ -26,12 +26,14 @@ const actions = {
         } else {
             commit('setCurrentUser', user)
             router.push('/')
+            router.go(0)
         }
     },
     logout({ commit }) {
         localStorage.removeItem('pocketbase_auth')
         router.push('/login')
         commit('setCurrentUser', {})
+        router.go(0)
     },
     openForgotPassword({ commit }) {
         commit('setForgotPasswordOpen')

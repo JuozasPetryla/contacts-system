@@ -139,16 +139,16 @@ export default {
   },
   computed: {
     checkUser() {
-      return localStorage.getItem("user");
+      return localStorage.getItem("pocketbase_auth");
     },
     currentContacts() {
       if (this.mode === "table") {
         return ContactsTable;
       }
-      if (this.mode === "grid" && localStorage.getItem("user")) {
+      if (this.mode === "grid" && localStorage.getItem("pocketbase_auth")) {
         return ContactsGridExpanded;
       }
-      if (this.mode === "grid" && !localStorage.getItem("user")) {
+      if (this.mode === "grid" && !localStorage.getItem("pocketbase_auth")) {
         return ContactsGrid;
       }
     },

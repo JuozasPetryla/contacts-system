@@ -20,7 +20,7 @@ Vue.use(VueRouter);
 const auth = function (to, from, next) {
     const adminPermissions = JSON.parse(localStorage.getItem('pocketbase_auth')).model.permissions_id
     const permissions = store.state.users.currentUserPermissions
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem('pocketbase_auth')) {
         next('/login')
     } else {
         next()

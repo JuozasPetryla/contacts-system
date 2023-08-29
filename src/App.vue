@@ -31,18 +31,21 @@ export default {
   methods: {
     ...mapActions(["getCurrentUserPermissions", "currentUser"]),
   },
-  mounted() {
-    if (this.currentUser !== {}) {
+  created() {
+    if (localStorage.getItem("pocketbase_auth")) {
       const auth = JSON.parse(localStorage.getItem("pocketbase_auth"));
       this.getCurrentUserPermissions(auth.model.permissions_id);
+    } else {
+      return;
     }
     let curVal = localStorage.getItem("pocketbase_auth").token;
     this.lastChange = new Date();
     this.timer = setInterval(() => {
-      const newVal = localStorage.getItem("pocketbase_auth").token;
+      const newVal = localStorage.getItem("pocketbase_auth").token
+        ? localStorage.getItem("pocketbase_auth").token
+        : "";
       if (newVal !== curVal || (newVal && !curVal)) {
         curVal = newVal;
-        this.$router.go(0);
         this.lastChange = new Date();
       }
     }, 0);
