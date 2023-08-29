@@ -2,17 +2,17 @@
 
 This is a contact management system for the companies administrator. Build with Vite + Vue. Pocketbase is used for the database and styled with Tailwind + Vue-material.
 
-## Functionalities:
+## Functionalities:<br />
 
--Login (JWT are used for authentication).
--Filtering of contacts by company, office, division, department and group.
--Searching capabilities.
--Pagination.
--Changing number of contacs displayed.
--Deletion, editing and creation of contacts.
--Deletion, editing and creation of companies, offices, divisions, departments and groups.
--Creation of new admin accounts with specified editing rights.
--Editing admin account rights.
+-Login (JWT are used for authentication).<br />
+-Filtering of contacts by company, office, division, department and group.<br />
+-Searching capabilities.<br />
+-Pagination.<br />
+-Changing number of contacs displayed.<br />
+-Deletion, editing and creation of contacts.<br />
+-Deletion, editing and creation of companies, offices, divisions, departments and groups.<br />
+-Creation of new admin accounts with specified editing rights.<br />
+-Editing admin account rights.<br />
 
 ## Getting started
 
