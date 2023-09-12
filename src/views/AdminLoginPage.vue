@@ -3,7 +3,7 @@
     <component :is="loginComponent"></component>
     <BaseIconButton
       @click="goBack"
-      class="bg-white hover:bg-light-gray absolute top-10 left-10"
+      class="bg-white hover:bg-light-gray absolute top-10 left-10 z-10"
     >
       <img src="../assets/Curved Arrow.svg" />
     </BaseIconButton>
@@ -51,5 +51,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
