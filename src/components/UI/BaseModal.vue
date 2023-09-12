@@ -2,9 +2,9 @@
   <md-dialog
     :md-active="modalOpen"
     @md-clicked-outside="closeModal"
-    class="h-fit w-mxa mx-auto my-auto"
+    class="h-screen w-full mx-auto my-auto"
   >
-    <div class="relative">
+    <div class="relative overflow-scroll">
       <header class="font-normal text-4xl absolute left-24 top-20">
         <slot name="header"></slot>
       </header>
@@ -13,7 +13,7 @@
         <img src="../../assets/Plus Math.svg" class="rotate-45" />
       </BaseIconButton>
       <div
-        class="absolute top-3/4 ml-[31rem]"
+        class="absolute top-[40rem] ml-[30rem]"
         v-if="
           (modalType === 'contact' || modalType === 'user') &&
           modalMode !== 'editPermissions'
@@ -74,7 +74,7 @@ export default {
   },
 };
 </script>
-    
+
 <style scoped>
 .userPhotos {
   position: absolute;

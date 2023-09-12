@@ -1,6 +1,6 @@
 <template>
   <div @click="$emit('click')">
-    <md-card class="w-full hover-card">
+    <md-card class="w-11/12 hover-card">
       <div class="flex space-x-4 items-center p-8">
         <div class="h-12 w-12">
           <slot name="account">
@@ -28,7 +28,6 @@
 <script>
 export default {};
 </script>
-
 
 <style scoped>
 .hover-card {

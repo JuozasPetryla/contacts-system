@@ -53,7 +53,7 @@
     </md-card>
   </div>
 </template>
-  
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -74,7 +74,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .hover-card {

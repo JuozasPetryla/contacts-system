@@ -1,17 +1,30 @@
 <template>
-  <header class="h-20 p-4 bg-dark-blue flex items-center justify-between">
+  <header
+    class="h-20 p-4 bg-dark-blue flex items-center justify-between relative"
+  >
     <img
       src="../../assets/TELTONIKA-LOGO-WHITE.svg"
       alt="Teltonika company logo"
       class="md-image h-12"
     />
+    <div @click="setMobileNavVisible">
+      <img
+        v-if="mobile"
+        src="../../assets/icons8-menu.svg"
+        class="md-image h-10"
+      />
+    </div>
     <ul
-      class="flex items-center text-lg text-white font-medium space-x-36 pl-8"
+      class="flex items-center text-lg text-white font-medium space-x-16 xl:space-x-24 2xl:space-x-36 pl-8"
+      v-if="mobileNavVisible || !mobile"
+      :class="{ mobile: mobile }"
     >
-      <li>
+      <li @click="closeMobileNav" class="remove-margin">
         <router-link class="link" to="/">Kontaktai</router-link>
       </li>
       <li
+        @click="closeMobileNav"
+        class="remove-margin"
         v-if="
           currentUserPermissions.edit_companies ||
           currentUserPermissions.delete_companies
@@ -20,6 +33,8 @@
         <router-link class="link" to="/company-manage">Kompanijos</router-link>
       </li>
       <li
+        @click="closeMobileNav"
+        class="remove-margin"
         v-if="
           currentUserPermissions.edit_structure ||
           currentUserPermissions.delete_structure
@@ -30,6 +45,8 @@
         >
       </li>
       <li
+        @click="closeMobileNav"
+        class="remove-margin"
         v-if="
           currentUserPermissions.edit_offices ||
           currentUserPermissions.delete_offices
@@ -37,7 +54,11 @@
       >
         <router-link class="link" to="/office-manage">Ofisai</router-link>
       </li>
-      <li v-if="currentUserPermissions.id === adminPermissions">
+      <li
+        class="remove-margin"
+        @click="closeMobileNav"
+        v-if="currentUserPermissions.id === adminPermissions"
+      >
         <router-link class="link" to="/admin-accounts">Paskyros</router-link>
       </li>
     </ul>
@@ -74,13 +95,30 @@ export default {
     return {
       componentKey: 0,
       adminPermissions: "xnlm3734nii55tm",
+      mobile: false,
+      mobileNavVisible: false,
     };
   },
   methods: {
+    setMobile() {
+      this.mobile = window.innerWidth < 1024;
+    },
+    setMobileNavVisible() {
+      this.mobileNavVisible = !this.mobileNavVisible;
+    },
+    closeMobileNav() {
+      this.mobileNavVisible = false;
+    },
     ...mapActions(["logout", "openModal", "getModalType", "getModalMode"]),
   },
   computed: {
     ...mapGetters(["currentUserPermissions"]),
+  },
+  created() {
+    if (window.innerWidth < 1024) {
+      this.mobile = true;
+    }
+    window.addEventListener("resize", this.setMobile);
   },
 };
 </script>
@@ -88,6 +126,7 @@ export default {
 <style scoped>
 .link {
   color: white !important;
+  margin: 0;
 }
 
 .link:hover {
@@ -97,5 +136,25 @@ export default {
 
 .router-link-exact-active {
   color: #adadad !important;
+}
+
+.mobile {
+  position: absolute;
+  top: 100%;
+  background: #1f3f77;
+  display: flex;
+  flex-direction: column;
+  width: 11rem;
+  padding: 0;
+  margin: 0 auto;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  left: 51.5%;
+}
+
+@media (max-width: 1024px) {
+  .remove-margin {
+    margin: 0 !important;
+  }
 }
 </style>

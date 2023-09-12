@@ -212,11 +212,11 @@
             Užpildykite reikiamus laukus
           </p>
         </div>
-      </div>
-      <div class="self-end relative">
-        <BaseButton :type="'submit'">
-          {{ modalMode === "edit" ? "REDAGUOTI" : "KURTI NAUJĄ" }}
-        </BaseButton>
+        <div class="self-end relative">
+          <BaseButton :type="'submit'">
+            {{ modalMode === "edit" ? "REDAGUOTI" : "KURTI NAUJĄ" }}
+          </BaseButton>
+        </div>
       </div>
     </div>
     <div class="absolute top-2/4 right-20">
@@ -487,8 +487,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .invalid::after {
   content: "";
   position: absolute;

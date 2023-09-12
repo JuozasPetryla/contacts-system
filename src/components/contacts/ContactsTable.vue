@@ -1,5 +1,8 @@
 <template>
-  <md-table md-card class="h-96 overflow-y-scroll remove-pb">
+  <md-table
+    md-card
+    class="xl:h-96 lg:h-72 overflow-y-scroll remove-pb lg:w-full"
+  >
     <md-table-row>
       <md-table-head>Vardas Pavarde</md-table-head>
       <md-table-head>Pozicijos Pavadinimas</md-table-head>
@@ -24,8 +27,8 @@
     </md-table-row>
   </md-table>
 </template>
-  
-  <script>
+
+<script>
 import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
@@ -40,7 +43,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
 .remove-pb {
   padding-bottom: 1rem !important;

@@ -1,5 +1,7 @@
 <template>
-  <div class="grid grid-cols-4 grid-rows-2 gap-y-4 gap-x-4 h-full">
+  <div
+    class="grid 2xl:grid-cols-4 2xl:grid-rows-2 lg:grid-cols-2 lg:grid-rows-4 gap-y-4 gap-x-4 h-full"
+  >
     <ContactContainer
       v-for="contact in contacts"
       :key="contact.id"
@@ -48,4 +50,3 @@ export default {
   },
 };
 </script>
-

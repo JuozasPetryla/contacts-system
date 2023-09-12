@@ -16,7 +16,7 @@
           v-if="currentUserPermissions.read_permissions"
         >
           <h4>{{ user.name }}</h4>
-          <h4 class="">{{ user.email }}</h4>
+          <h4 class="ml-4">{{ user.email }}</h4>
         </div>
         <div class="flex space-x-4 pl-12">
           <BaseButton
@@ -59,7 +59,7 @@
     </ul>
   </md-card>
 </template>
-  
+
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -84,5 +84,3 @@ export default {
   },
 };
 </script>
-  
-  

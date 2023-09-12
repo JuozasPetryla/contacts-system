@@ -1,5 +1,7 @@
 <template>
-  <div class="flex mb-4 px-2 space-x-12">
+  <div
+    class="flex mb-4 px-2 space-x-0 flex-col align-start md:flex-row md:space-x-4"
+  >
     <BaseFilter :selectId="'company'">
       <template #filter-name>Įmonė</template>
       <template #filter>
@@ -8,7 +10,7 @@
           name="company"
           v-model="selectedCompany"
           @change="getCompanyFilterId(selectedCompany)"
-          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 2xl:w-64 xl:w-56 lg:w-44 md:w-32 sm:w-96 sm:w-48 bg-inherit px-3 text-gray-500 focus:outline-none"
         >
           <option value="">Filtruoti įmones...</option>
           <option
@@ -27,7 +29,7 @@
         ><select
           id="office"
           name="office"
-          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 2xl:w-64 xl:w-56 lg:w-44 md:w-32 sm:w-96 sm:w-28 bg-inherit px-3 text-gray-500 focus:outline-none"
           v-model="selectedOffice"
           @change="getOfficeFilterId(selectedOffice)"
         >
@@ -44,7 +46,7 @@
         ><select
           id="division"
           name="division"
-          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 2xl:w-64 xl:w-56 lg:w-44 md:w-32 sm:w-96 sm:w-28 bg-inherit px-3 text-gray-500 focus:outline-none"
           v-model="selectedDivision"
           @change="getDivisionFilterId(selectedDivision)"
         >
@@ -65,7 +67,7 @@
         ><select
           id="department"
           name="department"
-          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 2xl:w-64 xl:w-56 lg:w-44 md:w-32 sm:w-96 sm:w-28 bg-inherit px-3 text-gray-500 focus:outline-none"
           v-model="selectedDepartment"
           @change="getDepartmentFilterId(selectedDepartment)"
         >
@@ -86,7 +88,7 @@
         ><select
           id="group"
           name="group"
-          class="border-2 rounded-md h-10 w-72 bg-inherit px-3 text-gray-500 pr-4 focus:outline-none"
+          class="border-2 rounded-md h-10 w-72 2xl:w-64 xl:w-56 lg:w-44 md:w-32 sm:w-96 sm:w-28 bg-inherit px-3 text-gray-500 focus:outline-none"
           v-model="selectedGroup"
           @change="getGroupFilterId(selectedGroup)"
         >

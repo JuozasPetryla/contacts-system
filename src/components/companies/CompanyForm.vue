@@ -21,7 +21,7 @@
       <p v-if="!nameIsValid" class="absolute text-light-red top-52">
         Įveskite įmonės pavadinimą
       </p>
-      <div class="absolute bottom-20 right-16">
+      <div class="absolute bottom-5 right-16">
         <BaseButton :type="'submit'">
           {{ modalMode === "edit" ? "REDAGUOTI" : "KURTI NAUJĄ" }}
         </BaseButton>

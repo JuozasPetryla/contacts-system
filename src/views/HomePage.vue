@@ -1,7 +1,11 @@
 <template>
   <div class="px-12 my-8 w-full grid">
-    <h3 class="text-5xl font-light mb-10 px-2">Kontaktų sistema</h3>
-    <div class="flex space-x-6">
+    <h3 class="text-5xl font-light mb-10 px-2 w-2/4 lg:w-full md:w-3/4">
+      Kontaktų sistema
+    </h3>
+    <div
+      class="flex flex-col w-2/4 space-y-2 mb-4 md:flex-row md:space-y-0 space-x-6 lg:w-full md:w-3/4"
+    >
       <TheSearchBar class="mb-4 mx-2"></TheSearchBar>
       <div class="flex">
         <BaseIconButton
@@ -76,7 +80,9 @@
     <p v-else class="mb-4 px-2"><strong>Kontaktų nėra</strong></p>
     <TheFilters></TheFilters>
     <component class="pb-36" :is="currentContacts"></component>
-    <ThePagination class="absolute bottom-5 left-1/3"></ThePagination>
+    <ThePagination
+      class="absolute bottom-5 left-1/4 xl:left-1/3 lg:left-1/4 md:left-40 sm:left-64"
+    ></ThePagination>
     <BaseModal>
       <template #header>
         <h2 v-if="modalMode === 'edit'" class="text-4xl font-normal">
@@ -113,8 +119,8 @@
     <BaseDrop></BaseDrop>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import TheSearchBar from "../components/layout/TheSearchBar.vue";
 import ThePagination from "../components/layout/ThePagination.vue";
 import TheFilters from "../components/layout/TheFilters.vue";
@@ -229,4 +235,3 @@ export default {
   },
 };
 </script>
-  
